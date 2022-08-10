@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableHighlight,
+  TextInput,
 } from "react-native";
 import {
   Avatar,
@@ -14,11 +15,14 @@ import {
   TouchableRipple,
 } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { launchImageLibrary } from "react-native-image-picker";
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    backgroundColor: 'white'
+    backgroundColor: "white",
   },
   proPicContainer: {
     shadowColor: "purple",
@@ -26,7 +30,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.7,
     borderRadius: "50%",
     marginBottom: 20,
-    alignContent: 'center',
+    alignContent: "center",
   },
   name: {
     fontWeight: "bold",
@@ -42,28 +46,46 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Profile(navigation) {
-  const user = {
-    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJV5PDnfxMoLlHXGzi-7ZbynVckjLn8fI3iC9vVc0EFVKVdkqp2AZAKoGYs02A_Kg4Drc&usqp=CAU",
-    name: "Elon Musk",
-    userName: "@father_zillionaire",
-    location: "US/Space",
-    phone: "+00-000000000",
-    email: 'billionare@capitalism.com',
-    gender: "male"
-  };
+export default function EditProfile({ route, navigation }) {
+  const { user } = route.params;
+  const [proPic, setProPic] = useState([])
+
+  function uploadProfilePicture(){
+    let options ={
+        mediaType: 'photo',
+        quality: 1,
+        includeBase64: true,
+    }
+
+    launchImageLibrary(options, response =>{
+        if(response.didCancel){
+            alert('User cancelled image picker')
+        }else if(response.errorCode === 'permission'){
+            alert('Permission denied')
+        }else if(response.errorCode === 'others'){
+            alert('Others')
+        }else if(response.assest[0].fileSize > 2000000){
+            alert('Max image size exceeded')
+        }else{
+            setProPic(response.assets[0].base64)
+        }
+    } )
+  }
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.name}>{user.name}</Text>
-      <Caption style={styles.userName}>{user.userName}</Caption>
+      <TextInput style={styles.name} placeholder={user.name} />
+      <TextInput style={styles.userName} placeholder={user.userName}/>
       <View style={{ marginTop: 24, alignItems: "center" }}>
         <View>
-            <Avatar.Image
-              style={styles.proPicContainer}
-              source={{ uri: user.img }}
-              size={300}
-            />
+          <Avatar.Image
+            style={styles.proPicContainer}
+            source={{ uri: user.img }}
+            size={300}
+          />
         </View>
+        <Button mode="elevated" onPress={() => uploadProfilePicture()}>
+          Upload Photo
+        </Button>
       </View>
 
       <View>
@@ -91,11 +113,6 @@ export default function Profile(navigation) {
             {user.gender}
           </Text>
         </View>
-      </View>
-
-      <View>
-
-
       </View>
     </ScrollView>
   );
