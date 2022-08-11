@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
     shadowColor: "purple",
     shadowRadius: 30,
     shadowOpacity: 0.7,
-    borderRadius: "50%",
     marginBottom: 20,
     alignContent: 'center',
   },

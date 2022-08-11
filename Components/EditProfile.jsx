@@ -4,19 +4,16 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  TouchableHighlight,
   TextInput,
+  Image,
 } from "react-native";
 import {
   Avatar,
   Button,
-  Title,
-  Caption,
-  TouchableRipple,
 } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { launchImageLibrary } from "react-native-image-picker";
-
+import * as ImagePicker from 'expo-image-picker';
+import {useState, useEffect} from "react";
 
 const styles = StyleSheet.create({
   container: {
@@ -28,7 +25,6 @@ const styles = StyleSheet.create({
     shadowColor: "purple",
     shadowRadius: 30,
     shadowOpacity: 0.7,
-    borderRadius: "50%",
     marginBottom: 20,
     alignContent: "center",
   },
@@ -48,29 +44,36 @@ const styles = StyleSheet.create({
 
 export default function EditProfile({ route, navigation }) {
   const { user } = route.params;
-  const [proPic, setProPic] = useState([])
+  const [proPic, setProPic] = useState(user.img)
+  const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
 
-  function uploadProfilePicture(){
-    let options ={
-        mediaType: 'photo',
-        quality: 1,
-        includeBase64: true,
-    }
+  useEffect(()=>{
+    (async() =>{
+      const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      setHasGalleryPermission(galleryStatus.status === 'Granted');
+    })
+  }, [])
 
-    launchImageLibrary(options, response =>{
-        if(response.didCancel){
-            alert('User cancelled image picker')
-        }else if(response.errorCode === 'permission'){
-            alert('Permission denied')
-        }else if(response.errorCode === 'others'){
-            alert('Others')
-        }else if(response.assest[0].fileSize > 2000000){
-            alert('Max image size exceeded')
-        }else{
-            setProPic(response.assets[0].base64)
-        }
-    } )
+  const chooseFromLibrary = async () =>{
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4,3],
+      quality:1,
+    });
+    console.log(result);
+
+  if(!result.cancelled){
+    setProPic(result.uri);
   }
+  }
+
+  if(hasGalleryPermission === false){
+    return (<Text>No access to Internal Storage granted</Text>)
+  }
+  
+  
+  
   return (
     <ScrollView style={styles.container}>
       <TextInput style={styles.name} placeholder={user.name} />
@@ -79,13 +82,15 @@ export default function EditProfile({ route, navigation }) {
         <View>
           <Avatar.Image
             style={styles.proPicContainer}
-            source={{ uri: user.img }}
+            source={{ uri: proPic }}
             size={300}
           />
+          
         </View>
-        <Button mode="elevated" onPress={() => uploadProfilePicture()}>
+        <Button mode="elevated" onPress={() => chooseFromLibrary()}>
           Upload Photo
         </Button>
+        {/* {proPic ? <Image source={{uri: proPic}}/> : null} */}
       </View>
 
       <View>
