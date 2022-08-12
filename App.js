@@ -10,11 +10,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* <Stack.Screen
+        <Stack.Screen
           name="SignUp"
           component={SignUp}
           options={{ headerShown: false }}
-        /> */}
+        />
         <Stack.Screen
           name="Tabs"
           component={Tabs}

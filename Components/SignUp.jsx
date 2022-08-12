@@ -27,15 +27,13 @@ export default function SignUp({ navigation }) {
             Password2: "",
           }}
           onSubmit={(values) => {
-            console.log(values.Password, values.Password2);
-            console.log(values.Password === values.password2);
             if (validateUsername(values.Username) === null) {
               setUserMessage("Please enter a valid Username\n\n");
             } else setUserMessage("Username is good\n\n");
             if (validateEmail(values.email) === null) {
               setEmailMessage("Please enter a valid Email address\n\n");
             } else setEmailMessage("email is good\n\n");
-            if (values.Password2 != values.password) {
+            if (values.Password2 !== values.password) {
               setPass2Message("Passwords do not match");
             } else if (validatePassword(values.Password) === null) {
               setPassMessage(
@@ -47,7 +45,7 @@ export default function SignUp({ navigation }) {
               validateUsername(values.Username) !== null &&
               validateEmail(values.email) !== null &&
               validatePassword(values.Password) !== null &&
-              values.Password2 == values.password
+              values.Password === values.Password2
             ) {
               navigation.navigate("Tabs");
               // send to backend
