@@ -1,8 +1,8 @@
-import { View,Text } from "react-native-web"
+import * as React from 'react';
+import {View, Text} from 'react-native';
 
 export default function Pod(){
     return(
-        <View> <Text>Look at all my friends!</Text>
-    </View>
+        <View><Text>Welcome to the Pod!</Text></View>
        )
     }

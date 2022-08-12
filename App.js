@@ -20,7 +20,7 @@ export default function App() {
           name="Tabs"
           component={Tabs}
           options={{ headerShown: false }}
-        /
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
