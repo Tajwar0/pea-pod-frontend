@@ -1,7 +1,6 @@
 import * as React from "react";
 import { View, Text } from "react-native";
 
-import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Home from "./Home";
@@ -26,47 +25,45 @@ const user = {
   userName: "@father_zillionaire",
   location: "US/Space",
   phone: "+00-000000000",
-  email: 'billionare@capitalism.com',
-  gender: "male"
+  email: "billionare@capitalism.com",
+  gender: "male",
 };
 
-export default function Main() {
+export default function Tabs() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        initialRouteName="Home"
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-            let routeName = route.name;
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          let routeName = route.name;
 
-            if (routeName === homeName) {
-              iconName = focused ? "home" : "home-outline";
-              color = "green";
-            } else if (routeName === profileName) {
-              iconName = focused ? "person" : "person-outline";
-              color = "red";
-            } else if (routeName === podName) {
-              iconName = focused ? "people" : "people-outline";
-              color = "purple";
-            } else if (routeName === settingsName) {
-              iconName = focused ? "settings" : "settings-outline";
-              color = "grey";
-            }
+          if (routeName === homeName) {
+            iconName = focused ? "home" : "home-outline";
+            color = "green";
+          } else if (routeName === profileName) {
+            iconName = focused ? "person" : "person-outline";
+            color = "red";
+          } else if (routeName === podName) {
+            iconName = focused ? "people" : "people-outline";
+            color = "purple";
+          } else if (routeName === settingsName) {
+            iconName = focused ? "settings" : "settings-outline";
+            color = "grey";
+          }
 
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-        })}
-      >
-        <Tab.Screen name={homeName} component={Home}></Tab.Screen>
-        <Tab.Screen
-          name={profileName}
-          component={ProfileStackScreen}
-        ></Tab.Screen>
-        <Tab.Screen name={podName} component={Pod}></Tab.Screen>
-        <Tab.Screen name={settingsName} component={Settings}></Tab.Screen>
-      </Tab.Navigator>
-    </NavigationContainer>
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+      })}
+    >
+      <Tab.Screen name={homeName} component={Home}></Tab.Screen>
+      <Tab.Screen
+        name={profileName}
+        component={ProfileStackScreen}
+      ></Tab.Screen>
+      <Tab.Screen name={podName} component={Pod}></Tab.Screen>
+      <Tab.Screen name={settingsName} component={Settings}></Tab.Screen>
+    </Tab.Navigator>
   );
 }
 
@@ -75,7 +72,7 @@ const ProfileStackScreen = ({ navigation }) => (
     screenOptions={{
       headerStyle: {
         backgroundColor: "white",
-        shadowColor: 'white',
+        shadowColor: "white",
         elevation: 0,
       },
       headerShadowVisible: false,
@@ -85,7 +82,6 @@ const ProfileStackScreen = ({ navigation }) => (
       },
     }}
   >
-     
     <ProfileStack.Screen
       name="Profile"
       component={Profile}
@@ -96,21 +92,22 @@ const ProfileStackScreen = ({ navigation }) => (
             size={40}
             backgroundColor="white"
             color="black"
-            onPress={() => navigation.navigate('EditProfile', {
-              id: Math.floor(Math.random() * 100), user: user
-            })}
+            onPress={() =>
+              navigation.navigate("EditProfile", {
+                id: Math.floor(Math.random() * 100),
+                user: user,
+              })
+            }
           />
         ),
       }}
     />
     <ProfileStack.Screen
-      name='EditProfile'
+      name="EditProfile"
       options={{
         title: "Edit Profile",
       }}
       component={EditProfile}
     />
-
-   
   </ProfileStack.Navigator>
 );
