@@ -1,10 +1,8 @@
-import { View, Text } from "react-native-web"
-
+import * as React from 'react';
+import {View, Text} from 'react-native';
 
 export default function Settings(){
-    return (
-        <View><Text 
-        onPress={()=> alert('This is the Settings screen')}>This is the settings page!</Text></View>
-        
-    )
-}
+    return(
+        <View><Text>Set your preferences</Text></View>
+       )
+    }
