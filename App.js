@@ -2,7 +2,8 @@ import { StyleSheet, Text, View } from "react-native";
 import Tabs from "./Components/Tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import Login from "./Components/Login";
+import SignUp from "./Components/SignUp";
+
 
 const Stack = createStackNavigator();
 
@@ -11,11 +12,15 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Login"
-          component={Login}
+          name="SignUp"
+          component={SignUp}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="Tabs" component={Tabs} />
+        <Stack.Screen
+          name="Tabs"
+          component={Tabs}
+          options={{ headerShown: false }}
+        /
       </Stack.Navigator>
     </NavigationContainer>
   );
