@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, Text } from "react-native";
-
+import { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -20,6 +20,7 @@ const ProfileStack = createStackNavigator();
 
 const Tab = createBottomTabNavigator();
 
+
 const user = {
   img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJV5PDnfxMoLlHXGzi-7ZbynVckjLn8fI3iC9vVc0EFVKVdkqp2AZAKoGYs02A_Kg4Drc&usqp=CAU",
   name: "Elon Musk",
@@ -31,6 +32,7 @@ const user = {
 };
 
 export default function Main() {
+  const [image, setImage] = useState(user.img)
   return (
     <NavigationContainer>
       <Tab.Navigator
