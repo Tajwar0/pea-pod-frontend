@@ -13,7 +13,7 @@ export default function Login({ navigation }) {
 
   return (
     <View>
-      <Text style={{ margin: "20px", textAlign: "center", fontSize: 26 }}>
+      <Text style={{ margin: 20, textAlign: "center", fontSize: 26 }}>
         Login
       </Text>
 
@@ -32,12 +32,14 @@ export default function Login({ navigation }) {
                 "Password must have minimum eight characters, at least one letter and one number"
               );
             } else setPassMessage("Password is good\n\n");
+
             if (
               validateUsername(values.Username) !== null &&
               validateEmail(values.email) !== null &&
               validatePassword(values.Password) !== null
             ) {
               navigation.navigate("Tabs");
+              // send to backend
             }
           }}
         >
