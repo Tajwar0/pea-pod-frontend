@@ -10,33 +10,44 @@ export default function SignUp({ navigation }) {
   const [userMessage, setUserMessage] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
   const [passMessage, setPassMessage] = useState("");
+  const [pass2Message, setPass2Message] = useState("");
 
   return (
     <View>
       <Text style={{ margin: 20, textAlign: "center", fontSize: 26 }}>
-        Login
+        Sign up
       </Text>
 
       <View style={styles.SignUpContainer}>
         <Formik
-          initialValues={{ Username: "", email: "", Password: "" }}
+          initialValues={{
+            Username: "",
+            email: "",
+            Password: "",
+            Password2: "",
+          }}
           onSubmit={(values) => {
+            console.log(values.Password, values.Password2);
+            console.log(values.Password === values.password2);
             if (validateUsername(values.Username) === null) {
               setUserMessage("Please enter a valid Username\n\n");
             } else setUserMessage("Username is good\n\n");
             if (validateEmail(values.email) === null) {
-              setEmailMessage("Please enter a validEmail address\n\n");
+              setEmailMessage("Please enter a valid Email address\n\n");
             } else setEmailMessage("email is good\n\n");
-            if (validatePassword(values.Password) === null) {
+            if (values.Password2 != values.password) {
+              setPass2Message("Passwords do not match");
+            } else if (validatePassword(values.Password) === null) {
               setPassMessage(
-                "Password must have minimum eight characters, at least one letter and one number"
+                "Password must have minimum 8 characters, at least 1 letter and 1 number"
               );
-            } else setPassMessage("Password is good\n\n");
+            } else setPass2Message("Password is good\n\n");
 
             if (
               validateUsername(values.Username) !== null &&
               validateEmail(values.email) !== null &&
-              validatePassword(values.Password) !== null
+              validatePassword(values.Password) !== null &&
+              values.Password2 == values.password
             ) {
               navigation.navigate("Tabs");
               // send to backend
@@ -47,7 +58,7 @@ export default function SignUp({ navigation }) {
             <View>
               <TextInput
                 name="username"
-                placeholder="Choose your username"
+                placeholder="Create a new username"
                 onChangeText={props.handleChange("Username")}
                 value={props.values.Username}
                 style={styles.TextInput}
@@ -55,7 +66,7 @@ export default function SignUp({ navigation }) {
 
               <TextInput
                 name="email"
-                placeholder="Email Address"
+                placeholder="Enter your Email Address"
                 onChangeText={props.handleChange("email")}
                 value={props.values.email}
                 style={styles.TextInput}
@@ -66,6 +77,14 @@ export default function SignUp({ navigation }) {
                 placeholder="Super secret password"
                 onChangeText={props.handleChange("Password")}
                 value={props.values.Password}
+                style={styles.TextInput}
+                secureTextEntry
+              />
+              <TextInput
+                name="password"
+                placeholder="Re-enter your password"
+                onChangeText={props.handleChange("Password2")}
+                value={props.values.Password2}
                 style={styles.TextInput}
                 secureTextEntry
               />
@@ -80,7 +99,9 @@ export default function SignUp({ navigation }) {
           )}
         </Formik>
       </View>
-      <Text>{`${userMessage} ${emailMessage} ${passMessage}`}</Text>
+      <Text
+        style={{ justifyContent: "center" }}
+      >{`${userMessage} ${emailMessage} ${passMessage} ${pass2Message}`}</Text>
     </View>
   );
 }
@@ -96,7 +117,7 @@ const styles = StyleSheet.create({
   },
   TextInput: {
     height: 40,
-    width: "100%",
+    width: 200,
     margin: 10,
     backgroundColor: "white",
     borderColor: "gray",

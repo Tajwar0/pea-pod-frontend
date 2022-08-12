@@ -3,20 +3,23 @@ import { View, Text } from "react-native";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { createStackNavigator } from "@react-navigation/stack";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { NavigationContainer } from "@react-navigation/native";
 import Home from "./Home";
 import Profile from "./Profile";
 import EditProfile from "./EditProfile";
 import Pod from "./Pod";
 import Settings from "./Settings";
-import { createStackNavigator } from "@react-navigation/stack";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Likes from "./LikesStack/Likes.jsx";
+
 const homeName = "Home";
 const profileName = "Profile";
 const podName = "Pod";
 const settingsName = "Settings";
-
 const ProfileStack = createStackNavigator();
-
+const LikesName = "Likes";
+const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const user = {
@@ -28,7 +31,6 @@ const user = {
   email: "billionare@capitalism.com",
   gender: "male",
 };
-
 export default function Tabs() {
   return (
     <Tab.Navigator
@@ -43,13 +45,16 @@ export default function Tabs() {
             color = "green";
           } else if (routeName === profileName) {
             iconName = focused ? "person" : "person-outline";
-            color = "red";
+            color = "orange";
           } else if (routeName === podName) {
             iconName = focused ? "people" : "people-outline";
             color = "purple";
           } else if (routeName === settingsName) {
             iconName = focused ? "settings" : "settings-outline";
             color = "grey";
+          } else if (routeName === LikesName) {
+            iconName = focused ? "heart" : "heart-outline";
+            color = "red";
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -57,8 +62,10 @@ export default function Tabs() {
       })}
     >
       <Tab.Screen name={homeName} component={Home}></Tab.Screen>
+      <Tab.Screen name={LikesName} component={Likes}></Tab.Screen>
       <Tab.Screen
         name={profileName}
+        a
         component={ProfileStackScreen}
       ></Tab.Screen>
       <Tab.Screen name={podName} component={Pod}></Tab.Screen>
@@ -66,7 +73,23 @@ export default function Tabs() {
     </Tab.Navigator>
   );
 }
-
+const LikesStack = ({ navigation }) => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name={LikesName}
+          component={Likes}
+          options={{ headerShown: false }}
+        />
+        {/* other pages -
+    links to profile of user
+    ...
+     */}
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
 const ProfileStackScreen = ({ navigation }) => (
   <ProfileStack.Navigator
     screenOptions={{

@@ -18,14 +18,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    backgroundColor: 'white'
+    backgroundColor: "white",
   },
   proPicContainer: {
     shadowColor: "purple",
     shadowRadius: 30,
     shadowOpacity: 0.7,
     marginBottom: 20,
-    alignContent: 'center',
+    alignContent: "center",
   },
   name: {
     fontWeight: "bold",
@@ -48,8 +48,8 @@ export default function Profile(navigation) {
     userName: "@father_zillionaire",
     location: "US/Space",
     phone: "+00-000000000",
-    email: 'billionare@capitalism.com',
-    gender: "male"
+    email: "billionare@capitalism.com",
+    gender: "male",
   };
   return (
     <ScrollView style={styles.container}>
@@ -57,11 +57,11 @@ export default function Profile(navigation) {
       <Caption style={styles.userName}>{user.userName}</Caption>
       <View style={{ marginTop: 24, alignItems: "center" }}>
         <View>
-            <Avatar.Image
-              style={styles.proPicContainer}
-              source={{ uri: user.img }}
-              size={300}
-            />
+          <Avatar.Image
+            style={styles.proPicContainer}
+            source={{ uri: user.img }}
+            size={300}
+          />
         </View>
       </View>
 
@@ -92,10 +92,7 @@ export default function Profile(navigation) {
         </View>
       </View>
 
-      <View>
-
-
-      </View>
+      <View></View>
     </ScrollView>
   );
 }
