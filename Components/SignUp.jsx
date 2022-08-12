@@ -6,7 +6,7 @@ import {
   validateUsername,
   validatePassword,
 } from "../validation/validation";
-export default function Login({ navigation }) {
+export default function SignUp({ navigation }) {
   const [userMessage, setUserMessage] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
   const [passMessage, setPassMessage] = useState("");
@@ -17,7 +17,7 @@ export default function Login({ navigation }) {
         Login
       </Text>
 
-      <View style={styles.loginContainer}>
+      <View style={styles.SignUpContainer}>
         <Formik
           initialValues={{ Username: "", email: "", Password: "" }}
           onSubmit={(values) => {
@@ -72,7 +72,7 @@ export default function Login({ navigation }) {
 
               <Button
                 style={styles.button}
-                title="Login"
+                title="SignUp"
                 color="#50C878"
                 onPress={props.handleSubmit}
               />
@@ -86,7 +86,7 @@ export default function Login({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  loginContainer: {
+  SignUpContainer: {
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
