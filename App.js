@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import SignUp from "./Components/SignUp";
 
+
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -19,7 +20,7 @@ export default function App() {
           name="Tabs"
           component={Tabs}
           options={{ headerShown: false }}
-        />
+        /
       </Stack.Navigator>
     </NavigationContainer>
   );
