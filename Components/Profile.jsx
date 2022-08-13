@@ -6,7 +6,7 @@ import { color } from "react-native-reanimated";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ButtonMaker from "./ButtonMaker";
 
-export default function Profile(navigation) {
+export default function Profile({navigation}) {
   const user = {
     img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJV5PDnfxMoLlHXGzi-7ZbynVckjLn8fI3iC9vVc0EFVKVdkqp2AZAKoGYs02A_Kg4Drc&usqp=CAU",
     name: "Elon Musk",

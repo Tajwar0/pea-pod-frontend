@@ -10,7 +10,6 @@ export default function SignUp({ navigation }) {
   const [userMessage, setUserMessage] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
   const [passMessage, setPassMessage] = useState("");
-  const [pass2Message, setPass2Message] = useState("");
 
   return (
     <View>
@@ -27,19 +26,22 @@ export default function SignUp({ navigation }) {
             Password2: "",
           }}
           onSubmit={(values) => {
+
             if (validateUsername(values.Username) === null) {
               setUserMessage("Please enter a valid Username\n\n");
             } else setUserMessage("Username is good\n\n");
+
             if (validateEmail(values.email) === null) {
               setEmailMessage("Please enter a valid Email address\n\n");
             } else setEmailMessage("email is good\n\n");
-            if (values.Password2 !== values.password) {
-              setPass2Message("Passwords do not match");
+
+            if (values.Password !== values.Password2) {
+              setPassMessage("Passwords do not match");
             } else if (validatePassword(values.Password) === null) {
               setPassMessage(
-                "Password must have minimum 8 characters, at least 1 letter and 1 number"
+                "Password must have minimum of 8 characters with at least 1 letter and 1 number"
               );
-            } else setPass2Message("Password is good\n\n");
+            } else setPassMessage("Password is good");
 
             if (
               validateUsername(values.Username) !== null &&
@@ -99,7 +101,7 @@ export default function SignUp({ navigation }) {
       </View>
       <Text
         style={{ justifyContent: "center" }}
-      >{`${userMessage} ${emailMessage} ${passMessage} ${pass2Message}`}</Text>
+      >{`${userMessage} ${emailMessage} ${passMessage} `}</Text>
     </View>
   );
 }

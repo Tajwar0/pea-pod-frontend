@@ -1,13 +1,13 @@
 import { useState, useRef } from "react";
-import { View, Text, FlatList, StyleSheet, Animated } from "react-native";
+import { View, FlatList, StyleSheet, Animated } from "react-native";
 import slides from "../../assets/slides";
-import LikesItem from "./likesItem";
+import LikesItem from "./LikesItem";
 
-export default function Likes({ navigation }) {
+export default function LikesPage({ navigation }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
 
-  const viewableItemsChanged = useRef(({ viewableItems }) => {
+  const viewableItemsChanged = useRef(({ viewableItems, navigation }) => {
     setCurrentIndex(viewableItems[0].index);
   }).current;
 
@@ -16,7 +16,9 @@ export default function Likes({ navigation }) {
     <View style={{ flex: 3 }}>
       <FlatList
         data={slides}
-        renderItem={({ item }) => <LikesItem item={item} />}
+        renderItem={({ item }) => (
+          <LikesItem item={item} navigation={navigation} />
+        )}
         horizontal
         showsHorizontalScrollIndicator
         pagingEnabled
@@ -35,7 +37,6 @@ export default function Likes({ navigation }) {
         onViewableItemsChanged={viewableItemsChanged}
         itemVisiblePercentThreshold={viewConfig}
         scrollEventThrottle={30}
-        navigation={navigation}
       />
     </View>
   );

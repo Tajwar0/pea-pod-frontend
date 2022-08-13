@@ -20,7 +20,8 @@ export default function LikesItem({ item, navigation }) {
         </Text>
         <Text>What {item.name} liked about you</Text>
         <TouchableOpacity
-          onPress={() => navigation.navigate("Tabs", { screen: "Profile" })}
+          // onPress={() => navigation.navigate("Tabs", { screen: "Profile" })}
+          onPress={() => navigation.navigate("UserProfile")}
         >
           <Image
             source={item.image}
@@ -30,9 +31,14 @@ export default function LikesItem({ item, navigation }) {
 
         <Text style={styles.container}>{item.description}</Text>
       </View>
-
-      <Button title="Peazz not them" style={styles.CrossButton}></Button>
-      <Button title="Message" style={styles.messageButton} />
+      <View>
+        <Button
+          title="Peazz not them"
+          style={styles.crossButton}
+          onPress={(() => navigation.navigate("Tabs"), { screen: "Profile" })}
+        />
+        <Button title="Message" style={styles.messageButton} />
+      </View>
     </View>
   );
 }
@@ -52,5 +58,6 @@ const styles = StyleSheet.create({
   messageButton: {
     backgroundColor: "Green",
     color: "white",
+    borderRadius: 10,
   },
 });
