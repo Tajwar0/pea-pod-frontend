@@ -35,9 +35,13 @@ export default function LikesItem({ item, navigation }) {
         <Button
           title="Peazz not them"
           style={styles.crossButton}
-          onPress={(() => navigation.navigate("Tabs"), { screen: "Profile" })}
+          // onPress removes the profile from interested profiles
         />
-        <Button title="Message" style={styles.messageButton} />
+        <Button
+          title="Message"
+          style={styles.messageButton}
+          //  onPress allows opens new message in Pod? and allows them to message the user back
+        />
       </View>
     </View>
   );
