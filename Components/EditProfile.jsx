@@ -14,6 +14,7 @@ import {
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import * as ImagePicker from 'expo-image-picker';
 import {useState, useEffect} from "react";
+import ButtonMaker from "./ButtonMaker";
 
 const styles = StyleSheet.create({
   container: {
@@ -40,12 +41,19 @@ const styles = StyleSheet.create({
     textAlign: "center",
     justifyContent: "space-between",
   },
+  buttonBlock: {
+    backgroundColor: 'black',
+    display: 'flex',
+    marginRight: 10,
+  }
 });
 
 export default function EditProfile({ route, navigation }) {
   const { user } = route.params;
   const [proPic, setProPic] = useState(user.img)
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
+  const userInterests = ["Football", "Cinema", "Dancing", "Tennis", "Gaming", "Make Up"]
+  const [combinedInterests, setCombinedInterests] = useState([]);
 
   useEffect(()=>{
     (async() =>{
@@ -71,8 +79,6 @@ export default function EditProfile({ route, navigation }) {
   if(hasGalleryPermission === false){
     return (<Text>No access to Internal Storage granted</Text>)
   }
-  
-  
   
   return (
     <ScrollView style={styles.container}>
@@ -118,6 +124,10 @@ export default function EditProfile({ route, navigation }) {
             {user.gender}
           </Text>
         </View>
+      </View>
+
+      <View style={styles.buttonBlock}>
+   {userInterests.map((userInterest) => <ButtonMaker key={userInterest} userInterest={userInterest} combinedInterests={combinedInterests} setCombinedInterests={setCombinedInterests}/>)}
       </View>
     </ScrollView>
   );

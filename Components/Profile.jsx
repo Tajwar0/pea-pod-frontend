@@ -1,45 +1,10 @@
 import * as React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableHighlight,
-} from "react-native";
-import {
-  Avatar,
-  Button,
-  Title,
-  Caption,
-  TouchableRipple,
-} from "react-native-paper";
+import { useState, useEffect } from "react";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { Avatar, Button, Title, Caption } from "react-native-paper";
+import { color } from "react-native-reanimated";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: "100%",
-    backgroundColor: "white",
-  },
-  proPicContainer: {
-    shadowColor: "purple",
-    shadowRadius: 30,
-    shadowOpacity: 0.7,
-    marginBottom: 20,
-    alignContent: "center",
-  },
-  name: {
-    fontWeight: "bold",
-    fontSize: 30,
-    textAlign: "center",
-    justifyContent: "space-between",
-  },
-  userName: {
-    color: "grey",
-    fontWeight: "900",
-    textAlign: "center",
-    justifyContent: "space-between",
-  },
-});
+import ButtonMaker from "./ButtonMaker";
 
 export default function Profile(navigation) {
   const user = {
@@ -51,6 +16,42 @@ export default function Profile(navigation) {
     email: "billionare@capitalism.com",
     gender: "male",
   };
+  const [isPressed, setIsPressed] = useState("white");
+  const userInterests = [
+    "Football",
+    "Cinema",
+    "Dancing",
+    "Tennis",
+    "Gaming",
+    "Make Up",
+  ];
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      width: "100%",
+      backgroundColor: "white",
+    },
+    proPicContainer: {
+      shadowColor: "purple",
+      shadowRadius: 30,
+      shadowOpacity: 0.7,
+      marginBottom: 10,
+      alignContent: "center",
+    },
+    name: {
+      fontWeight: "bold",
+      fontSize: 30,
+      textAlign: "center",
+      justifyContent: "space-between",
+    },
+    userName: {
+      color: "grey",
+      fontWeight: "900",
+      textAlign: "center",
+      justifyContent: "space-between",
+    },
+  });
+
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.name}>{user.name}</Text>
@@ -91,8 +92,6 @@ export default function Profile(navigation) {
           </Text>
         </View>
       </View>
-
-      <View></View>
     </ScrollView>
   );
 }
