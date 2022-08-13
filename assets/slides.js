@@ -19,4 +19,10 @@ export default [
       "jolly is the most popular programming programming programming ...",
     image: require("./favicon.png"),
   },
+  {
+    id: "4",
+    name: "Tajwar the true",
+    description: "to be between the true and the false",
+    image: require("./favicon.png"),
+  },
 ];
