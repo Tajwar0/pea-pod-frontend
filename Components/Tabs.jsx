@@ -7,14 +7,14 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { NavigationContainer } from "@react-navigation/native";
 
-import Home from "./Home";
+import MatchingPage from "./MatchingStack/MatchingPage";
 import Profile from "./Profile";
 import EditProfile from "./EditProfile";
 import Pod from "./Pod";
 import Settings from "./Settings";
 import LikesPage from "./LikesStack/LikesPage.jsx";
 
-const homeName = "Home";
+const matchingPageName = "MatchingPage";
 const profileName = "Profile";
 const podName = "Pod";
 const settingsName = "Settings";
@@ -35,13 +35,13 @@ const user = {
 export default function Tabs() {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="MatchingPage"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
           let routeName = route.name;
 
-          if (routeName === homeName) {
+          if (routeName === matchingPageName) {
             iconName = focused ? "home" : "home-outline";
             color = "green";
           } else if (routeName === profileName) {
@@ -62,7 +62,7 @@ export default function Tabs() {
         },
       })}
     >
-      <Tab.Screen name={homeName} component={Home}></Tab.Screen>
+      <Tab.Screen name={matchingPageName} component={MatchingPage}></Tab.Screen>
       <Tab.Screen name={LikesName} component={LikesPage}></Tab.Screen>
       <Tab.Screen
         name={profileName}

@@ -26,7 +26,6 @@ export default function SignUp({ navigation }) {
             Password2: "",
           }}
           onSubmit={(values) => {
-
             if (validateUsername(values.Username) === null) {
               setUserMessage("Please enter a valid Username\n\n");
             } else setUserMessage("Username is good\n\n");

@@ -20,27 +20,29 @@ export default function LikesItem({ item, navigation }) {
         </Text>
         <Text>What {item.name} liked about you</Text>
         <TouchableOpacity
-          // onPress={() => navigation.navigate("Tabs", { screen: "Profile" })}
-          onPress={() => navigation.navigate("UserProfile")}
+          onPress={() =>
+            navigation.navigate("UserProfile", {
+              item,
+            })
+          }
         >
           <Image
             source={item.image}
             style={[styles.image, { width, resizeMode: "contain" }]}
           />
         </TouchableOpacity>
-
         <Text style={styles.container}>{item.description}</Text>
       </View>
       <View>
         <Button
           title="Peazz not them"
           style={styles.crossButton}
-          // onPress removes the profile from interested profiles
+          // onPress removes the profile from interested profiles and refreshes the page
         />
         <Button
           title="Message"
           style={styles.messageButton}
-          //  onPress allows opens new message in Pod? and allows them to message the user back
+          //  onPress? Allows user to open message in new text box? with reply functionality?
         />
       </View>
     </View>
