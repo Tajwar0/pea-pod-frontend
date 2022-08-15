@@ -57,17 +57,14 @@ export default function Tabs() {
       })}
     >
       <Tab.Screen name={homeName} component={Home}></Tab.Screen>
-      <Tab.Screen
-        name={profileName}
-        component={ProfileStackScreen}
-      ></Tab.Screen>
+      <Tab.Screen name={profileName} component={ProfileStackScreen}></Tab.Screen>
       <Tab.Screen name={podName} component={Pod}></Tab.Screen>
       <Tab.Screen name={settingsName} component={Settings}></Tab.Screen>
     </Tab.Navigator>
   );
 }
 
-const ProfileStackScreen = ({ navigation }) => (
+const ProfileStackScreen = ({ navigation}) => (
   <ProfileStack.Navigator
     screenOptions={{
       headerStyle: {
@@ -83,7 +80,7 @@ const ProfileStackScreen = ({ navigation }) => (
     }}
   >
     <ProfileStack.Screen
-      name="Profile"
+      name="profile"
       component={Profile}
       options={{
         headerRight: () => (
@@ -106,6 +103,17 @@ const ProfileStackScreen = ({ navigation }) => (
       name="EditProfile"
       options={{
         title: "Edit Profile",
+        headerLeft: () => (
+          <Icon.Button
+            name="account"
+            size={40}
+            backgroundColor="white"
+            color="black"
+            onPress={() =>
+             navigation.navigate("profile")
+            }title="Go back from Edit Profile"
+          />
+        )
       }}
       component={EditProfile}
     />
