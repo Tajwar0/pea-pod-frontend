@@ -85,15 +85,6 @@ export default function Login({ navigation }) {
                 onPress={() => navigation.navigate("SignUp")}>
                 <Text style={styles.linkText}>Not a pea? Sign up here!</Text>
               </TouchableOpacity>
-
-              {/* <Button
-                style={styles.button}
-                title="Sign up instead"
-                color="green"
-                onPress={() => {
-                  navigation.navigate("SignUp");
-                }}
-              /> */}
             </View>
           )}
         </Formik>
