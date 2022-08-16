@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Tabs from "./Components/Tabs";
 import { NavigationContainer } from "@react-navigation/native";
@@ -11,11 +12,13 @@ import MatchingPage from "./Components/MatchingStack/MatchingPage";
 import MatchProfiles from "./Components/MatchingStack/MatchProfiles";
 
 const Stack = createStackNavigator();
+const user = React.createContext();
 
 export default function App() {
+  const [isLogged, setLogged] = useState(true);
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={Login}>
+      <Stack.Navigator initialRouteName={isLogged ? "Tabs" : "Login"}>
         <Stack.Group>
           <Stack.Screen
             name="Login"
