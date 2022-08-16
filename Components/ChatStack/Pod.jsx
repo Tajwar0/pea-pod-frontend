@@ -1,6 +1,8 @@
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { useState, useContext, useCallback } from 'react';
 import { Text, Button, View, FlatList, StyleSheet, Image } from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 // import { UserContext } from '../contexts/User';
 
 export default function Pod ({ navigation }) {
@@ -23,19 +25,23 @@ export default function Pod ({ navigation }) {
     }, [])
     ) 
 
-    const Item = ({ username }) => (
+    const Item = ({ username, avatar }) => (
         <View style={styles.container}>
-            <Text style={styles.text}>{username}</Text>
-            <Button
-                title='Chat'
+            <View style={styles.leftChatCard}>
+                <Image style={styles.avatarImg} source={{uri: avatar}}/>
+                <Text style={styles.text}>{username}</Text>
+            </View>
+            <TouchableOpacity
+                style={styles.button}
                 onPress={() => navigation.navigate('Chat', { otherUser: username })}
-                color="green"
-            />
+            >
+                <Text style={styles.buttonText}>CHAT</Text>
+            </TouchableOpacity>
         </View>
     )
 
     const renderItem = ({ item }) => (
-        <Item username={item}/>
+        <Item username={item} avatar={item.avatar ? item.avatar : "https://starwarsblog.starwars.com/wp-content/uploads/2021/02/queen-s-hope-padme-_TALL.jpg"} />
     )
     
     return (
@@ -52,11 +58,31 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        margin: 5,
+        alignItems: 'center',
+        marginTop: 5,
         backgroundColor: '#e4ffe0',
         padding: 15
     },
     text: {
         fontSize: 24
     },
+    button: {
+        backgroundColor: "green",
+        padding: 10,
+        borderRadius: 10
+    },
+    buttonText: {
+        color: "white",
+        fontWeight: 'bold'
+    },
+    leftChatCard: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    avatarImg: {
+        height: 50,
+        width: 50,
+        borderRadius: 50,
+        marginRight: 15
+    }
 })
