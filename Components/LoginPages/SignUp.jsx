@@ -6,6 +6,7 @@ import {
   View,
   Button,
   Request,
+  Image
 } from "react-native";
 import { useState } from "react";
 import {
@@ -13,6 +14,7 @@ import {
   validateUsername,
   validatePassword,
 } from "../../validation/validation";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function SignUp({ navigation }) {
   const [userMessage, setUserMessage] = useState("");
@@ -29,7 +31,16 @@ export default function SignUp({ navigation }) {
   // );
 
   return (
-    <View>
+    <View style={styles.screenContainer}>
+            <View>
+        <Image 
+          style={styles.headerImg}
+          source={require('../../assets/peapod.png')}
+        />
+        <Text style={styles.headerText}>
+          Sign Up
+        </Text>
+      </View>
       <View style={styles.SignUpContainer}>
         <Formik
           initialValues={{
@@ -77,7 +88,6 @@ export default function SignUp({ navigation }) {
                 value={props.values.Username}
                 style={styles.TextInput}
               />
-
               <TextInput
                 name="email"
                 placeholder="Enter your Email Address"
@@ -102,46 +112,81 @@ export default function SignUp({ navigation }) {
                 style={styles.TextInput}
                 secureTextEntry
               />
-
-              <Button
+              <TouchableOpacity
                 style={styles.button}
-                title="SignUp"
-                color="#50C878"
                 onPress={props.handleSubmit}
-              />
+              >
+                <Text style={styles.buttonText}>Sign Up</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.link}
+                onPress={() => navigation.navigate("Login")}>
+                <Text style={styles.linkText}>Already a pea? Log in here!</Text>
+              </TouchableOpacity>
             </View>
           )}
         </Formik>
       </View>
       <Text
-        style={{ justifyContent: "center" }}
+        style={{ justifyContent: "center", color: 'red' }}
       >{`${userMessage} ${emailMessage} ${passMessage} `}</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  screenContainer: {
+    alignItems: 'center',
+    paddingTop: 60,
+    height: '100%',
+    backgroundColor: '#f7f7f7',
+  },
   SignUpContainer: {
     justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
+    alignItems: "stretch",
     padding: 10,
-    elevation: 10,
-    backgroundColor: "#e6e6e6",
+    width: '100%',
+    backgroundColor: '#f7f7f7',
+  },
+  headerImg: {
+    height: 100,
+    width: 200
+  },
+  headerText: {
+    marginBottom: 20, 
+    textAlign: "center", 
+    fontSize: 26,
+    paddingTop: 20,
   },
   TextInput: {
     height: 40,
-    width: 200,
-    margin: 10,
+    width: '80%',
+    marginBottom: 20,
     backgroundColor: "white",
     borderColor: "gray",
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 10,
+    padding: 10,
+    alignSelf: 'center'
   },
   button: {
     alignItems: "center",
-    backgroundColor: "blue",
     padding: 10,
     marginBottom: 20,
+    backgroundColor: "green",
+    borderRadius: 20,
+    width: '50%',
+    alignSelf: 'center'
   },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  link: {
+    alignSelf: 'center',
+    paddingTop: 10
+  },
+  linkText: {
+    fontSize: 16
+  }
 });
