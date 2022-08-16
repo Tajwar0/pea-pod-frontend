@@ -22,8 +22,9 @@ export default function App() {
   const [isLogged, setLogged] = useState(false);
   const [userName, setUserName] = useState("");
   useEffect(() => {
-    if (userName !== "") setLogged(true);
-    else setLogged(false);
+    if (userName.length > 0) {
+      setLogged(true);
+    } else setLogged(false);
   }, [userName]);
 
   return (
