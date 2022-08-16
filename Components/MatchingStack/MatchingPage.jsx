@@ -26,14 +26,12 @@ export default function MatchingPage({ navigation }) {
   const viewableItemsChanged = useRef(({ viewableItems }) => {
     setCurrentIndex(viewableItems[0].index);
   }).current;
-
   const viewConfig = useRef({ viewAreCoveragePercentThreshold: 50 }).current;
 
   return (
     <View style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1 }}>
         {/* <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}> */}
-
         <FlatList
           style={{ paddingTop: 30 }}
           data={userList}
