@@ -7,7 +7,7 @@ import io from 'socket.io-client'
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 
 export default function Chat ({ route }) {
-    const [ input, setInput ] = useState()
+    const [ input, setInput ] = useState("")
     const [ messages, setMessages ] = useState([])
     const socketRef = useRef()
     // const { user } = useContext(UserContext)
@@ -50,15 +50,17 @@ export default function Chat ({ route }) {
     }, [messages])
 
     const pressEvent = () => {
-        const newMsg = {
-            room_id: roomId,
-            sender: user,
-            msg: input.trim(),
-            created_at: moment().format()
+        if (input.length !== 0) {
+            const newMsg = {
+                room_id: roomId,
+                sender: user,
+                msg: input.trim(),
+                created_at: moment().format()
+            }
+    
+            socketRef.current.emit('message', newMsg, roomId)
+            setInput('')
         }
-
-        socketRef.current.emit('message', newMsg, roomId)
-        setInput('')
     }
 
     const Item = ({ sender, msg }) => (
