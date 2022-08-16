@@ -36,7 +36,7 @@ export default function App() {
           <Stack.Screen
             name="SignUp"
             component={SignUp}
-            options={{ headerShown: true }}
+            options={{ headerShown: false }}
           />
         </Stack.Group>
         <Stack.Screen
