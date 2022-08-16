@@ -62,7 +62,7 @@ export default function Chat ({ route }) {
     }
 
     const Item = ({ sender, msg }) => (
-        <View style={styles.item}>
+        <View style={[sender===user? styles.user_item : styles.other_user_item]}>
             <Text>{sender}: {msg}</Text>
         </View>
       )
@@ -80,6 +80,7 @@ export default function Chat ({ route }) {
             style={{ width: 300, height: 150 }}
         />
         <FlatList 
+            style={styles.list}
             data={messages}
             renderItem={renderItem}
             keyExtractor={() => Math.random()}
@@ -113,6 +114,9 @@ const styles = StyleSheet.create({
       paddingTop: 20,
       paddingBottom: 30
     },
+    list: {
+        width: '100%',
+    },
     input: {
         height: 40,
         width: 350,
@@ -120,10 +124,20 @@ const styles = StyleSheet.create({
         padding: 10,
         borderWidth: 1,
     },
-    item: {
+    user_item: {
         backgroundColor: '#e4ffe0',
-        padding: 20,
-        marginVertical: 8,
+        padding: 10,
+        marginVertical: 4,
         marginHorizontal: 16,
-      }
+        alignSelf: "flex-start",
+        borderRadius: 10
+      },
+    other_user_item: {
+        backgroundColor: '#aadea2',
+        padding: 10,
+        marginVertical: 4,
+        marginHorizontal: 16,
+        alignSelf: "flex-end",
+        borderRadius: 10
+    }
 });
