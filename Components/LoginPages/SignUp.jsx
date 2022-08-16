@@ -1,22 +1,35 @@
 import { Formik } from "formik";
-import { StyleSheet, Text, TextInput, View, Button } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Button,
+  Request,
+} from "react-native";
 import { useState } from "react";
 import {
   validateEmail,
   validateUsername,
   validatePassword,
-} from "../validation/validation";
+} from "../../validation/validation";
+
 export default function SignUp({ navigation }) {
   const [userMessage, setUserMessage] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
   const [passMessage, setPassMessage] = useState("");
+  const [user, setUser] = useState({});
+
+  // const createUser = new Request(
+  //   `fetch(https://pea-pod-api.herokuapp.com/user/${user.username}`,
+  //   {
+  //     method: "PUT",
+  //     body: `{password: ${user.password}})`,
+  //   }
+  // );
 
   return (
     <View>
-      <Text style={{ margin: 20, textAlign: "center", fontSize: 26 }}>
-        Sign up
-      </Text>
-
       <View style={styles.SignUpContainer}>
         <Formik
           initialValues={{
@@ -48,7 +61,9 @@ export default function SignUp({ navigation }) {
               validatePassword(values.Password) !== null &&
               values.Password === values.Password2
             ) {
+              setUser({ username: values.Username });
               navigation.navigate("Tabs");
+              // createUser
               // send to backend
             }
           }}
@@ -127,5 +142,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "blue",
     padding: 10,
+    marginBottom: 20,
   },
 });

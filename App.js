@@ -3,7 +3,8 @@ import { StyleSheet, Text, View } from "react-native";
 import Tabs from "./Components/Tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import SignUp from "./Components/SignUp";
+import Login from "./Components/LoginPages/Login";
+import SignUp from "./Components/LoginPages/SignUp";
 import LikesPage from "./Components/LikesStack/LikesPage";
 import UserProfile from "./Components/LikesStack/UserProfile";
 import MatchingPage from "./Components/MatchingStack/MatchingPage";
@@ -14,12 +15,19 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="SignUp"
-          component={SignUp}
-          options={{ headerShown: false }}
-        />
+      <Stack.Navigator initialRouteName={Login}>
+        <Stack.Group>
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="SignUp"
+            component={SignUp}
+            options={{ headerShown: true }}
+          />
+        </Stack.Group>
         <Stack.Screen
           name="Tabs"
           component={Tabs}
@@ -49,7 +57,6 @@ export default function App() {
             options={{ headerShown: true }}
           />
         </Stack.Group>
-        R
       </Stack.Navigator>
     </NavigationContainer>
   );
