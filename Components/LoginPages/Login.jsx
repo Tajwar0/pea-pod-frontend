@@ -1,28 +1,31 @@
 import { Formik } from "formik";
 import { StyleSheet, Text, TextInput, View, Button } from "react-native";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from "../../Contexts/User";
 
 export default function Login({ navigation }) {
   const [userMessage, setUserMessage] = useState("");
   const [passMessage, setPassMessage] = useState("");
-  const [user, setUser] = useState();
-  const [inputUsername, setInputUsername] = useState("");
+  const [userName, setUserName] = useState();
+  const [userInput, setUserInput] = useState("");
+  const { setUser } = useContext(UserContext);
 
-  //   useEffect(() => {
-  //     const getUser = async () => {
-  //       try {
-  //         const response = await fetch(
-  //           `https://pea-pod-api.herokuapp.com/user/${inputUsername}`
-  //         );
-  //         const json = await response.json();
-  //         console.log(json);
-  //         setUser(json._id);
-  //       } catch (error) {
-  //         console.error(error);
-  //       }
-  //     };
-  //     getUser();
-  //   }, [userInput]);
+  useEffect(() => {
+    if (userInput !== "") {
+      const getUser = async () => {
+        try {
+          const response = await fetch(
+            `https://pea-pod-api.herokuapp.com/user/${userInput}`
+          );
+          const json = await response.json();
+          setUserName(json._id);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      getUser();
+    }
+  }, [userInput]);
 
   return (
     <View>
@@ -37,7 +40,6 @@ export default function Login({ navigation }) {
             Password: "",
           }}
           onSubmit={(values) => {
-            setInputUsername(values.Username);
             if (user !== values.Username) {
               SetUserMessage("Username does not exist\n");
             }
@@ -45,8 +47,8 @@ export default function Login({ navigation }) {
               setPassMessage("password is not valid");
             }
             if (user === values.Username && password === values.Password) {
-              //   set context,
-              //   set login=true
+              setUserInput(values.Username);
+              setUser(userName);
             }
           }}
         >

@@ -7,26 +7,28 @@ import {
   Button,
   Request,
 } from "react-native";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   validateEmail,
   validateUsername,
   validatePassword,
 } from "../../validation/validation";
+import { UserContext } from "../../Contexts/User";
 
 export default function SignUp({ navigation }) {
   const [userMessage, setUserMessage] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
   const [passMessage, setPassMessage] = useState("");
-  const [user, setUser] = useState({});
+  const [userName, setUserName] = useState();
+  const { setUser } = useContext(UserContext);
 
-  // const createUser = new Request(
-  //   `fetch(https://pea-pod-api.herokuapp.com/user/${user.username}`,
-  //   {
-  //     method: "PUT",
-  //     body: `{password: ${user.password}})`,
-  //   }
-  // );
+  const createUser = new Request(
+    `fetch(https://pea-pod-api.herokuapp.com/user/${user.username}`,
+    {
+      method: "PUT",
+      body: `{password: ${user.password}})`,
+    }
+  );
 
   return (
     <View>

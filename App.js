@@ -13,14 +13,14 @@ import MatchProfiles from "./Components/MatchingStack/MatchProfiles";
 import Profile from "./Components/Profile";
 import EditProfile from "./Components/EditProfile";
 const Stack = createStackNavigator();
-const UserContext = React.createContext("");
+import { UserContext } from "./Contexts/User";
 
 export default function App() {
   const [isLogged, setLogged] = useState(true);
   const [user, setUser] = useState("");
   useEffect(() => {
-    if (user === "") setLogged(false);
-    else setLogged(true);
+    if (user !== "") setLogged(true);
+    else setLogged(false);
   }, [user]);
 
   return (
