@@ -16,6 +16,8 @@ import MatchingPage from "./Components/MatchingStack/MatchingPage";
 import MatchProfiles from "./Components/MatchingStack/MatchProfiles";
 import Profile from "./Components/Profile";
 import EditProfile from "./Components/EditProfile";
+import Pod from "./Components/ChatStack/Pod";
+import Chat from "./Components/ChatStack/Chat";
 
 const Stack = createStackNavigator();
 const user = React.createContext();
@@ -76,6 +78,18 @@ export default function App() {
             component={EditProfile}
           />
         </Stack.Group> 
+        <Stack.Group>
+          <Stack.Screen 
+            name="Pod"
+            component={Pod}
+            options={{ title: 'The Pod' }}
+          />
+          <Stack.Screen 
+            name="Chat"
+            component={Chat}
+            options={{title: "Pea Pod Chat"}}
+          />
+        </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
   );
