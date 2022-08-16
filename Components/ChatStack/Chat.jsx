@@ -82,7 +82,7 @@ export default function Chat ({ route }) {
         <FlatList 
             data={messages}
             renderItem={renderItem}
-            keyExtractor={item => item.id}
+            keyExtractor={() => Math.random()}
         />
         <View>
             <TextInput

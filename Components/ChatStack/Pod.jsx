@@ -42,7 +42,7 @@ export default function Pod ({ navigation }) {
         <FlatList 
             data={peasInYourPod}
             renderItem={renderItem}
-            keyExtractor={item => item.id}
+            keyExtractor={() => Math.random()}
         />
     )
 }
