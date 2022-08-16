@@ -74,10 +74,8 @@ export default function Chat ({ route }) {
       return (
         <View style={styles.container}>
         <Image
-            source={{
-            uri: 'https://image.shutterstock.com/image-illustration/trio-cute-peas-pod-600w-1943165422.jpg',
-            }}
-            style={{ width: 300, height: 150 }}
+            source={require('../../assets/peapod.png')}
+            style={{ width: 200, height: 100 }}
         />
         <FlatList 
             style={styles.list}
@@ -85,7 +83,7 @@ export default function Chat ({ route }) {
             renderItem={renderItem}
             keyExtractor={() => Math.random()}
         />
-        <View>
+        <View style={styles.inputContainer}>
             <TextInput
                 style={styles.input}
                 onChangeText={text => setInput(text)}
@@ -93,12 +91,12 @@ export default function Chat ({ route }) {
                 multiline={true}
                 blurOnSubmit={true}
             />
-            <Button
+        <Button 
                 style={styles.button} 
                 title="send"
                 onPress={pressEvent}
                 color="green"
-            />
+        />
         </View>
         <StatusBar style="auto" />
         </View>
@@ -108,7 +106,7 @@ export default function Chat ({ route }) {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: '#f7f7f7',
       alignItems: 'center',
       justifyContent: 'center',
       paddingTop: 20,
@@ -117,12 +115,17 @@ const styles = StyleSheet.create({
     list: {
         width: '100%',
     },
+    inputContainer: {
+        flexDirection: "row",
+        alignItems: "center"
+    },
     input: {
         height: 40,
-        width: 350,
+        width: '77%',
         margin: 12,
         padding: 10,
         borderWidth: 1,
+        borderRadius: 10
     },
     user_item: {
         backgroundColor: '#e4ffe0',
