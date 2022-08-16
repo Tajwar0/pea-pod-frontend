@@ -1,8 +1,7 @@
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { useState, useContext, useCallback } from 'react';
-import { Text, Button, View, FlatList, StyleSheet, Image } from 'react-native'
+import { Text, View, FlatList, StyleSheet, Image } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 // import { UserContext } from '../contexts/User';
 
 export default function Pod ({ navigation }) {

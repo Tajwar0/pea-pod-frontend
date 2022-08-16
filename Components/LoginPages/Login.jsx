@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import { StyleSheet, Text, TextInput, View, Button, Image } from "react-native";
+import { StyleSheet, Text, TextInput, View, Image } from "react-native";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
