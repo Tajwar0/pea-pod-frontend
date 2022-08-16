@@ -6,7 +6,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import EditProfile from "./EditProfile";
 import MatchingPage from "./MatchingStack/MatchingPage";
 import Profile from "./Profile";
-import Pod from "./Pod";
+import Pod from "./ChatStack/Pod"
 import LikesPage from "./LikesStack/LikesPage.jsx";
 
 const Tab = createBottomTabNavigator();

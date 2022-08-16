@@ -7,7 +7,7 @@ import {
   Button,
   Request,
 } from "react-native";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import {
   validateEmail,
   validateUsername,
@@ -19,16 +19,10 @@ export default function SignUp({ navigation }) {
   const [userMessage, setUserMessage] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
   const [passMessage, setPassMessage] = useState("");
-  const [userName, setUserName] = useState();
-  const { setUser } = useContext(UserContext);
-
-  const createUser = new Request(
-    `fetch(https://pea-pod-api.herokuapp.com/user/${user.username}`,
-    {
-      method: "PUT",
-      body: `{password: ${user.password}})`,
-    }
-  );
+  const [user, setUser] = useState();
+  const [email, setEmail] = useState();
+  const [pass, setPass] = useState();
+  const { setUserName } = useContext(UserContext);
 
   return (
     <View>
@@ -36,7 +30,7 @@ export default function SignUp({ navigation }) {
         <Formik
           initialValues={{
             Username: "",
-            email: "",
+            Email: "",
             Password: "",
             Password2: "",
           }}
@@ -45,7 +39,7 @@ export default function SignUp({ navigation }) {
               setUserMessage("Please enter a valid Username\n\n");
             } else setUserMessage("Username is good\n\n");
 
-            if (validateEmail(values.email) === null) {
+            if (validateEmail(values.Email) === null) {
               setEmailMessage("Please enter a valid Email address\n\n");
             } else setEmailMessage("email is good\n\n");
 
@@ -59,14 +53,27 @@ export default function SignUp({ navigation }) {
 
             if (
               validateUsername(values.Username) !== null &&
-              validateEmail(values.email) !== null &&
+              validateEmail(values.Email) !== null &&
               validatePassword(values.Password) !== null &&
               values.Password === values.Password2
             ) {
-              setUser({ username: values.Username });
-              navigation.navigate("Tabs");
-              // createUser
-              // send to backend
+              setEmail(values.Email);
+              setPass(values.Password);
+              setUser(values.Username);
+              fetch(`https://pea-pod-api.herokuapp.com/user/${user}`, {
+                method: "PUT",
+                // headers: {
+                //   Accept: 'application/json',
+                //   'Content-Type': 'application/json'
+                // },
+                body: JSON.stringify({
+                  password: `${pass}`,
+                  Email: `${email}`,
+                }),
+              }).then((res) => {
+                setUserName(user);
+                console.log(JSON.stringify(res));
+              });
             }
           }}
         >
@@ -81,10 +88,10 @@ export default function SignUp({ navigation }) {
               />
 
               <TextInput
-                name="email"
+                name="Email"
                 placeholder="Enter your Email Address"
-                onChangeText={props.handleChange("email")}
-                value={props.values.email}
+                onChangeText={props.handleChange("Email")}
+                value={props.values.Email}
                 style={styles.TextInput}
               />
 

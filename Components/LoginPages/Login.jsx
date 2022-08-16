@@ -6,9 +6,9 @@ import { UserContext } from "../../Contexts/User";
 export default function Login({ navigation }) {
   const [userMessage, setUserMessage] = useState("");
   const [passMessage, setPassMessage] = useState("");
-  const [userName, setUserName] = useState();
+  const [userCheck, setUserCheck] = useState();
   const [userInput, setUserInput] = useState("");
-  const { setUser } = useContext(UserContext);
+  const { setUserName } = useContext(UserContext);
 
   useEffect(() => {
     if (userInput !== "") {
@@ -18,7 +18,7 @@ export default function Login({ navigation }) {
             `https://pea-pod-api.herokuapp.com/user/${userInput}`
           );
           const json = await response.json();
-          setUserName(json._id);
+          setUserCheck(json._id);
         } catch (error) {
           console.error(error);
         }
@@ -40,15 +40,20 @@ export default function Login({ navigation }) {
             Password: "",
           }}
           onSubmit={(values) => {
-            if (user !== values.Username) {
-              SetUserMessage("Username does not exist\n");
+            setUserInput(values.Username);
+            if (userCheck !== values.Username) {
+              setUserMessage("Username does not exist\n");
             }
-            if (password !== values.Password) {
-              setPassMessage("password is not valid");
+            if (validatePassword(values.Password) === null) {
+              setPassMessage(
+                "Password must have minimum of 8 characters with at least 1 letter and 1 number"
+              );
             }
-            if (user === values.Username && password === values.Password) {
-              setUserInput(values.Username);
-              setUser(userName);
+            if (
+              userCheck === values.Username &&
+              validatePassword(values.Password) !== null
+            ) {
+              setUserName(userInput);
             }
           }}
         >

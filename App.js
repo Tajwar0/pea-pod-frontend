@@ -12,19 +12,22 @@ import MatchingPage from "./Components/MatchingStack/MatchingPage";
 import MatchProfiles from "./Components/MatchingStack/MatchProfiles";
 import Profile from "./Components/Profile";
 import EditProfile from "./Components/EditProfile";
+import Pod from "./Components/ChatStack/Pod";
+import Chat from "./Components/ChatStack/Chat";
+
 const Stack = createStackNavigator();
 import { UserContext } from "./Contexts/User";
 
 export default function App() {
-  const [isLogged, setLogged] = useState(true);
-  const [user, setUser] = useState("");
+  const [isLogged, setLogged] = useState(false);
+  const [userName, setUserName] = useState("");
   useEffect(() => {
-    if (user !== "") setLogged(true);
+    if (userName !== "") setLogged(true);
     else setLogged(false);
-  }, [user]);
+  }, [userName]);
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ userName, setUserName }}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName={isLogged ? "Tabs" : "Login"}>
           <Stack.Group>
@@ -71,6 +74,18 @@ export default function App() {
           <Stack.Group>
             <Stack.Screen name="Profile" component={Profile} />
             <Stack.Screen name="EditProfile" component={EditProfile} />
+          </Stack.Group>
+          <Stack.Group>
+            <Stack.Screen
+              name="Pod"
+              component={Pod}
+              options={{ title: "The Pod" }}
+            />
+            <Stack.Screen
+              name="Chat"
+              component={Chat}
+              options={{ title: "Pea Pod Chat" }}
+            />
           </Stack.Group>
         </Stack.Navigator>
       </NavigationContainer>
