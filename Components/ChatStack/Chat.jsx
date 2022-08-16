@@ -25,7 +25,7 @@ export default function Chat ({ route }) {
                 fetch(`https://pea-pod-api.herokuapp.com/chat/${urlRoomId}/messages`)
                 .then((response) => response.json())
                 .then(( oldMsgs ) => setMessages(oldMsgs))
-                  .catch(err => {r
+                  .catch(err => {
                     console.log(err)
                 })
             } 
