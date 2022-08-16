@@ -33,17 +33,19 @@ export default function LikesItem({ item, navigation }) {
         </TouchableOpacity>
         <Text style={styles.container}>{item.description}</Text>
       </View>
-      <View>
-        <Button
-          title="Peazz not them"
-          style={styles.crossButton}
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.button}
           // onPress removes the profile from interested profiles and refreshes the page
-        />
-        <Button
-          title="Message"
-          style={styles.messageButton}
+        >
+          <Text style={styles.buttonText}>Peazz not them!</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
           //  onPress? Allows user to open message in new text box? with reply functionality?
-        />
+          >
+          <Text style={styles.buttonText}>Message</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -60,10 +62,20 @@ const styles = StyleSheet.create({
     flex: 0.7,
     justifyContent: "center",
   },
-  crossButton: {},
-  messageButton: {
-    backgroundColor: "Green",
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 20
+  },
+  button: {
+    alignItems: "center",
+    padding: 10,
+    backgroundColor: "green",
+    borderRadius: 20,
+    alignSelf: 'center',
+    width: 110
+  },
+  buttonText: {
     color: "white",
-    borderRadius: 10,
   },
 });
