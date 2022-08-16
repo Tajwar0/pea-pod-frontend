@@ -4,6 +4,10 @@ import { StyleSheet, Text, View } from "react-native";
 import Tabs from "./Components/Tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import {
+  Button,
+} from "react-native-paper";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Login from "./Components/LoginPages/Login";
 import SignUp from "./Components/LoginPages/SignUp";
 import LikesPage from "./Components/LikesStack/LikesPage";
@@ -66,37 +70,10 @@ export default function App() {
           <Stack.Screen
             name="Profile"
             component={Profile}
-            options={{
-              headerRight: () => (
-                <Icon.Button
-                  name="account-edit"
-                  size={40}
-                  backgroundColor="white"
-                  color="black"
-                  onPress={() =>
-                    navigation.navigate("EditProfile")
-                  }
-                />
-              ),
-            }}
           />
           <Stack.Screen
             name="EditProfile"
             component={EditProfile}
-            options={{
-              title: "Edit Profile",
-              headerLeft: () => (
-                <Icon.Button
-                  name="account"
-                  size={40}
-                  backgroundColor="white"
-                  color="black"
-                  onPress={() =>
-                   navigation.navigate("profile")
-                  }title="Go back from Edit Profile"
-                />
-              )
-            }}
           />
         </Stack.Group> 
       </Stack.Navigator>

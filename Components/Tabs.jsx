@@ -1,9 +1,9 @@
 import * as React from "react";
-
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
-
+import EditProfile from "./EditProfile";
 import MatchingPage from "./MatchingStack/MatchingPage";
 import Profile from "./Profile";
 import Pod from "./Pod";
@@ -14,6 +14,8 @@ const matchingPageName = "MatchingPage";
 const profileName = "Profile";
 const podName = "Pod";
 const LikesName = "LikesPage";
+
+const ProfileStack = createStackNavigator();
 
 export default function Tabs() {
   return (
@@ -45,63 +47,78 @@ export default function Tabs() {
       <Tab.Screen name={matchingPageName} component={MatchingPage}></Tab.Screen>
       <Tab.Screen name={LikesName} component={LikesPage}></Tab.Screen>
       <Tab.Screen name={podName} component={Pod}></Tab.Screen>
-      <Tab.Screen name={profileName} component={Profile}></Tab.Screen>
+      <Tab.Screen
+        name={profileName}
+        component={ProfileStackScreen}
+      ></Tab.Screen>
     </Tab.Navigator>
   );
 }
 
-// const ProfileStackScreen = ({ navigation}) => (
-//   <ProfileStack.Navigator
-//     screenOptions={{
-//       headerStyle: {
-//         backgroundColor: "white",
-//         shadowColor: "white",
-//         elevation: 0,
-//       },
-//       headerShadowVisible: false,
-//       headerTintColor: "white",
-//       headerTitleStyle: {
-//         fontWeight: "bold",
-//       },
-//     }}
-//   >
-//     <ProfileStack.Screen
-//       name="profile"
-//       component={Profile}
-//       options={{
-//         headerRight: () => (
-//           <Icon.Button
-//             name="account-edit"
-//             size={40}
-//             backgroundColor="white"
-//             color="black"
-//             onPress={() =>
-//               navigation.navigate("EditProfile", {
-//                 id: Math.floor(Math.random() * 100),
-//                 user: user,
-//               })
-//             }
-//           />
-//         ),
-//       }}
-//     />
-//     <ProfileStack.Screen
-//       name="EditProfile"
-//       options={{
-//         title: "Edit Profile",
-//         headerLeft: () => (
-//           <Icon.Button
-//             name="account"
-//             size={40}
-//             backgroundColor="white"
-//             color="black"
-//             onPress={() =>
-//              navigation.navigate("profile")
-//             }title="Go back from Edit Profile"
-//           />
-//         )
-//       }}
-//       component={EditProfile}
-//     />
-//   </ProfileStack.Navigator>
-// );
+function ProfileStackScreen({ navigation}){
+  const user = {
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJV5PDnfxMoLlHXGzi-7ZbynVckjLn8fI3iC9vVc0EFVKVdkqp2AZAKoGYs02A_Kg4Drc&usqp=CAU",
+    name: "Elon Musk",
+    userName: "@father_zillionaire",
+    location: "US/Space",
+    phone: "+00-000000000",
+    email: "billionare@capitalism.com",
+    gender: "male",
+  };
+  
+  return (
+  <ProfileStack.Navigator
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: "white",
+        shadowColor: "white",
+        elevation: 0,
+      },
+      headerShadowVisible: false,
+      headerTintColor: "white",
+      headerTitleStyle: {
+        fontWeight: "bold",
+      },
+    }}
+  >
+    <ProfileStack.Screen
+      name="profile"
+      component={Profile}
+      options={{
+        headerRight: () => (
+          <Icon.Button
+            name="account-edit"
+            size={40}
+            backgroundColor="white"
+            color="black"
+            onPress={() =>
+              navigation.navigate("EditProfile", {
+                id: Math.floor(Math.random() * 100),
+                user: user,
+              })
+            }
+          />
+        ),
+      }}
+    />
+    <ProfileStack.Screen
+      name="EditProfile"
+      options={{
+        title: "Edit Profile",
+        headerLeft: () => (
+          <Icon.Button
+            name="account"
+            size={40}
+            backgroundColor="white"
+            color="black"
+            onPress={() =>
+             navigation.navigate("profile")
+            }title="Go back from Edit Profile"
+          />
+        )
+      }}
+      component={EditProfile}
+    />
+  </ProfileStack.Navigator>)
+  
+    }
