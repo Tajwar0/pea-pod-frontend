@@ -11,6 +11,7 @@ export default function LikesPage({ navigation }) {
   const viewableItemsChanged = useRef(({ viewableItems }) => {
     setCurrentIndex(viewableItems[0].index);
   }).current;
+  
   const viewConfig = useRef({ viewAreCoveragePercentThreshold: 50 }).current;
 
   useEffect(() => {
