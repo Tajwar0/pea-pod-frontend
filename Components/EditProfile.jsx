@@ -6,6 +6,10 @@ import * as ImagePicker from "expo-image-picker";
 import { useState, useEffect } from "react";
 import ButtonMaker from "./ButtonMaker";
 
+import {useContext} from "react";
+import { UserContext } from "../Contexts/User";
+const userName = useContext(UserContext);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -40,7 +44,7 @@ const styles = StyleSheet.create({
 
 export default function EditProfile({ route, navigation }) {
   //const { user } = route.params;
-  //const [proPic, setProPic] = useState(user.img);
+  const [proPic, setProPic] = useState();
   
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const userInterests = [
@@ -165,25 +169,15 @@ export default function EditProfile({ route, navigation }) {
           </Text>
         </View>
 
-        {/* <View>
-          <Text>
-            <Icon name="phone" size={20} color="black" />
-            {user.phone}
-          </Text>
-        </View>
-        <View>
-          <Text>
-            <Icon name="email" size={20} color="black" />
-            {user.email}
-          </Text>
-        </View>
+      
+        
         <View>
           <Text>
             <Icon name="gender-transgender" size={20} color="black" />
             {user.gender}
           </Text>
         </View>
-      </View> */}
+      
 
       <View style={styles.buttonBlock}>
         {userInterests.map((userInterest) => (
