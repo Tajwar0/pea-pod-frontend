@@ -21,11 +21,13 @@ import { UserContext } from "./Contexts/User";
 export default function App() {
   const [isLogged, setLogged] = useState(false);
   const [userName, setUserName] = useState("");
-  useEffect(() => {
-    if (userName.length > 0) {
-      setLogged(true);
-    } else setLogged(false);
-  }, [userName]);
+
+  // useEffect(() => {
+  //   console.log(userName);
+  //   if (userName.length > 0) {
+  //     setLogged(true);
+  //   } else setLogged(false);
+  // }, [userName]);
 
   return (
     <UserContext.Provider value={{ userName, setUserName }}>
