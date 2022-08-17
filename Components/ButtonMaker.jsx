@@ -47,7 +47,7 @@ export default function ButtonMaker({
       style={styles.button}
       onPress={handleClick}
     >
-      <Text style={styles.text}>{userInterest}</Text>
+      <Text style={styles.text}>{interest}</Text>
     </Button>
   );
 }

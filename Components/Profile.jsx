@@ -13,6 +13,7 @@ import * as ImagePicker from "expo-image-picker";
 import { useState, useEffect, useContext } from "react";
 import ButtonMaker from "./ButtonMaker";
 import { UserContext } from "../Contexts/User";
+import { useFocusEffect } from "@react-navigation/native";
 
 const styles = StyleSheet.create({
   container: {
@@ -48,14 +49,11 @@ const styles = StyleSheet.create({
 
 export default function EditProfile({ route, navigation }) {
   const { userName } = useContext(UserContext);
-  const [proPic, setProPic] = useState();
 
   const [user, setUser] = useState();
-  const [selectedInterests, setSelectedInterests] = useState([]);
-  const [responseBack, setResponseBack] = useState("");
-  const [isFirstRender, setIsFirstRender] = useState(true);
 
-  useEffect(() => {
+
+  useFocusEffect(() => {
     const getUser = async () => {
       try {
         const response = await fetch(
@@ -68,7 +66,7 @@ export default function EditProfile({ route, navigation }) {
       }
     };
     getUser();
-  }, []);
+  });
 
   return (
     <ScrollView style={styles.container}>
@@ -77,7 +75,7 @@ export default function EditProfile({ route, navigation }) {
         <View>
           <Avatar.Image
             style={styles.proPicContainer}
-            source={{ uri: proPic }}
+            source={{ uri: user && user[userName].avatar }}
             size={300}
           />
         </View>
@@ -86,29 +84,23 @@ export default function EditProfile({ route, navigation }) {
       <View>
         <Text>
           <Icon name="pin" size={20} color="black" />
-          {user?.location}
+          {user && user[userName].location}
         </Text>
       </View>
 
       <View>
         <Text>
           <Icon name="gender-transgender" size={20} color="black" />
-          {user?.gender}
+          {user && user[userName].gender}
         </Text>
       </View>
 
-      {/* <View >
+      <View >
 
-        {console.log(userName)}
         {user && user[userName].interests.map((interest) => (
-          <FlatList
-          // style={styles.buttonBlock}
-            key={interest}
-          >
-            {interest}
-          </FlatList>
+          <Text key={interest}>{interest}</Text>
         ))}
-      </View> */}
+      </View>
     </ScrollView>
   );
 }

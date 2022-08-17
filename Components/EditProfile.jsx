@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
 
 export default function EditProfile({ route, navigation }) {
   const {userName} = useContext(UserContext);
+  const [selectedInterests, setSelectedInterests] = useState([]);
   const [proPic, setProPic] = useState();
   
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
@@ -53,45 +54,50 @@ export default function EditProfile({ route, navigation }) {
     "Make Up",
   ];
   const [user, setUser] = useState();
-  const [selectedInterests, setSelectedInterests] = useState([]);
   const [responseBack, setResponseBack] = useState("");
   const [isFirstRender, setIsFirstRender] = useState(true);
 
-  useEffect(async () => {
-    try {
-      const response = await fetch(
-        "https://pea-pod-api.herokuapp.com/user/" + userName
-      );
-      const json = await response.json();
-      setUser(json);
-    } catch (error) {
-      console.error(error);
-    }
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const response = await fetch(
+          "https://pea-pod-api.herokuapp.com/user/" + userName
+        );
+        const json = await response.json();
+        setUser(json);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getUser();
   }, []);
 
   useEffect(() => {
-    setSelectedInterests([...user.userName.interests])
+    user && setSelectedInterests([...user[userName].interests])
   }, [user])
 
 
-  useEffect(async () => {
+  useEffect(() => {
     if (isFirstRender) return setIsFirstRender(false);
 
-    try {
-      const response = await fetch('https://pea-pod-api.herokuapp.com/user/' + userName + '/details', {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          interests: selectedInterests
+    const updateUser = async () => {
+      try {
+        const response = await fetch('https://pea-pod-api.herokuapp.com/user/' + userName + '/details', {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            interests: selectedInterests
+          })
         })
-      })
-      const json = await response.json();
-      setResponseBack(json);
-    } catch (error) {
-      console.error(error);
-    }
+        const json = await response.json();
+        setResponseBack(json);
+      } catch (error) {
+        console.error(error);
+      }
+    } 
+    updateUser()
   }, [selectedInterests]);
 
   useEffect(() => {
