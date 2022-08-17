@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 });
 
 export default function EditProfile({ route, navigation }) {
-  const userName = useContext(UserContext);
+  const {userName} = useContext(UserContext);
   const [proPic, setProPic] = useState();
   
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
