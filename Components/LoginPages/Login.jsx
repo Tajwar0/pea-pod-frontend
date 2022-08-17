@@ -64,9 +64,7 @@ export default function Login({ navigation }) {
               validateUsername(values.Username) !== null &&
               validatePassword(values.Password) !== null
             ) {
-              console.log(values.Username);
               setUserName(values.Username);
-              console.log(UserName, "Username changed");
               navigation.navigate("Tabs");
             }
           }}
