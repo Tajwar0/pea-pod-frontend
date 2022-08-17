@@ -42,7 +42,7 @@ export default function LikesItem({ item, navigation }) {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          //  onPress? Allows user to open message in new text box? with reply functionality?
+          onPress={() => navigation.navigate('Chat', {otherUser: item.name})}
           >
           <Text style={styles.buttonText}>Message</Text>
         </TouchableOpacity>
