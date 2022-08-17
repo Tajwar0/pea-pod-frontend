@@ -1,10 +1,11 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { Avatar, Button, Title, Caption } from "react-native-paper";
-import { color } from "react-native-reanimated";
+import { View, Text, StyleSheet, ScrollView, TextInput, FlatList } from "react-native";
+import { Avatar, Button } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import * as ImagePicker from "expo-image-picker";
+import { useState, useEffect, useContext } from "react";
 import ButtonMaker from "./ButtonMaker";
+import { UserContext } from "../Contexts/User";
 
 const styles = StyleSheet.create({
   container: {
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
     shadowColor: "purple",
     shadowRadius: 30,
     shadowOpacity: 0.7,
-    marginBottom: 10,
+    marginBottom: 20,
     alignContent: "center",
   },
   name: {
@@ -31,78 +32,75 @@ const styles = StyleSheet.create({
     textAlign: "center",
     justifyContent: "space-between",
   },
+  buttonBlock: {
+    backgroundColor: "white",
+    display: "flex",
+    marginRight: 10,
+  },
 });
-export default function Profile({navigation}) {
-  
-  const user = {
-    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJV5PDnfxMoLlHXGzi-7ZbynVckjLn8fI3iC9vVc0EFVKVdkqp2AZAKoGYs02A_Kg4Drc&usqp=CAU",
-    name: "Elon Musk",
-    userName: "@father_zillionaire",
-    location: "US/Space",
-    phone: "+00-000000000",
-    email: "billionare@capitalism.com",
-    gender: "male",
-  };
- 
-  // const getLikes = async () => {
-  //   try{
-  //     const response = await fetch("https://pea-pod-api.herokuapp.com/user/Bean/incoming_likes");
-  //     setLikes(response);
-  //   }catch(error){
-  //     console.error(error);
-  //   }
-  // }
 
-  // useEffect(()=>{
-  //   getLikes();
-  // }, []);
+export default function EditProfile({ route, navigation }) {
+  const userName = useContext(UserContext);
+  const [proPic, setProPic] = useState();
+  
+  const [user, setUser] = useState();
+  const [selectedInterests, setSelectedInterests] = useState([]);
+  const [responseBack, setResponseBack] = useState("");
+  const [isFirstRender, setIsFirstRender] = useState(true);
+
+  useEffect(async () => {
+    try {
+      const response = await fetch(
+        "https://pea-pod-api.herokuapp.com/user/" + userName
+      );
+      const json = await response.json();
+      setUser(json);
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.name}>{user.name}</Text>
-      <Caption style={styles.userName}>{user.userName}</Caption>
+      <Text style={styles.userName}>
+        {user._id}
+      </Text>
       <View style={{ marginTop: 24, alignItems: "center" }}>
         <View>
-          <Avatar.Image
+          <Avatar.Image 
             style={styles.proPicContainer}
-            source={{ uri: user.img }}
+            source={{ uri: proPic }}
             size={300}
           />
         </View>
+      </View> 
+      
+      <View>
+        <Text>
+          <Icon name="pin" size={20} color="black" />
+          {user.location}
+        </Text>
+      </View>
+        
+      <View>
+        <Text>
+          <Icon name="gender-transgender" size={20} color="black" />
+          {user.gender}
+        </Text>
+      </View>
+      
+
+      <View style={styles.buttonBlock}>
+        {user[userName].interests.map((interest) => (
+          <FlatList
+            key={interest}
+          >
+            {interest}
+          </FlatList>
+        ))}
       </View>
 
-      <View>
-      <View>
-          <Text>
-            <Icon name="cards-heart-outline" size={20} color="black" />
-            Likes: 0
-          </Text>
-        </View>
-        <View>
-          <Text>
-            <Icon name="pin" size={20} color="black" />
-            {user.location}
-          </Text>
-        </View>
-        <View>
-          <Text>
-            <Icon name="phone" size={20} color="black" />
-            {user.phone}
-          </Text>
-        </View>
-        <View>
-          <Text>
-            <Icon name="email" size={20} color="black" />
-            {user.email}
-          </Text>
-        </View>
-        <View>
-          <Text>
-            <Icon name="gender-transgender" size={20} color="black" />
-            {user.gender}
-          </Text>
-        </View>
-      </View>
+      
     </ScrollView>
   );
 }

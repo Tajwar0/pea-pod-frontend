@@ -137,10 +137,6 @@ export default function EditProfile({ route, navigation }) {
           Upload Photo
         </Button>
       </View> 
-  
-      <View>
-        <Text>Updated Interests: {strInterest}</Text>
-      </View>
       
       <View>
         <Text>
@@ -167,10 +163,6 @@ export default function EditProfile({ route, navigation }) {
           />
         ))}
       </View>
-
-      <View>
-        <Text>User Details: {JSON.stringify(responseBack)}</Text>
-      </View>  
     </ScrollView>
   );
 }
