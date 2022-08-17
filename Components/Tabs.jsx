@@ -56,16 +56,6 @@ export default function Tabs() {
 }
 
 function ProfileStackScreen({ navigation}){
-  const user = {
-    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJV5PDnfxMoLlHXGzi-7ZbynVckjLn8fI3iC9vVc0EFVKVdkqp2AZAKoGYs02A_Kg4Drc&usqp=CAU",
-    name: "Elon Musk",
-    userName: "@father_zillionaire",
-    location: "US/Space",
-    phone: "+00-000000000",
-    email: "billionare@capitalism.com",
-    gender: "male",
-  };
-  
   return (
   <ProfileStack.Navigator
     screenOptions={{
@@ -92,10 +82,7 @@ function ProfileStackScreen({ navigation}){
             backgroundColor="white"
             color="black"
             onPress={() =>
-              navigation.navigate("EditProfile", {
-                id: Math.floor(Math.random() * 100),
-                user: user,
-              })
+              navigation.navigate("EditProfile")
             }
           />
         ),

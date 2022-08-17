@@ -1,10 +1,13 @@
 import * as React from "react";
+import { useCallback } from "react";
 import { View, Text, StyleSheet, ScrollView, TextInput } from "react-native";
 import { Avatar, Button } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import * as ImagePicker from "expo-image-picker";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import ButtonMaker from "./ButtonMaker";
+import { UserContext } from "../Contexts/User";
+import { useFocusEffect } from "@react-navigation/native";
 
 const styles = StyleSheet.create({
   container: {
@@ -32,17 +35,25 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   buttonBlock: {
-    backgroundColor: "black",
+    backgroundColor: "white",
     display: "flex",
     marginRight: 10,
   },
 });
 
 export default function EditProfile({ route, navigation }) {
-  const { user } = route.params;
-  const [proPic, setProPic] = useState(user.img);
+  const {userName} = useContext(UserContext);
+  const [selectedInterests, setSelectedInterests] = useState([]);
+  const [proPic, setProPic] = useState();
+  const [user, setUser] = useState();
+  const [responseBack, setResponseBack] = useState("");
+  const [isFirstRender, setIsFirstRender] = useState(true);
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
-  const userInterests = [
+  const [location, setLocation] = useState('')
+  const [gender, setGender] = useState('')
+  const [bio, setBio] = useState('')
+
+  const interestChoices = [
     "Football",
     "Cinema",
     "Dancing",
@@ -50,7 +61,53 @@ export default function EditProfile({ route, navigation }) {
     "Gaming",
     "Make Up",
   ];
-  const [combinedInterests, setCombinedInterests] = useState([]);
+
+  useFocusEffect(() => {
+    setProPic(user && user[userName].avatar)
+  })
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const response = await fetch(
+          "https://pea-pod-api.herokuapp.com/user/" + userName
+        );
+        const json = await response.json();
+        setUser(json);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getUser();
+  }, []);
+
+  useEffect(() => {
+    user && setSelectedInterests([...user[userName].interests])
+  }, [user])
+
+
+  useEffect(() => {
+    if (isFirstRender) return setIsFirstRender(false);
+
+    const updateUser = async () => {
+      try {
+        const response = await fetch('https://pea-pod-api.herokuapp.com/user/' + userName + '/details', {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            interests: selectedInterests
+          })
+        })
+        const json = await response.json();
+        setResponseBack(json);
+      } catch (error) {
+        console.error(error);
+      }
+    } 
+    updateUser()
+  }, [selectedInterests]);
 
   useEffect(() => {
     async () => {
@@ -59,6 +116,7 @@ export default function EditProfile({ route, navigation }) {
       setHasGalleryPermission(galleryStatus.status === "Granted");
     };
   }, []);
+
 
   const chooseFromLibrary = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -70,6 +128,16 @@ export default function EditProfile({ route, navigation }) {
 
     if (!result.cancelled) {
       setProPic(result.uri);
+
+      fetch("https://pea-pod-api.herokuapp.com/user/" + userName + "/details", {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          avatar: result.uri
+        })
+      })
     }
   };
 
@@ -79,57 +147,89 @@ export default function EditProfile({ route, navigation }) {
 
   return (
     <ScrollView style={styles.container}>
-      <TextInput style={styles.name} placeholder={user.name} />
-      <TextInput style={styles.userName} placeholder={user.userName} />
+      <Text style={styles.userName}>{userName}</Text>
       <View style={{ marginTop: 24, alignItems: "center" }}>
         <View>
-          <Avatar.Image
+          <Avatar.Image 
             style={styles.proPicContainer}
-            source={{ uri: proPic }}
+            source={{ uri: proPic}}
             size={300}
           />
         </View>
+
         <Button mode="elevated" onPress={() => chooseFromLibrary()}>
           Upload Photo
         </Button>
+      </View> 
+      
+      <View>
+        <Icon name="pin" size={20} color="black" />
+        <TextInput 
+          placeholder={user && user[userName].location + " (click to change...)"}
+          onChangeText={text => setLocation(text)}
+          onBlur={() => {
+            fetch("https://pea-pod-api.herokuapp.com/user/" + userName + "/details", {
+              method: 'PATCH',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                location: location
+              })
+            })
+          }}>
+        </TextInput>
+      </View>
+
+
+      <View>
+      <Icon name="gender-transgender" size={20} color="black" />
+        <TextInput 
+          placeholder={user && user[userName].gender + " (click to change...)"}
+          onChangeText={text => setGender(text)}
+          onBlur={() => {
+            fetch("https://pea-pod-api.herokuapp.com/user/" + userName + "/details", {
+              method: 'PATCH',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                gender: gender
+              })
+            })
+          }}>
+        </TextInput>
+      </View>
+      
+
+      <View style={styles.buttonBlock}>
+        {interestChoices.map((interest) => (
+          <ButtonMaker
+            key={interest}
+            interest={interest}
+            selectedInterests={selectedInterests}
+            setSelectedInterests={setSelectedInterests}
+          />
+        ))}
       </View>
 
       <View>
-        <View>
-          <Text>
-            <Icon name="pin" size={20} color="black" />
-            {user.location}
-          </Text>
-        </View>
-        <View>
-          <Text>
-            <Icon name="phone" size={20} color="black" />
-            {user.phone}
-          </Text>
-        </View>
-        <View>
-          <Text>
-            <Icon name="email" size={20} color="black" />
-            {user.email}
-          </Text>
-        </View>
-        <View>
-          <Text>
-            <Icon name="gender-transgender" size={20} color="black" />
-            {user.gender}
-          </Text>
-        </View>
-      </View>
-
-      <View style={styles.buttonBlock}>
-        {userInterests.map((userInterest) => (
-          <ButtonMaker
-            key={userInterest}
-            userInterest={userInterest}
-            combinedInterests={combinedInterests}
-            setCombinedInterests={setCombinedInterests}
-          />
-        ))}
+        <Icon name="pin" size={20} color="black" />
+        <TextInput 
+          placeholder={user && user[userName].bio + " (click to change...)"}
+          onChangeText={text => setBio(text)}
+          onBlur={() => {
+            fetch("https://pea-pod-api.herokuapp.com/user/" + userName + "/details", {
+              method: 'PATCH',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                bio: bio
+              })
+            })
+          }}>
+        </TextInput>
       </View>
     </ScrollView>
   );
