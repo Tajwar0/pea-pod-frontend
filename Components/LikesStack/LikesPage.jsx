@@ -1,29 +1,49 @@
-import { useState, useRef, useEffect, useContext } from "react";
+import { useState, useRef, useEffect, useContext, useCallback } from "react";
+// import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { View, FlatList, StyleSheet, Animated } from "react-native";
 import slides from "../../assets/slides";
 import LikesItem from "./LikesItem";
 import { UserContext } from "../../Contexts/User";
 
 export default function LikesPage({ navigation }) {
-  const { userName } = useContext(UserContext);
+  const userName = useContext(UserContext);
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
   const [userMatches, setUserMatches] = useState();
-
+  // let isFocused = useIsFocused();
   useEffect(() => {
+    console.log(userName);
     const getUserMatches = async () => {
       try {
         const response = await fetch(
-          `https://pea-pod-api.herokuapp.com/user/Morpungo/incoming_likes`
+          `https://pea-pod-api.herokuapp.com/user/${userName}/incoming_likes`
         );
         const json = await response.json();
         setUserMatches(json);
+        console.log(json);
       } catch (error) {
+        console.log(userName);
         console.error(JSON.stringify(error));
       }
     };
     getUserMatches();
   }, []);
+
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     if (isFocused) {
+  //       fetch(
+  //         `https://pea-pod-api.herokuapp.com/user/${userName}/incoming_likes`
+  //       )
+  //         .then((response) => response.json())
+  //         .then((data) => setUserMatches(data))
+  //         .catch((err) => {
+  //           console.log(err, "<<< err");
+  //         });
+  //     }
+  //   }, [])
+  // );
+
   const viewableItemsChanged = useRef(({ viewableItems }) => {
     setCurrentIndex(viewableItems[0].index);
   }).current;
