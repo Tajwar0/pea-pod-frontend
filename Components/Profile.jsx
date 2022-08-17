@@ -6,7 +6,34 @@ import { color } from "react-native-reanimated";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ButtonMaker from "./ButtonMaker";
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: "100%",
+    backgroundColor: "white",
+  },
+  proPicContainer: {
+    shadowColor: "purple",
+    shadowRadius: 30,
+    shadowOpacity: 0.7,
+    marginBottom: 10,
+    alignContent: "center",
+  },
+  name: {
+    fontWeight: "bold",
+    fontSize: 30,
+    textAlign: "center",
+    justifyContent: "space-between",
+  },
+  userName: {
+    color: "grey",
+    fontWeight: "900",
+    textAlign: "center",
+    justifyContent: "space-between",
+  },
+});
 export default function Profile({navigation}) {
+  
   const user = {
     img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJV5PDnfxMoLlHXGzi-7ZbynVckjLn8fI3iC9vVc0EFVKVdkqp2AZAKoGYs02A_Kg4Drc&usqp=CAU",
     name: "Elon Musk",
@@ -16,41 +43,19 @@ export default function Profile({navigation}) {
     email: "billionare@capitalism.com",
     gender: "male",
   };
-  const [isPressed, setIsPressed] = useState("white");
-  const userInterests = [
-    "Football",
-    "Cinema",
-    "Dancing",
-    "Tennis",
-    "Gaming",
-    "Make Up",
-  ];
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      width: "100%",
-      backgroundColor: "white",
-    },
-    proPicContainer: {
-      shadowColor: "purple",
-      shadowRadius: 30,
-      shadowOpacity: 0.7,
-      marginBottom: 10,
-      alignContent: "center",
-    },
-    name: {
-      fontWeight: "bold",
-      fontSize: 30,
-      textAlign: "center",
-      justifyContent: "space-between",
-    },
-    userName: {
-      color: "grey",
-      fontWeight: "900",
-      textAlign: "center",
-      justifyContent: "space-between",
-    },
-  });
+ 
+  // const getLikes = async () => {
+  //   try{
+  //     const response = await fetch("https://pea-pod-api.herokuapp.com/user/Bean/incoming_likes");
+  //     setLikes(response);
+  //   }catch(error){
+  //     console.error(error);
+  //   }
+  // }
+
+  // useEffect(()=>{
+  //   getLikes();
+  // }, []);
 
   return (
     <ScrollView style={styles.container}>
@@ -67,6 +72,12 @@ export default function Profile({navigation}) {
       </View>
 
       <View>
+      <View>
+          <Text>
+            <Icon name="cards-heart-outline" size={20} color="black" />
+            Likes: 0
+          </Text>
+        </View>
         <View>
           <Text>
             <Icon name="pin" size={20} color="black" />

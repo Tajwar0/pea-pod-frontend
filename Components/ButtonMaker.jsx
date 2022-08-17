@@ -31,10 +31,11 @@ export default function ButtonMaker({
       setIsPressed("#E4FFE0");
       setCombinedInterests((currentCombined) => [
         ...currentCombined,
-        userInterest,
+        userInterest.concat(" ")
       ]);
     } else {
-      const index = combinedInterests.indexOf(userInterest);
+        const withSpace = userInterest.concat(" ");
+      const index = combinedInterests.indexOf(withSpace);
       if (index > -1) {
         combinedInterests.splice(index, 1);
       }
@@ -42,7 +43,6 @@ export default function ButtonMaker({
       setIsPressed("white");
     }
   }, [clickCount]);
-
   return (
     <Button
       style={styles.button}

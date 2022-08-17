@@ -6,6 +6,10 @@ import * as ImagePicker from "expo-image-picker";
 import { useState, useEffect } from "react";
 import ButtonMaker from "./ButtonMaker";
 
+import {useContext} from "react";
+import { UserContext } from "../Contexts/User";
+const userName = useContext(UserContext);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -32,15 +36,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   buttonBlock: {
-    backgroundColor: "black",
+    backgroundColor: "white",
     display: "flex",
     marginRight: 10,
   },
 });
 
 export default function EditProfile({ route, navigation }) {
-  const { user } = route.params;
-  const [proPic, setProPic] = useState(user.img);
+  //const { user } = route.params;
+  const [proPic, setProPic] = useState();
+  
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const userInterests = [
     "Football",
@@ -51,6 +56,45 @@ export default function EditProfile({ route, navigation }) {
     "Make Up",
   ];
   const [combinedInterests, setCombinedInterests] = useState([]);
+  const [responseBack, setResponseBack] = useState("");
+  const [userNameResponse, setUserNameResponse] = useState("");
+
+  const [isPressed, setIsPressed] = useState(false);
+  const strInterest = JSON.stringify(combinedInterests)
+  const [user, setUser] = useState(JSON.stringify(responseBack));
+  const [userId, changeUserId] = useState()
+
+  // useEffect(() => {
+  //   async () => {
+  //     const galleryStatus =
+  //       await ImagePicker.requestMediaLibraryPermissionsAsync();
+  //     setHasGalleryPermission(galleryStatus.status === "Granted");
+  //   };
+  // }, []);
+  console.log(combinedInterests);
+  console.log(strInterest);
+  const updateInterests = async () => {
+    try{
+      const response = await fetch('https://pea-pod-api.herokuapp.com/user/Martin/details', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          interests: `${combinedInterests}`
+        })
+      })
+      const json = await response.json();
+      setResponseBack(json);
+    }catch(error){
+      console.error(error);
+    }
+    setIsPressed(false);
+  }
+
+  useEffect(()=>{
+    updateInterests();
+  }, [isPressed]);
 
   useEffect(() => {
     async () => {
@@ -58,6 +102,23 @@ export default function EditProfile({ route, navigation }) {
         await ImagePicker.requestMediaLibraryPermissionsAsync();
       setHasGalleryPermission(galleryStatus.status === "Granted");
     };
+  }, []);
+
+  const getUser = async () => {
+    try {
+      const response = await fetch(
+        "https://pea-pod-api.herokuapp.com/user/Martin"
+      );
+      const json = await response.json();
+      setUserNameResponse(json);
+    } catch (error) {
+      console.error(error);
+    }
+    setIsPressed(false);
+  };
+
+  useEffect(() => {
+    getUser();
   }, []);
 
   const chooseFromLibrary = async () => {
@@ -79,47 +140,44 @@ export default function EditProfile({ route, navigation }) {
 
   return (
     <ScrollView style={styles.container}>
-      <TextInput style={styles.name} placeholder={user.name} />
-      <TextInput style={styles.userName} placeholder={user.userName} />
+      <TextInput style={styles.name} 
+      placeholder={userNameResponse._id} />
+       <TextInput style={styles.userName} placeholder={user.userName} />
       <View style={{ marginTop: 24, alignItems: "center" }}>
-        <View>
-          <Avatar.Image
-            style={styles.proPicContainer}
-            source={{ uri: proPic }}
-            size={300}
-          />
-        </View>
-        <Button mode="elevated" onPress={() => chooseFromLibrary()}>
-          Upload Photo
-        </Button>
+       <View>
+       <Avatar.Image 
+      style={styles.proPicContainer}
+      source={{ uri: proPic }}
+      size={300}
+      />
+      </View>
+      <Button mode="elevated" onPress={() => chooseFromLibrary()}>
+      Upload Photo
+       </Button>
+       </View> 
+       
+
+<View>
+        <Text>Updated Interests: {strInterest}</Text>
       </View>
 
-      <View>
+      
         <View>
           <Text>
             <Icon name="pin" size={20} color="black" />
             {user.location}
           </Text>
         </View>
-        <View>
-          <Text>
-            <Icon name="phone" size={20} color="black" />
-            {user.phone}
-          </Text>
-        </View>
-        <View>
-          <Text>
-            <Icon name="email" size={20} color="black" />
-            {user.email}
-          </Text>
-        </View>
+
+      
+        
         <View>
           <Text>
             <Icon name="gender-transgender" size={20} color="black" />
             {user.gender}
           </Text>
         </View>
-      </View>
+      
 
       <View style={styles.buttonBlock}>
         {userInterests.map((userInterest) => (
@@ -131,6 +189,15 @@ export default function EditProfile({ route, navigation }) {
           />
         ))}
       </View>
+      <Button mode="elevated" onPress={() => setIsPressed(true)}>
+        Save Changes
+      </Button>
+
+      <View>
+        <Text>User Details: {JSON.stringify(responseBack)}</Text>
+      </View>
+
+        
     </ScrollView>
   );
 }
