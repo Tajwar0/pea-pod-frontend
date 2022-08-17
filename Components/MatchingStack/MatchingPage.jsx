@@ -18,6 +18,7 @@ export default function MatchingPage({ navigation }) {
       try {
         const response = await fetch("https://pea-pod-api.herokuapp.com/users");
         const json = await response.json();
+        console.log(json[0])
         setUserList(json);
       } catch (error) {
         console.error(error);
@@ -27,11 +28,10 @@ export default function MatchingPage({ navigation }) {
   }, []);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{flex:1}}>
       <ScrollView style={{ flex: 1 }}>
         {/* <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}> */}
         <FlatList
-          style={{ paddingTop: 30 }}
           data={userList}
           renderItem={({ item }) => (
             <MatchProfiles item={item} navigation={navigation} />
