@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Image,
   useWindowDimensions,
-  Button,
   TouchableOpacity,
 } from "react-native";
 
@@ -15,11 +14,12 @@ export default function LikesItem({ item, navigation }) {
   return (
     <View style={[{ flex: 0.7 }, { width }]}>
       <View style={[{ flex: 0.3 }, styles.container]}>
-        <Text>
+        <Text style={styles.titleText}>
           {item.name} wants to get to know you{"\n"}
         </Text>
-        <Text>What {item.name} liked about you</Text>
+        <Text style={styles.text}>What {item.name} liked about you</Text>
         <TouchableOpacity
+          style={{width}}
           onPress={() =>
             navigation.navigate("UserProfile", {
               item,
@@ -28,22 +28,24 @@ export default function LikesItem({ item, navigation }) {
         >
           <Image
             source={item.image}
-            style={[styles.image, { width, resizeMode: "contain" }]}
+            style={[styles.image, { width: '90%', resizeMode: "contain" }]}
           />
         </TouchableOpacity>
-        <Text style={styles.container}>{item.description}</Text>
+        <Text style={styles.text}>{item.description}</Text>
       </View>
-      <View>
-        <Button
-          title="Peazz not them"
-          style={styles.crossButton}
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.button}
           // onPress removes the profile from interested profiles and refreshes the page
-        />
-        <Button
-          title="Message"
-          style={styles.messageButton}
-          //  onPress? Allows user to open message in new text box? with reply functionality?
-        />
+        >
+          <Text style={styles.buttonText}>Peazz not them!</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Chat', {otherUser: item.name})}
+          >
+          <Text style={styles.buttonText}>Message</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -52,18 +54,46 @@ export default function LikesItem({ item, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-around",
     alignItems: "center",
-    padding: 30,
+    width: '100%',
+    backgroundColor: '#f7f7f7',
+    paddingTop: 20,
+    paddingBottom: 15
+  },
+  titleText: {
+    width: '100%',
+    textAlign: 'center',
+    backgroundColor: '#f7f7f7', 
+    fontSize: 20,
+    fontWeight: "bold"
+  },
+  text: {
+    fontSize: 17
   },
   image: {
-    flex: 0.7,
     justifyContent: "center",
+    alignContent: "center",
+    margin: 15,
+    borderRadius: 80,
+    backgroundColor: "blue",
+    height: 250,
   },
-  crossButton: {},
-  messageButton: {
-    backgroundColor: "Green",
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 20,
+    backgroundColor: '#f7f7f7', 
+  },
+  button: {
+    alignItems: "center",
+    padding: 10,
+    backgroundColor: "green",
+    borderRadius: 20,
+    alignSelf: 'center',
+    width: 140
+  },
+  buttonText: {
     color: "white",
-    borderRadius: 10,
   },
 });
