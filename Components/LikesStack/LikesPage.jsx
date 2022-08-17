@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { View, FlatList, StyleSheet, Animated } from "react-native";
+import { View, FlatList, StyleSheet, Animated, Text } from "react-native";
 import slides from "../../assets/slides";
 import LikesItem from "./LikesItem";
 
@@ -13,7 +13,7 @@ export default function LikesPage({ navigation }) {
 
   const viewConfig = useRef({ viewAreCoveragePercentThreshold: 50 }).current;
   return (
-    <View style={{ flex: 3 }}>
+    <View style={{ flex: 3}}>
       <FlatList
         data={slides}
         renderItem={({ item }) => (

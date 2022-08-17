@@ -39,59 +39,65 @@ export default function App() {
               component={Login}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
-              name="SignUp"
-              component={SignUp}
-              options={{ headerShown: true }}
-            />
-          </Stack.Group>
           <Stack.Screen
-            name="Tabs"
-            component={Tabs}
+            name="SignUp"
+            component={SignUp}
             options={{ headerShown: false }}
           />
-          <Stack.Group>
-            <Stack.Screen
-              name="LikesPage"
-              component={LikesPage}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="UserProfile"
-              component={UserProfile}
-              options={{ headerShown: true }}
-            />
-          </Stack.Group>
-          <Stack.Group>
-            <Stack.Screen
-              name="MatchingPage"
-              component={MatchingPage}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="MatchProfiles"
-              component={MatchProfiles}
-              options={{ headerShown: true }}
-            />
-          </Stack.Group>
-          <Stack.Group>
-            <Stack.Screen name="Profile" component={Profile} />
-            <Stack.Screen name="EditProfile" component={EditProfile} />
-          </Stack.Group>
-          <Stack.Group>
-            <Stack.Screen
-              name="Pod"
-              component={Pod}
-              options={{ title: "The Pod" }}
-            />
-            <Stack.Screen
-              name="Chat"
-              component={Chat}
-              options={{ title: "Pea Pod Chat" }}
-            />
-          </Stack.Group>
-        </Stack.Navigator>
-      </NavigationContainer>
+        </Stack.Group>
+        <Stack.Screen
+          name="Tabs"
+          component={Tabs}
+          options={{ headerShown: false }}
+        />
+        <Stack.Group>
+          <Stack.Screen
+            name="LikesPage"
+            component={LikesPage}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="UserProfile"
+            component={UserProfile}
+            options={{ headerShown: true }}
+          />
+        </Stack.Group>
+       <Stack.Group>
+          <Stack.Screen
+            name="MatchingPage"
+            component={MatchingPage}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="MatchProfiles"
+            component={MatchProfiles}
+            options={{ headerShown: true }}
+          />
+        </Stack.Group> 
+        <Stack.Group>
+          <Stack.Screen
+            name="Profile"
+            component={Profile}
+          />
+          <Stack.Screen
+            name="EditProfile"
+            component={EditProfile}
+          />
+        </Stack.Group> 
+        <Stack.Group>
+          <Stack.Screen 
+            name="Pod"
+            component={Pod}
+            options={{ title: 'The Pod' }}
+          />
+          <Stack.Screen 
+            name="Chat"
+            component={Chat}
+            options={{title: "Pea Pod Chat"}}
+          />
+        </Stack.Group>
+      </Stack.Navigator>
+    </NavigationContainer>
     </UserContext.Provider>
   );
 }

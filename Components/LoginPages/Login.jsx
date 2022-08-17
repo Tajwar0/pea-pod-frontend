@@ -1,5 +1,6 @@
 import { Formik } from "formik";
-import { StyleSheet, Text, TextInput, View, Button } from "react-native";
+import { StyleSheet, Text, TextInput, View, Button, Image } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../Contexts/User";
 import {
@@ -32,11 +33,16 @@ export default function Login({ navigation }) {
   // }, [userInput]);
 
   return (
-    <View>
-      <Text style={{ margin: 20, textAlign: "center", fontSize: 26 }}>
-        Login
-      </Text>
-
+    <View style={styles.screenContainer}>
+      <View>
+        <Image 
+          style={styles.headerImg}
+          source={require('../../assets/peapod.png')}
+        />
+        <Text style={styles.headerText}>
+          Login
+        </Text>
+      </View>
       <View style={styles.LoginContainer}>
         <Formik
           initialValues={{
@@ -83,21 +89,17 @@ export default function Login({ navigation }) {
                 style={styles.TextInput}
                 secureTextEntry
               />
-              <Button
+              <TouchableOpacity
                 style={styles.button}
-                title="Login"
-                color="#50C878"
                 onPress={props.handleSubmit}
-              />
-              <View style={styles.space} />
-              <Button
-                style={styles.button}
-                title="Sign up instead"
-                color="#50C878"
-                onPress={() => {
-                  navigation.navigate("SignUp");
-                }}
-              />
+              >
+                <Text style={styles.buttonText}>LOGIN</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.link}
+                onPress={() => navigation.navigate("SignUp")}>
+                <Text style={styles.linkText}>Not a pea? Sign up here!</Text>
+              </TouchableOpacity>
             </View>
           )}
         </Formik>
@@ -110,31 +112,58 @@ export default function Login({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  screenContainer: {
+    alignItems: 'center',
+    paddingTop: 100,
+    height: '100%',
+    backgroundColor: '#f7f7f7',
+  },
   LoginContainer: {
     justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
+    alignItems: "stretch",
     padding: 10,
-    elevation: 10,
-    backgroundColor: "#e6e6e6",
+    width: '100%',
+    backgroundColor: '#f7f7f7',
+  },
+  headerImg: {
+    height: 100,
+    width: 200
+  },
+  headerText: {
+    marginBottom: 20, 
+    textAlign: "center", 
+    fontSize: 26,
+    paddingTop: 20,
   },
   TextInput: {
     height: 40,
-    width: 200,
-    margin: 10,
+    width: '80%',
+    marginBottom: 20,
     backgroundColor: "white",
     borderColor: "gray",
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 10,
+    padding: 10,
+    alignSelf: 'center'
   },
   button: {
     alignItems: "center",
-    backgroundColor: "blue",
     padding: 10,
     marginBottom: 20,
+    backgroundColor: "green",
+    borderRadius: 20,
+    width: '50%',
+    alignSelf: 'center'
   },
-  space: {
-    width: 20,
-    height: 10,
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
   },
+  link: {
+    alignSelf: 'center',
+    paddingTop: 10
+  },
+  linkText: {
+    fontSize: 16
+  }
 });
