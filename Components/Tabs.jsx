@@ -45,7 +45,7 @@ export default function Tabs() {
       })}
     >
       <Tab.Screen name={matchingPageName} component={MatchingPage}></Tab.Screen>
-      <Tab.Screen name={LikesName} component={LikesPage} options={{ headerShown: false}}></Tab.Screen>
+      <Tab.Screen name={LikesName} component={LikesPage} options={{title: 'Likes'}}></Tab.Screen>
       <Tab.Screen name={podName} component={Pod} options={{title: 'The Pod'}}></Tab.Screen>
       <Tab.Screen
         name={profileName}
