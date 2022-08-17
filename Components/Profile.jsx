@@ -82,26 +82,26 @@ export default function EditProfile({ route, navigation }) {
       <View>
         <Text>
           <Icon name="pin" size={20} color="black" />
-          {user && user[userName].location}
+          {user && user[userName]?.location}
         </Text>
       </View>
 
       <View>
         <Text>
           <Icon name="gender-transgender" size={20} color="black" />
-          {user && user[userName].gender}
+          {user && user[userName]?.gender}
         </Text>
       </View>
 
       <View>
         {user &&
-          user[userName].interests.map((interest) => (
+          user[userName]?.interests.map((interest) => (
             <Text key={interest}>{interest}</Text>
           ))}
       </View>
 
       <View>
-        <Text>{user && user[userName].bio}</Text>
+        <Text>{user && user[userName]?.bio}</Text>
       </View>
     </ScrollView>
   );

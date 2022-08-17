@@ -82,7 +82,7 @@ export default function EditProfile({ route, navigation }) {
   }, []);
 
   useEffect(() => {
-    user && setSelectedInterests([...user[userName].interests]);
+    user && setSelectedInterests([...user[userName]?.interests]);
   }, [user]);
 
   useEffect(() => {
@@ -167,7 +167,7 @@ export default function EditProfile({ route, navigation }) {
         <Icon name="pin" size={20} color="black" />
         <TextInput
           placeholder={
-            user && user[userName].location + " (click to change...)"
+            user && user[userName]?.location + " (click to change...)"
           }
           onChangeText={(text) => setLocation(text)}
           onBlur={() => {
@@ -190,7 +190,7 @@ export default function EditProfile({ route, navigation }) {
       <View>
         <Icon name="gender-transgender" size={20} color="black" />
         <TextInput
-          placeholder={user && user[userName].gender + " (click to change...)"}
+          placeholder={user && user[userName]?.gender + " (click to change...)"}
           onChangeText={(text) => setGender(text)}
           onBlur={() => {
             fetch(
@@ -223,7 +223,7 @@ export default function EditProfile({ route, navigation }) {
       <View>
         <Icon name="pin" size={20} color="black" />
         <TextInput
-          placeholder={user && user[userName].bio + " (click to change...)"}
+          placeholder={user && user[userName]?.bio + " (click to change...)"}
           onChangeText={(text) => setBio(text)}
           onBlur={() => {
             fetch(

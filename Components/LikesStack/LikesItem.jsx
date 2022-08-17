@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { UserContext } from "../../Contexts/User";
 import {
   View,
   Text,
@@ -9,10 +10,12 @@ import {
 } from "react-native";
 
 export default function LikesItem({ item, navigation }) {
+  const { userName, setUserName } = useContext(UserContext);
   const { width } = useWindowDimensions();
   // name	"Morpungo"
   // liked_detail	"bio"
   // opening_message	"I like beans"
+
   return (
     <View style={[{ flex: 0.7 }, { width }]}>
       <View style={[{ flex: 0.3 }, styles.container]}>
@@ -31,7 +34,7 @@ export default function LikesItem({ item, navigation }) {
           }
         >
           <Image
-            source={item.image}
+            source={{ uri: item.avatar }}
             style={[styles.image, { width: "90%", resizeMode: "contain" }]}
           />
         </TouchableOpacity>
@@ -42,13 +45,53 @@ export default function LikesItem({ item, navigation }) {
           style={styles.button}
           // onPress removes the profile from interested profiles and refreshes the page
         >
-          <Text style={styles.buttonText}>Peazz not them!</Text>
+          <Text
+            style={styles.buttonText}
+            onPress={() =>
+              fetch(
+                `https://pea-pod-api.herokuapp.com/user/${userName}/matches`,
+                {
+                  method: "PATCH",
+                  headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    new_match: item.name,
+                    rejected: "true",
+                  }),
+                }
+              )
+            }
+          >
+            Peazz not them!
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate("Chat", { otherUser: item.name })}
         >
-          <Text style={styles.buttonText}>Message</Text>
+          <Text
+            style={styles.buttonText}
+            onPress={() =>
+              fetch(
+                `https://pea-pod-api.herokuapp.com/user/${userName}/matches`,
+                {
+                  method: "PATCH",
+                  headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    new_match: item.name,
+                    rejected: "false",
+                  }),
+                }
+              )
+            }
+          >
+            Message
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
