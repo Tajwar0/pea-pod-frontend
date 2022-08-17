@@ -31,7 +31,7 @@ export default function ButtonMaker({
       setIsPressed("#E4FFE0");
       setCombinedInterests((currentCombined) => [
         ...currentCombined,
-        userInterest,
+        userInterest + " ",
       ]);
     } else {
       const index = combinedInterests.indexOf(userInterest);

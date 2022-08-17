@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   buttonBlock: {
-    backgroundColor: "black",
+    backgroundColor: "white",
     display: "flex",
     marginRight: 10,
   },
@@ -131,6 +131,18 @@ export default function EditProfile({ route, navigation }) {
           />
         ))}
       </View>
+      <View>
+          <Text>
+            Your selected interests: {combinedInterests} 
+          </Text>
+        </View>
+        <View>
+        <Button mode="elevated">
+          Save Changes
+        </Button>
+        </View>
+
+        
     </ScrollView>
   );
 }
