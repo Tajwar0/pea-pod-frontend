@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     flex: 0.7,
     justifyContent: "center",
     margin: 15,
-    borderRadius: '50%',
+    borderRadius: 50,
     backgroundColor: "blue"
   },
   buttonContainer: {
