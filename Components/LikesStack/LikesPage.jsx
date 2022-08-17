@@ -30,36 +30,62 @@ export default function LikesPage({ navigation }) {
     setCurrentIndex(viewableItems[0].index);
   }).current;
   const viewConfig = useRef({ viewAreCoveragePercentThreshold: 50 }).current;
-
-  return (
-    <View style={{ flex: 3 }}>
-      <FlatList
-        data={userMatches}
-        renderItem={({ item }) => (
-          <LikesItem item={item} navigation={navigation} />
-        )}
-        horizontal
-        showsHorizontalScrollIndicator
-        pagingEnabled
-        bounces={false}
-        keyExtractor={(item) => item.name}
-        onScroll={Animated.event(
-          [
-            {
-              nativeEvent: { contentOffset: { x: scrollX } },
-            },
-          ],
-          {
-            useNativeDriver: false,
-          }
-        )}
-        onViewableItemsChanged={viewableItemsChanged}
-        itemVisiblePercentThreshold={viewConfig}
-        scrollEventThrottle={30}
-      />
-    </View>
-  );
-}
+  
+  export default function LikesItem({ item, navigation }) {
+    const { width } = useWindowDimensions();
+    // Array [
+    //   Object {
+    //     "liked_detail": "bio",
+    //     "name": "Morpungo",
+    //     "opening_message": "I like beans",
+    //   },
+    //   Object {
+    //     "liked_detail": "bio",
+    //     "name": "Martin",
+    //     "opening_message": "I like beans",
+    //   },
+    // ] <---- usermatches
+    return (
+      <View style={[{ flex: 0.7 }, { width }]}>
+        <View style={[{ flex: 0.3 }, styles.container]}>
+          <Text>
+            {item.name} wants to get to know you{"\n"}
+          </Text>
+          <Text>
+            What {item.name} liked your {item.liked_detail}
+          </Text>
+          <Text>
+            {item.name} said {item.opening_message}
+          </Text>
+          {/* <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("UserProfile", {
+                item,
+              })
+            }
+          >
+            <Image
+              source={item.image}
+              style={[styles.image, { width, resizeMode: "contain" }]}
+            />
+          // </TouchableOpacity>
+         */}
+        </View>
+        <View>
+          <Button
+            title="Peazz not them"
+            style={styles.crossButton}
+            // onPress removes the profile from interested profiles and refreshes the page
+          />
+          <Button
+            title="Message"
+            style={styles.messageButton}
+            //  onPress? Allows user to open message in new text box? with reply functionality?
+          />
+        </View>
+      </View>
+    );
+  }
 
 const styles = StyleSheet.create({
   container: {
