@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
 });
 
 export default function EditProfile({ route, navigation }) {
-  const { user } = route.params;
-  const [proPic, setProPic] = useState(user.img);
+  //const { user } = route.params;
+  //const [proPic, setProPic] = useState(user.img);
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const userInterests = [
     "Football",
@@ -51,6 +51,42 @@ export default function EditProfile({ route, navigation }) {
     "Make Up",
   ];
   const [combinedInterests, setCombinedInterests] = useState([]);
+  const strInterest = JSON.stringify(combinedInterests);
+  const [responseBack, setResponseBack] = useState("");
+  const [isPressed, setIsPressed] = useState(false);
+  const [user, setUser] = useState(JSON.stringify(responseBack));
+  const [userId, changeUserId] = useState()
+
+  // useEffect(() => {
+  //   async () => {
+  //     const galleryStatus =
+  //       await ImagePicker.requestMediaLibraryPermissionsAsync();
+  //     setHasGalleryPermission(galleryStatus.status === "Granted");
+  //   };
+  // }, []);
+
+  const updateInterests = async () => {
+    try{
+      const response = await fetch('https://pea-pod-api.herokuapp.com/user/Martin/details', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          interests: `${strInterest}`
+        })
+      })
+      const json = await response.json();
+      setResponseBack(json);
+    }catch(error){
+      console.error(error);
+    }
+    setIsPressed(false);
+  }
+
+  useEffect(()=>{
+    updateInterests();
+  }, [isPressed]);
 
   useEffect(() => {
     async () => {
@@ -59,6 +95,33 @@ export default function EditProfile({ route, navigation }) {
       setHasGalleryPermission(galleryStatus.status === "Granted");
     };
   }, []);
+
+  // const getUser = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       "https://pea-pod-api.herokuapp.com/user/Martin/details", {
+  //         method: 'PATCH',
+  //         headers: {
+  //           Accept: 'application/json',
+  //           'Content-Type': 'application/json'
+  //         },
+  //         body: JSON.stringify({
+  //           interests: `${  const strInterest = JSON.stringify(combinedInterests);
+  //           }`
+  //         })
+  //       }
+  //     );
+  //     const json = await response.json();
+  //     setResponseBack(json);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  //   setIsPressed(false);
+  // };
+
+  // useEffect(() => {
+  //   getUser();
+  // }, []);
 
   const chooseFromLibrary = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -79,7 +142,7 @@ export default function EditProfile({ route, navigation }) {
 
   return (
     <ScrollView style={styles.container}>
-      <TextInput style={styles.name} placeholder={user.name} />
+      {/* <TextInput style={styles.name} placeholder={user.name} />
       <TextInput style={styles.userName} placeholder={user.userName} />
       <View style={{ marginTop: 24, alignItems: "center" }}>
         <View>
@@ -92,16 +155,21 @@ export default function EditProfile({ route, navigation }) {
         <Button mode="elevated" onPress={() => chooseFromLibrary()}>
           Upload Photo
         </Button>
+      </View> */}
+
+<View>
+        <Text>Updated Interests: {strInterest}</Text>
       </View>
 
-      <View>
+      
         <View>
           <Text>
             <Icon name="pin" size={20} color="black" />
             {user.location}
           </Text>
         </View>
-        <View>
+
+        {/* <View>
           <Text>
             <Icon name="phone" size={20} color="black" />
             {user.phone}
@@ -119,7 +187,7 @@ export default function EditProfile({ route, navigation }) {
             {user.gender}
           </Text>
         </View>
-      </View>
+      </View> */}
 
       <View style={styles.buttonBlock}>
         {userInterests.map((userInterest) => (
@@ -131,16 +199,13 @@ export default function EditProfile({ route, navigation }) {
           />
         ))}
       </View>
+      <Button mode="elevated" onPress={() => setIsPressed(true)}>
+        Save Changes
+      </Button>
+
       <View>
-          <Text>
-            Your selected interests: {combinedInterests} 
-          </Text>
-        </View>
-        <View>
-        <Button mode="elevated">
-          Save Changes
-        </Button>
-        </View>
+        <Text>User Details: {JSON.stringify(responseBack)}</Text>
+      </View>
 
         
     </ScrollView>
