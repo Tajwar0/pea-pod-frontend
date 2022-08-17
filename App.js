@@ -32,12 +32,12 @@ export default function App() {
   return (
     <UserContext.Provider value={{ userName, setUserName }}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
+        <Stack.Navigator initialRouteName={isLogged ? "Tabs" : "Login"}>
           <Stack.Group>
             <Stack.Screen
               name="Login"
               component={Login}
-              options={{ headerShown: false }}
+              options={{ headerShown: true }}
             />
             <Stack.Screen
               name="SignUp"

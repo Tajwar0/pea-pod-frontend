@@ -8,7 +8,6 @@ export default function MatchingPage({ navigation }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
   const [userList, setUserList] = useState();
-
   useEffect(() => {
     const getUsers = async () => {
       try {

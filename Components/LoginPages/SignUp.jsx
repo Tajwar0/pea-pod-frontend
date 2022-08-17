@@ -19,10 +19,10 @@ export default function SignUp({ navigation }) {
   const [userMessage, setUserMessage] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
   const [passMessage, setPassMessage] = useState("");
-  const [user, setUser] = useState();
-  const [email, setEmail] = useState();
-  const [pass, setPass] = useState();
-  const { setUserName } = useContext(UserContext);
+  // const [user, setUser] = useState();
+  // const [email, setEmail] = useState();
+  // const [pass, setPass] = useState();
+  const { userName, setUserName } = useContext(UserContext);
 
   return (
     <View>
@@ -57,23 +57,27 @@ export default function SignUp({ navigation }) {
               validatePassword(values.Password) !== null &&
               values.Password === values.Password2
             ) {
-              setEmail(values.Email);
-              setPass(values.Password);
-              setUser(values.Username);
-              fetch(`https://pea-pod-api.herokuapp.com/user/${user}`, {
-                method: "PUT",
-                // headers: {
-                //   Accept: 'application/json',
-                //   'Content-Type': 'application/json'
-                // },
-                body: JSON.stringify({
-                  password: `${pass}`,
-                  Email: `${email}`,
-                }),
-              }).then((res) => {
-                setUserName(user);
-              });
+              setUserName(values.Username);
               navigation.navigate("Tabs");
+
+              //   setEmail(values.Email);
+              //   setPass(values.Password);
+              //   setUser(values.Username);
+              //   fetch(`https://pea-pod-api.herokuapp.com/user/${user}`, {
+              //     method: "PUT",
+              //     headers: {
+              //       Accept: "application/json",
+              //       "Content-Type": "application/json",
+              //     },
+              //     body: JSON.stringify({
+              //       password: pass,
+              //       Email: email,
+              //     }),
+              //   }).then((res) => {
+              //     console.log(JSON.stringify(res));
+              //     setUserName(user);
+              //     console.log(user, "<---user");
+              //   });
             }
           }}
         >

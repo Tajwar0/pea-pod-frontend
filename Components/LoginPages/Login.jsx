@@ -11,7 +11,7 @@ export default function Login({ navigation }) {
   const [userMessage, setUserMessage] = useState("");
   const [passMessage, setPassMessage] = useState("");
   const [userCheck, setUserCheck] = useState();
-  const [userInput, setUserInput] = useState("");
+  const [user, setUser] = useState("");
   const { setUserName } = useContext(UserContext);
 
   // useEffect(() => {
@@ -33,9 +33,9 @@ export default function Login({ navigation }) {
 
   return (
     <View>
-      <Text style={{ margin: 20, textAlign: "center", fontSize: 26 }}>
+      {/* <Text style={{ margin: 20, textAlign: "center", fontSize: 26 }}>
         Login
-      </Text>
+      </Text> */}
 
       <View style={styles.LoginContainer}>
         <Formik
@@ -44,7 +44,7 @@ export default function Login({ navigation }) {
             Password: "",
           }}
           onSubmit={(values) => {
-            setUserInput(values.Username);
+            setUser(values.Username);
             // if (userCheck !== values.Username) {
             //   setUserMessage("Username does not exist\n");
             // }
@@ -60,7 +60,7 @@ export default function Login({ navigation }) {
               validateUsername(values.Username) !== null &&
               validatePassword(values.Password) !== null
             ) {
-              setUserName(userInput);
+              setUserName(user);
               navigation.navigate("Tabs");
             }
           }}
@@ -69,7 +69,7 @@ export default function Login({ navigation }) {
             <View>
               <TextInput
                 name="username"
-                placeholder="Create a new username"
+                placeholder="Enter your username"
                 onChangeText={props.handleChange("Username")}
                 value={props.values.Username}
                 style={styles.TextInput}
@@ -77,7 +77,7 @@ export default function Login({ navigation }) {
 
               <TextInput
                 name="password"
-                placeholder="Super secret password"
+                placeholder="Enter your secret password"
                 onChangeText={props.handleChange("Password")}
                 value={props.values.Password}
                 style={styles.TextInput}

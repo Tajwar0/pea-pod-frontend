@@ -11,15 +11,31 @@ import {
 
 export default function LikesItem({ item, navigation }) {
   const { width } = useWindowDimensions();
-
+  // Array [
+  //   Object {
+  //     "liked_detail": "bio",
+  //     "name": "Morpungo",
+  //     "opening_message": "I like beans",
+  //   },
+  //   Object {
+  //     "liked_detail": "bio",
+  //     "name": "Martin",
+  //     "opening_message": "I like beans",
+  //   },
+  // ] <---- usermatches
   return (
     <View style={[{ flex: 0.7 }, { width }]}>
       <View style={[{ flex: 0.3 }, styles.container]}>
         <Text>
           {item.name} wants to get to know you{"\n"}
         </Text>
-        <Text>What {item.name} liked about you</Text>
-        <TouchableOpacity
+        <Text>
+          What {item.name} liked your {item.liked_detail}
+        </Text>
+        <Text>
+          {item.name} said {item.opening_message}
+        </Text>
+        {/* <TouchableOpacity
           onPress={() =>
             navigation.navigate("UserProfile", {
               item,
@@ -30,8 +46,8 @@ export default function LikesItem({ item, navigation }) {
             source={item.image}
             style={[styles.image, { width, resizeMode: "contain" }]}
           />
-        </TouchableOpacity>
-        <Text style={styles.container}>{item.description}</Text>
+        // </TouchableOpacity>
+         <Text style={styles.container}>{item.description}</Text> */}
       </View>
       <View>
         <Button
