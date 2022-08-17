@@ -42,16 +42,16 @@ const styles = StyleSheet.create({
 });
 
 export default function EditProfile({ route, navigation }) {
-  const {userName} = useContext(UserContext);
+  const { userName } = useContext(UserContext);
   const [selectedInterests, setSelectedInterests] = useState([]);
   const [proPic, setProPic] = useState();
   const [user, setUser] = useState();
   const [responseBack, setResponseBack] = useState("");
   const [isFirstRender, setIsFirstRender] = useState(true);
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
-  const [location, setLocation] = useState('')
-  const [gender, setGender] = useState('')
-  const [bio, setBio] = useState('')
+  const [location, setLocation] = useState("");
+  const [gender, setGender] = useState("");
+  const [bio, setBio] = useState("");
 
   const interestChoices = [
     "Football",
@@ -63,8 +63,8 @@ export default function EditProfile({ route, navigation }) {
   ];
 
   useFocusEffect(() => {
-    setProPic(user && user[userName].avatar)
-  })
+    setProPic(user && user[userName]?.avatar);
+  });
 
   useEffect(() => {
     const getUser = async () => {
@@ -82,31 +82,33 @@ export default function EditProfile({ route, navigation }) {
   }, []);
 
   useEffect(() => {
-    user && setSelectedInterests([...user[userName].interests])
-  }, [user])
-
+    user && setSelectedInterests([...user[userName].interests]);
+  }, [user]);
 
   useEffect(() => {
     if (isFirstRender) return setIsFirstRender(false);
 
     const updateUser = async () => {
       try {
-        const response = await fetch('https://pea-pod-api.herokuapp.com/user/' + userName + '/details', {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            interests: selectedInterests
-          })
-        })
+        const response = await fetch(
+          "https://pea-pod-api.herokuapp.com/user/" + userName + "/details",
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              interests: selectedInterests,
+            }),
+          }
+        );
         const json = await response.json();
         setResponseBack(json);
       } catch (error) {
         console.error(error);
       }
-    } 
-    updateUser()
+    };
+    updateUser();
   }, [selectedInterests]);
 
   useEffect(() => {
@@ -116,7 +118,6 @@ export default function EditProfile({ route, navigation }) {
       setHasGalleryPermission(galleryStatus.status === "Granted");
     };
   }, []);
-
 
   const chooseFromLibrary = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -130,14 +131,14 @@ export default function EditProfile({ route, navigation }) {
       setProPic(result.uri);
 
       fetch("https://pea-pod-api.herokuapp.com/user/" + userName + "/details", {
-        method: 'PATCH',
+        method: "PATCH",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          avatar: result.uri
-        })
-      })
+          avatar: result.uri,
+        }),
+      });
     }
   };
 
@@ -150,9 +151,9 @@ export default function EditProfile({ route, navigation }) {
       <Text style={styles.userName}>{userName}</Text>
       <View style={{ marginTop: 24, alignItems: "center" }}>
         <View>
-          <Avatar.Image 
+          <Avatar.Image
             style={styles.proPicContainer}
-            source={{ uri: proPic}}
+            source={{ uri: proPic }}
             size={300}
           />
         </View>
@@ -160,47 +161,53 @@ export default function EditProfile({ route, navigation }) {
         <Button mode="elevated" onPress={() => chooseFromLibrary()}>
           Upload Photo
         </Button>
-      </View> 
-      
+      </View>
+
       <View>
         <Icon name="pin" size={20} color="black" />
-        <TextInput 
-          placeholder={user && user[userName].location + " (click to change...)"}
-          onChangeText={text => setLocation(text)}
+        <TextInput
+          placeholder={
+            user && user[userName].location + " (click to change...)"
+          }
+          onChangeText={(text) => setLocation(text)}
           onBlur={() => {
-            fetch("https://pea-pod-api.herokuapp.com/user/" + userName + "/details", {
-              method: 'PATCH',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                location: location
-              })
-            })
-          }}>
-        </TextInput>
+            fetch(
+              "https://pea-pod-api.herokuapp.com/user/" + userName + "/details",
+              {
+                method: "PATCH",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  location: location,
+                }),
+              }
+            );
+          }}
+        ></TextInput>
       </View>
-
 
       <View>
-      <Icon name="gender-transgender" size={20} color="black" />
-        <TextInput 
+        <Icon name="gender-transgender" size={20} color="black" />
+        <TextInput
           placeholder={user && user[userName].gender + " (click to change...)"}
-          onChangeText={text => setGender(text)}
+          onChangeText={(text) => setGender(text)}
           onBlur={() => {
-            fetch("https://pea-pod-api.herokuapp.com/user/" + userName + "/details", {
-              method: 'PATCH',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                gender: gender
-              })
-            })
-          }}>
-        </TextInput>
+            fetch(
+              "https://pea-pod-api.herokuapp.com/user/" + userName + "/details",
+              {
+                method: "PATCH",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  gender: gender,
+                }),
+              }
+            );
+          }}
+        ></TextInput>
       </View>
-      
 
       <View style={styles.buttonBlock}>
         {interestChoices.map((interest) => (
@@ -215,21 +222,24 @@ export default function EditProfile({ route, navigation }) {
 
       <View>
         <Icon name="pin" size={20} color="black" />
-        <TextInput 
+        <TextInput
           placeholder={user && user[userName].bio + " (click to change...)"}
-          onChangeText={text => setBio(text)}
+          onChangeText={(text) => setBio(text)}
           onBlur={() => {
-            fetch("https://pea-pod-api.herokuapp.com/user/" + userName + "/details", {
-              method: 'PATCH',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                bio: bio
-              })
-            })
-          }}>
-        </TextInput>
+            fetch(
+              "https://pea-pod-api.herokuapp.com/user/" + userName + "/details",
+              {
+                method: "PATCH",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  bio: bio,
+                }),
+              }
+            );
+          }}
+        ></TextInput>
       </View>
     </ScrollView>
   );

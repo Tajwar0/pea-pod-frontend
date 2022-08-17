@@ -81,7 +81,7 @@ export default function SignUp({ navigation }) {
                 }
               ).then((res) => {
                 console.log(JSON.stringify(res));
-                setUserName(user);
+                setUserName(values.Username);
               });
               navigation.navigate("Tabs");
             }
