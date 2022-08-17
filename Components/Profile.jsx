@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 });
 
 export default function EditProfile({ route, navigation }) {
-  const userName = useContext(UserContext);
+  const {userName} = useContext(UserContext);
   const [proPic, setProPic] = useState();
   
   const [user, setUser] = useState();
@@ -63,7 +63,7 @@ export default function EditProfile({ route, navigation }) {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.userName}>
-        {user._id}
+        {user?._id}
       </Text>
       <View style={{ marginTop: 24, alignItems: "center" }}>
         <View>
@@ -78,20 +78,22 @@ export default function EditProfile({ route, navigation }) {
       <View>
         <Text>
           <Icon name="pin" size={20} color="black" />
-          {user.location}
+          {user?.location}
         </Text>
       </View>
         
       <View>
         <Text>
           <Icon name="gender-transgender" size={20} color="black" />
-          {user.gender}
+          {user?.gender}
         </Text>
       </View>
       
 
       <View style={styles.buttonBlock}>
-        {user[userName].interests.map((interest) => (
+
+        {console.log(userName)}
+        {user && user[userName].interests.map((interest) => (
           <FlatList
             key={interest}
           >

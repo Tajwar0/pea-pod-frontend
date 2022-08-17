@@ -122,8 +122,7 @@ export default function EditProfile({ route, navigation }) {
 
   return (
     <ScrollView style={styles.container}>
-      <TextInput style={styles.name} placeholder={user._id} />
-      <TextInput style={styles.userName} placeholder={user.userName} />
+      <Text style={styles.userName}>{userName}</Text>
       <View style={{ marginTop: 24, alignItems: "center" }}>
         <View>
           <Avatar.Image 
@@ -141,14 +140,14 @@ export default function EditProfile({ route, navigation }) {
       <View>
         <Text>
           <Icon name="pin" size={20} color="black" />
-          {user.location}
+          {user?.location}
         </Text>
       </View>
         
       <View>
         <Text>
           <Icon name="gender-transgender" size={20} color="black" />
-          {user.gender}
+          {user?.gender}
         </Text>
       </View>
       
