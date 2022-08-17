@@ -13,7 +13,7 @@ export default function Login({ navigation }) {
   const [passMessage, setPassMessage] = useState("");
   const [userCheck, setUserCheck] = useState();
   const [userInput, setUserInput] = useState("");
-  const { setUserName } = useContext(UserContext);
+  const { userName, setUserName } = useContext(UserContext);
 
   // useEffect(() => {
   //   if (userInput !== "") {
@@ -35,13 +35,11 @@ export default function Login({ navigation }) {
   return (
     <View style={styles.screenContainer}>
       <View>
-        <Image 
+        <Image
           style={styles.headerImg}
-          source={require('../../assets/peapod.png')}
+          source={require("../../assets/peapod.png")}
         />
-        <Text style={styles.headerText}>
-          Login
-        </Text>
+        <Text style={styles.headerText}>Login</Text>
       </View>
       <View style={styles.LoginContainer}>
         <Formik
@@ -66,7 +64,9 @@ export default function Login({ navigation }) {
               validateUsername(values.Username) !== null &&
               validatePassword(values.Password) !== null
             ) {
-              setUserName(userInput);
+              console.log(values.Username);
+              setUserName(values.Username);
+              console.log(UserName, "Username changed");
               navigation.navigate("Tabs");
             }
           }}
@@ -97,7 +97,8 @@ export default function Login({ navigation }) {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.link}
-                onPress={() => navigation.navigate("SignUp")}>
+                onPress={() => navigation.navigate("SignUp")}
+              >
                 <Text style={styles.linkText}>Not a pea? Sign up here!</Text>
               </TouchableOpacity>
             </View>
@@ -113,38 +114,38 @@ export default function Login({ navigation }) {
 
 const styles = StyleSheet.create({
   screenContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     paddingTop: 100,
-    height: '100%',
-    backgroundColor: '#f7f7f7',
+    height: "100%",
+    backgroundColor: "#f7f7f7",
   },
   LoginContainer: {
     justifyContent: "center",
     alignItems: "stretch",
     padding: 10,
-    width: '100%',
-    backgroundColor: '#f7f7f7',
+    width: "100%",
+    backgroundColor: "#f7f7f7",
   },
   headerImg: {
     height: 100,
-    width: 200
+    width: 200,
   },
   headerText: {
-    marginBottom: 20, 
-    textAlign: "center", 
+    marginBottom: 20,
+    textAlign: "center",
     fontSize: 26,
     paddingTop: 20,
   },
   TextInput: {
     height: 40,
-    width: '80%',
+    width: "80%",
     marginBottom: 20,
     backgroundColor: "white",
     borderColor: "gray",
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 10,
     padding: 10,
-    alignSelf: 'center'
+    alignSelf: "center",
   },
   button: {
     alignItems: "center",
@@ -152,18 +153,18 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     backgroundColor: "green",
     borderRadius: 20,
-    width: '50%',
-    alignSelf: 'center'
+    width: "50%",
+    alignSelf: "center",
   },
   buttonText: {
     color: "white",
     fontWeight: "bold",
   },
   link: {
-    alignSelf: 'center',
-    paddingTop: 10
+    alignSelf: "center",
+    paddingTop: 10,
   },
   linkText: {
-    fontSize: 16
-  }
+    fontSize: 16,
+  },
 });

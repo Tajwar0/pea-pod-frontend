@@ -10,16 +10,20 @@ import {
 
 export default function LikesItem({ item, navigation }) {
   const { width } = useWindowDimensions();
-
+  // name	"Morpungo"
+  // liked_detail	"bio"
+  // opening_message	"I like beans"
   return (
     <View style={[{ flex: 0.7 }, { width }]}>
       <View style={[{ flex: 0.3 }, styles.container]}>
         <Text style={styles.titleText}>
           {item.name} wants to get to know you{"\n"}
         </Text>
-        <Text style={styles.text}>What {item.name} liked about you</Text>
+        <Text style={styles.text}>
+          {item.name} liked your {item.liked_detail}
+        </Text>
         <TouchableOpacity
-          style={{width}}
+          style={{ width }}
           onPress={() =>
             navigation.navigate("UserProfile", {
               item,
@@ -28,10 +32,10 @@ export default function LikesItem({ item, navigation }) {
         >
           <Image
             source={item.image}
-            style={[styles.image, { width: '90%', resizeMode: "contain" }]}
+            style={[styles.image, { width: "90%", resizeMode: "contain" }]}
           />
         </TouchableOpacity>
-        <Text style={styles.text}>{item.description}</Text>
+        <Text style={styles.text}>Message: {item.opening_message}</Text>
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
@@ -42,8 +46,8 @@ export default function LikesItem({ item, navigation }) {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('Chat', {otherUser: item.name})}
-          >
+          onPress={() => navigation.navigate("Chat", { otherUser: item.name })}
+        >
           <Text style={styles.buttonText}>Message</Text>
         </TouchableOpacity>
       </View>
@@ -56,20 +60,20 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-around",
     alignItems: "center",
-    width: '100%',
-    backgroundColor: '#f7f7f7',
+    width: "100%",
+    backgroundColor: "#f7f7f7",
     paddingTop: 20,
-    paddingBottom: 15
+    paddingBottom: 15,
   },
   titleText: {
-    width: '100%',
-    textAlign: 'center',
-    backgroundColor: '#f7f7f7', 
+    width: "100%",
+    textAlign: "center",
+    backgroundColor: "#f7f7f7",
     fontSize: 20,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   text: {
-    fontSize: 17
+    fontSize: 17,
   },
   image: {
     justifyContent: "center",
@@ -80,18 +84,18 @@ const styles = StyleSheet.create({
     height: 250,
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     padding: 20,
-    backgroundColor: '#f7f7f7', 
+    backgroundColor: "#f7f7f7",
   },
   button: {
     alignItems: "center",
     padding: 10,
     backgroundColor: "green",
     borderRadius: 20,
-    alignSelf: 'center',
-    width: 140
+    alignSelf: "center",
+    width: 140,
   },
   buttonText: {
     color: "white",

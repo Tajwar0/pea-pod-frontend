@@ -1,21 +1,40 @@
-import { useState, useRef } from "react";
-import { View, FlatList, StyleSheet, Animated, Text } from "react-native";
+import { useState, useRef, useEffect, useContext } from "react";
+import { View, FlatList, StyleSheet, Animated } from "react-native";
 import slides from "../../assets/slides";
 import LikesItem from "./LikesItem";
-
+import { UserContext } from "../../Contexts/User";
 export default function LikesPage({ navigation }) {
+  const userName = useContext(UserContext);
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
-
-  const viewableItemsChanged = useRef(({ viewableItems, navigation }) => {
+  const [userMatches, setUserMatches] = useState();
+  const viewableItemsChanged = useRef(({ viewableItems }) => {
     setCurrentIndex(viewableItems[0].index);
   }).current;
-
+  
   const viewConfig = useRef({ viewAreCoveragePercentThreshold: 50 }).current;
+
+  useEffect(() => {
+    console.log(userName);
+    const getUserMatches = async () => {
+      try {
+        const response = await fetch(
+          `https://pea-pod-api.herokuapp.com/user/${userName}/incoming_likes`
+        );
+        const json = await response.json();
+        setUserMatches(json);
+        console.log(json);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getUserMatches();
+  }, []);
+
   return (
-    <View style={{ flex: 3}}>
+    <View style={{ flex: 3 }}>
       <FlatList
-        data={slides}
+        data={userMatches}
         renderItem={({ item }) => (
           <LikesItem item={item} navigation={navigation} />
         )}
@@ -23,7 +42,7 @@ export default function LikesPage({ navigation }) {
         showsHorizontalScrollIndicator
         pagingEnabled
         bounces={false}
-        keyExtractor={(item) => item.id}
+        keyExtractor={() => Math.random()}
         onScroll={Animated.event(
           [
             {
