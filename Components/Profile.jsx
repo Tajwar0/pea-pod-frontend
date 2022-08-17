@@ -1,5 +1,12 @@
 import * as React from "react";
-import { View, Text, StyleSheet, ScrollView, TextInput, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TextInput,
+  FlatList,
+} from "react-native";
 import { Avatar, Button } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import * as ImagePicker from "expo-image-picker";
@@ -40,69 +47,68 @@ const styles = StyleSheet.create({
 });
 
 export default function EditProfile({ route, navigation }) {
-  const {userName} = useContext(UserContext);
+  const { userName } = useContext(UserContext);
   const [proPic, setProPic] = useState();
-  
+
   const [user, setUser] = useState();
   const [selectedInterests, setSelectedInterests] = useState([]);
   const [responseBack, setResponseBack] = useState("");
   const [isFirstRender, setIsFirstRender] = useState(true);
 
-  useEffect(async () => {
-    try {
-      const response = await fetch(
-        "https://pea-pod-api.herokuapp.com/user/" + userName
-      );
-      const json = await response.json();
-      setUser(json);
-    } catch (error) {
-      console.error(error);
-    }
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const response = await fetch(
+          "https://pea-pod-api.herokuapp.com/user/" + userName
+        );
+        const json = await response.json();
+        setUser(json);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getUser();
   }, []);
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.userName}>
-        {user?._id}
-      </Text>
+      <Text style={styles.userName}>{user?._id}</Text>
       <View style={{ marginTop: 24, alignItems: "center" }}>
         <View>
-          <Avatar.Image 
+          <Avatar.Image
             style={styles.proPicContainer}
             source={{ uri: proPic }}
             size={300}
           />
         </View>
-      </View> 
-      
+      </View>
+
       <View>
         <Text>
           <Icon name="pin" size={20} color="black" />
           {user?.location}
         </Text>
       </View>
-        
+
       <View>
         <Text>
           <Icon name="gender-transgender" size={20} color="black" />
           {user?.gender}
         </Text>
       </View>
-      
 
-      <View style={styles.buttonBlock}>
+      {/* <View >
 
         {console.log(userName)}
         {user && user[userName].interests.map((interest) => (
           <FlatList
+          // style={styles.buttonBlock}
             key={interest}
           >
             {interest}
           </FlatList>
         ))}
-      </View>
-
-      
+      </View> */}
     </ScrollView>
   );
 }
