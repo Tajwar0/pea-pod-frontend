@@ -3,12 +3,16 @@ import { Button } from "react-native-paper";
 import { useEffect, useState } from "react";
 
 export default function ButtonMaker({
-  userInterest,
-  combinedInterests,
-  setCombinedInterests,
+  interest,
+  selectedInterests,
+  setSelectedInterests,
 }) {
   const [isPressed, setIsPressed] = useState("white");
-  const [clickCount, setClickCount] = useState(0);
+
+  useEffect(() => {
+    if (selectedInterests.includes(interest)) setIsPressed("#E4FFE0")
+    else setIsPressed('white')
+  }, [selectedInterests])
 
   const styles = StyleSheet.create({
     button: {
@@ -26,29 +30,24 @@ export default function ButtonMaker({
     },
   });
 
-  useEffect(() => {
-    if (clickCount % 2 !== 0) {
-      setIsPressed("#E4FFE0");
-      setCombinedInterests((currentCombined) => [
-        ...currentCombined,
-        userInterest,
-      ]);
-    } else {
-      const index = combinedInterests.indexOf(userInterest);
-      if (index > -1) {
-        combinedInterests.splice(index, 1);
-      }
-
-      setIsPressed("white");
-    }
-  }, [clickCount]);
+  function handleClick() {
+    if (selectedInterests.includes(interest)) setSelectedInterests(() => {
+      interestsCopy = [...selectedInterests]
+      return interestsCopy.filter(item => item != interest)
+    })
+    else setSelectedInterests(() => {
+      interestsCopy = [...selectedInterests]
+      interestsCopy.push(interest)
+      return interestsCopy
+    })
+  }
 
   return (
     <Button
       style={styles.button}
-      onPress={() => setClickCount((currCount) => currCount + 1)}
+      onPress={handleClick}
     >
-      <Text style={styles.text}>{userInterest}</Text>
+      <Text style={styles.text}>{interest}</Text>
     </Button>
   );
 }
