@@ -1,27 +1,31 @@
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { useState, useContext, useCallback } from "react";
 import { Text, Button, View, FlatList, StyleSheet, Image } from "react-native";
-// import { UserContext } from '../contexts/User';
 import { UserContext } from "../../Contexts/User";
 export default function Pod({ navigation }) {
-  // const { user } = useContext(UserContext)
-  const user = "Bean";
+  // const user = "Bean";
   const [peasInYourPod, setPeasInYourPod] = useState();
-  const { setUserName } = useContext(UserContext);
+  const { setUserName, userName } = useContext(UserContext);
   let isFocused = useIsFocused();
 
   useFocusEffect(
     useCallback(() => {
+      console.log(userName)
       if (isFocused) {
-        fetch(`https://pea-pod-api.herokuapp.com/user/${user}`)
+        fetch(`https://pea-pod-api.herokuapp.com/user/${userName}`)
           .then((response) => response.json())
-          .then((data) => setPeasInYourPod(data[user].matches))
+          .then((data) => setPeasInYourPod(data[userName].matches))
           .catch((err) => {
             console.log(err, "<<< err");
           });
       }
     }, [])
   );
+
+  const pressEvent = () => {
+    setUserName("")
+    navigation.navigate("Login")
+  }
 
   const Item = ({ username }) => (
     <View style={styles.container}>
@@ -43,7 +47,7 @@ export default function Pod({ navigation }) {
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
       />
-      <Button title="Logout" onPress={() => navigation.navigate("SignUp")} />
+      <Button title="Logout" onPress={pressEvent} />
     </View>
   );
 }
