@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useCallback } from "react";
 import { View, Text, StyleSheet, ScrollView, TextInput } from "react-native";
 import { Avatar, Button } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -6,6 +7,7 @@ import * as ImagePicker from "expo-image-picker";
 import { useState, useEffect, useContext } from "react";
 import ButtonMaker from "./ButtonMaker";
 import { UserContext } from "../Contexts/User";
+import { useFocusEffect } from "@react-navigation/native";
 
 const styles = StyleSheet.create({
   container: {
@@ -43,8 +45,11 @@ export default function EditProfile({ route, navigation }) {
   const {userName} = useContext(UserContext);
   const [selectedInterests, setSelectedInterests] = useState([]);
   const [proPic, setProPic] = useState();
-  
+  const [user, setUser] = useState();
+  const [responseBack, setResponseBack] = useState("");
+  const [isFirstRender, setIsFirstRender] = useState(true);
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
+
   const interestChoices = [
     "Football",
     "Cinema",
@@ -53,9 +58,10 @@ export default function EditProfile({ route, navigation }) {
     "Gaming",
     "Make Up",
   ];
-  const [user, setUser] = useState();
-  const [responseBack, setResponseBack] = useState("");
-  const [isFirstRender, setIsFirstRender] = useState(true);
+
+  useFocusEffect(() => {
+    setProPic(user && user[userName].avatar)
+  })
 
   useEffect(() => {
     const getUser = async () => {
@@ -119,6 +125,16 @@ export default function EditProfile({ route, navigation }) {
 
     if (!result.cancelled) {
       setProPic(result.uri);
+
+      fetch("https://pea-pod-api.herokuapp.com/user/" + userName + "/details", {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          avatar: result.uri
+        })
+      })
     }
   };
 
@@ -133,7 +149,7 @@ export default function EditProfile({ route, navigation }) {
         <View>
           <Avatar.Image 
             style={styles.proPicContainer}
-            source={{ uri: proPic }}
+            source={{ uri: proPic}}
             size={300}
           />
         </View>
@@ -167,6 +183,12 @@ export default function EditProfile({ route, navigation }) {
             setSelectedInterests={setSelectedInterests}
           />
         ))}
+      </View>
+
+      <View>
+        <Text>
+          {user?.bio}
+        </Text>
       </View>
     </ScrollView>
   );

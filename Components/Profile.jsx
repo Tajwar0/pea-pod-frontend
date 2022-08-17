@@ -101,6 +101,12 @@ export default function EditProfile({ route, navigation }) {
           <Text key={interest}>{interest}</Text>
         ))}
       </View>
+
+      <View>
+        <Text>
+          {user && user[userName].bio}
+        </Text>
+      </View>
     </ScrollView>
   );
 }
