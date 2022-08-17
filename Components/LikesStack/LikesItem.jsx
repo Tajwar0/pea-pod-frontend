@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Image,
   useWindowDimensions,
-  Button,
   TouchableOpacity,
 } from "react-native";
 
@@ -15,12 +14,12 @@ export default function LikesItem({ item, navigation }) {
   return (
     <View style={[{ flex: 0.7 }, { width }]}>
       <View style={[{ flex: 0.3 }, styles.container]}>
-        <Text style={styles.text}>
+        <Text style={styles.titleText}>
           {item.name} wants to get to know you{"\n"}
         </Text>
         <Text style={styles.text}>What {item.name} liked about you</Text>
         <TouchableOpacity
-          style={{backgroundColor: "green"}}
+          style={{width}}
           onPress={() =>
             navigation.navigate("UserProfile", {
               item,
@@ -29,7 +28,7 @@ export default function LikesItem({ item, navigation }) {
         >
           <Image
             source={item.image}
-            style={[styles.image, { width, resizeMode: "contain" }]}
+            style={[styles.image, { width: '90%', resizeMode: "contain" }]}
           />
         </TouchableOpacity>
         <Text style={styles.text}>{item.description}</Text>
@@ -55,28 +54,36 @@ export default function LikesItem({ item, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-around",
     alignItems: "center",
     width: '100%',
-    backgroundColor: "orange"
+    backgroundColor: '#f7f7f7',
+    paddingTop: 20,
+    paddingBottom: 15
   },
-  text: {
+  titleText: {
     width: '100%',
     textAlign: 'center',
-    padding: 10,
-    backgroundColor: "red"
+    backgroundColor: '#f7f7f7', 
+    fontSize: 20,
+    fontWeight: "bold"
+  },
+  text: {
+    fontSize: 17
   },
   image: {
-    flex: 0.7,
     justifyContent: "center",
+    alignContent: "center",
     margin: 15,
-    borderRadius: 50,
-    backgroundColor: "blue"
+    borderRadius: 80,
+    backgroundColor: "blue",
+    height: 250,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 20
+    padding: 20,
+    backgroundColor: '#f7f7f7', 
   },
   button: {
     alignItems: "center",
@@ -84,7 +91,7 @@ const styles = StyleSheet.create({
     backgroundColor: "green",
     borderRadius: 20,
     alignSelf: 'center',
-    width: 110
+    width: 140
   },
   buttonText: {
     color: "white",
