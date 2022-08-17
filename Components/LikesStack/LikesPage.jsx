@@ -3,7 +3,7 @@ import { View, FlatList, StyleSheet, Animated } from "react-native";
 import LikesItem from "./LikesItem";
 import { UserContext } from "../../Contexts/User";
 export default function LikesPage({ navigation }) {
-  const userName = useContext(UserContext);
+  const { userName } = useContext(UserContext);
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
   const [userMatches, setUserMatches] = useState();
@@ -17,7 +17,7 @@ export default function LikesPage({ navigation }) {
     const getUserMatches = async () => {
       try {
         const response = await fetch(
-          `https://pea-pod-api.herokuapp.com/user/${userName.userName}/incoming_likes`
+          `https://pea-pod-api.herokuapp.com/user/${userName}/incoming_likes`
         );
         const json = await response.json();
         setUserMatches(json);
