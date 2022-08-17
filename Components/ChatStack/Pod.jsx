@@ -1,6 +1,6 @@
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { useState, useContext, useCallback } from "react";
-import { Text, View, FlatList, StyleSheet, Image } from "react-native";
+import { Text, View, FlatList, StyleSheet, Image, Button } from "react-native";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { UserContext } from "../../Contexts/User";
 
@@ -45,7 +45,7 @@ export default function Pod({ navigation }) {
     )
 
     const renderItem = ({ item }) => (
-        <Item username={item} avatar={item.avatar ? item.avatar : "https://starwarsblog.starwars.com/wp-content/uploads/2021/02/queen-s-hope-padme-_TALL.jpg"} />
+        <Item username={item.name} avatar={item.avatar ? item.avatar : "https://starwarsblog.starwars.com/wp-content/uploads/2021/02/queen-s-hope-padme-_TALL.jpg"} />
     )
     
     return (
