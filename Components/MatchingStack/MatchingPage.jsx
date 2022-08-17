@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useState, useRef } from "react";
 import { View, StyleSheet, Animated, ScrollView } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import matchingProfiles from "../../assets/matchingProfiles";
 import MatchProfiles from "./MatchProfiles";
 
 export default function MatchingPage({ navigation }) {

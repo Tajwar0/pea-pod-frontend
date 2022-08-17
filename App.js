@@ -1,13 +1,9 @@
 import * as React from "react";
-import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { useState, useEffect } from "react";
+import { StyleSheet } from "react-native";
 import Tabs from "./Components/Tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import {
-  Button,
-} from "react-native-paper";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Login from "./Components/LoginPages/Login";
 import SignUp from "./Components/LoginPages/SignUp";
 import LikesPage from "./Components/LikesStack/LikesPage";
@@ -20,19 +16,29 @@ import Pod from "./Components/ChatStack/Pod";
 import Chat from "./Components/ChatStack/Chat";
 
 const Stack = createStackNavigator();
-const user = React.createContext();
+import { UserContext } from "./Contexts/User";
 
 export default function App() {
-  const [isLogged, setLogged] = useState(true);
+  const [isLogged, setLogged] = useState(false);
+  const [userName, setUserName] = useState("");
+
+  // useEffect(() => {
+  //   console.log(userName);
+  //   if (userName.length > 0) {
+  //     setLogged(true);
+  //   } else setLogged(false);
+  // }, [userName]);
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName={isLogged ? "Tabs" : "Login"}>
-        <Stack.Group>
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{ headerShown: false }}
-          />
+    <UserContext.Provider value={{ userName, setUserName }}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Login">
+          <Stack.Group>
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{ headerShown: false }}
+            />
           <Stack.Screen
             name="SignUp"
             component={SignUp}
@@ -92,6 +98,7 @@ export default function App() {
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
+    </UserContext.Provider>
   );
 }
 
@@ -103,4 +110,3 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
-

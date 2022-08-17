@@ -1,29 +1,36 @@
 import { Formik } from "formik";
-import { StyleSheet, Text, TextInput, View, Image } from "react-native";
-import { useState } from "react";
+import { StyleSheet, Text, TextInput, View, Button, Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from "../../Contexts/User";
+import {
+  validateUsername,
+  validatePassword,
+} from "../../validation/validation";
 
 export default function Login({ navigation }) {
   const [userMessage, setUserMessage] = useState("");
   const [passMessage, setPassMessage] = useState("");
-  const [user, setUser] = useState();
-  const [inputUsername, setInputUsername] = useState("");
+  const [userCheck, setUserCheck] = useState();
+  const [userInput, setUserInput] = useState("");
+  const { setUserName } = useContext(UserContext);
 
-  //   useEffect(() => {
+  // useEffect(() => {
+  //   if (userInput !== "") {
   //     const getUser = async () => {
   //       try {
   //         const response = await fetch(
-  //           `https://pea-pod-api.herokuapp.com/user/${inputUsername}`
+  //           `https://pea-pod-api.herokuapp.com/user/${userInput}`
   //         );
   //         const json = await response.json();
-  //         console.log(json);
-  //         setUser(json._id);
+  //         setUserCheck(json._id);
   //       } catch (error) {
   //         console.error(error);
   //       }
   //     };
   //     getUser();
-  //   }, [userInput]);
+  //   }
+  // }, [userInput]);
 
   return (
     <View style={styles.screenContainer}>
@@ -43,16 +50,24 @@ export default function Login({ navigation }) {
             Password: "",
           }}
           onSubmit={(values) => {
-            setInputUsername(values.Username);
-            if (user !== values.Username) {
-              SetUserMessage("Username does not exist\n");
+            setUserInput(values.Username);
+            // if (userCheck !== values.Username) {
+            //   setUserMessage("Username does not exist\n");
+            // }
+            if (validateUsername(values.Username) === null) {
+              setUserMessage("Please enter a valid Username\n\n");
             }
-            if (password !== values.Password) {
-              setPassMessage("password is not valid");
+            if (validatePassword(values.Password) === null) {
+              setPassMessage(
+                "Password must have minimum of 8 characters with at least 1 letter and 1 number"
+              );
             }
-            if (user === values.Username && password === values.Password) {
-              //   set context,
-              //   set login=true
+            if (
+              validateUsername(values.Username) !== null &&
+              validatePassword(values.Password) !== null
+            ) {
+              setUserName(userInput);
+              navigation.navigate("Tabs");
             }
           }}
         >

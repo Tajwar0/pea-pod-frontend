@@ -3,18 +3,18 @@ import moment from 'moment';
 import { useEffect, useState, useRef, useContext, useCallback } from 'react'
 import { StyleSheet, View, Text, TextInput, Image, FlatList, Button } from 'react-native'
 import io from 'socket.io-client'
-// import { UserContext } from '../contexts/User';
+import { UserContext } from '../../Contexts/User';
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 
 export default function Chat ({ route }) {
     const [ input, setInput ] = useState("")
     const [ messages, setMessages ] = useState([])
     const socketRef = useRef()
-    // const { user } = useContext(UserContext)
-    const user = 'Bean'
+    const { userName } = useContext(UserContext)
+    // const user = 'Bean'
     const { otherUser } = route.params
     
-    const roomId = [user, otherUser].sort().join("%")
+    const roomId = [userName, otherUser].sort().join("%")
 
     let isFocused = useIsFocused()
 
@@ -51,11 +51,11 @@ export default function Chat ({ route }) {
 
     const pressEvent = () => {
         if (input.length !== 0) {
-            const newMsg = {
-                room_id: roomId,
-                sender: user,
-                msg: input.trim(),
-                created_at: moment().format()
+          const newMsg = {
+              room_id: roomId,
+              sender: userName,
+              msg: input.trim(),
+              created_at: moment().format()
             }
     
             socketRef.current.emit('message', newMsg, roomId)
@@ -64,7 +64,7 @@ export default function Chat ({ route }) {
     }
 
     const Item = ({ sender, msg }) => (
-        <View style={[sender===user? styles.user_item : styles.other_user_item]}>
+        <View style={[sender===userName? styles.user_item : styles.other_user_item]}>
             <Text>{sender}: {msg}</Text>
         </View>
       )

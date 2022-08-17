@@ -1,30 +1,35 @@
-import { useFocusEffect, useIsFocused } from '@react-navigation/native';
-import { useState, useContext, useCallback } from 'react';
-import { Text, View, FlatList, StyleSheet, Image } from 'react-native'
+import { useFocusEffect, useIsFocused } from "@react-navigation/native";
+import { useState, useContext, useCallback } from "react";
+import { Text, View, FlatList, StyleSheet, Image } from "react-native";
 import { TouchableOpacity } from 'react-native-gesture-handler';
-// import { UserContext } from '../contexts/User';
+import { UserContext } from "../../Contexts/User";
 
-export default function Pod ({ navigation }) {
-    // const { user } = useContext(UserContext)
-    const user = 'Bean'
-    const [ peasInYourPod, setPeasInYourPod ] = useState()
+export default function Pod({ navigation }) {
+  // const user = "Bean";
+  const [peasInYourPod, setPeasInYourPod] = useState();
+  const { setUserName, userName } = useContext(UserContext);
+  let isFocused = useIsFocused();
 
-    let isFocused = useIsFocused()
-
-    useFocusEffect(
+  useFocusEffect(
     useCallback(() => {
-        if (isFocused) {
-            fetch(`https://pea-pod-api.herokuapp.com/user/${user}`)
-            .then((response) => response.json())
-            .then((data) => setPeasInYourPod(data[user].matches))
-            .catch(err => {
-                console.log(err, "<<< err")
-            })
-        } 
+      console.log(userName)
+      if (isFocused) {
+        fetch(`https://pea-pod-api.herokuapp.com/user/${userName}`)
+          .then((response) => response.json())
+          .then((data) => setPeasInYourPod(data[userName].matches))
+          .catch((err) => {
+            console.log(err, "<<< err");
+          });
+      }
     }, [])
-    ) 
+  );
 
-    const Item = ({ username, avatar }) => (
+  const pressEvent = () => {
+    setUserName("")
+    navigation.navigate("Login")
+  }
+
+  const Item = ({ username, avatar }) => (
         <View style={styles.container}>
             <View style={styles.leftChatCard}>
                 <Image style={styles.avatarImg} source={{uri: avatar}}/>
@@ -44,12 +49,15 @@ export default function Pod ({ navigation }) {
     )
     
     return (
-        <FlatList 
-            data={peasInYourPod}
-            renderItem={renderItem}
-            keyExtractor={() => Math.random()}
+      <View>
+        <FlatList
+          data={peasInYourPod}
+          renderItem={renderItem}
+          keyExtractor={(item) => Math.random()}
         />
-    )
+        <Button title="Logout" onPress={pressEvent} />
+      </View>
+  );
 }
 
 const styles = StyleSheet.create({
