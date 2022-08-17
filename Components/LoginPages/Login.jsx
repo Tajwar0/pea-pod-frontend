@@ -11,26 +11,8 @@ import {
 export default function Login({ navigation }) {
   const [userMessage, setUserMessage] = useState("");
   const [passMessage, setPassMessage] = useState("");
-  const [userCheck, setUserCheck] = useState();
   const [userInput, setUserInput] = useState("");
   const { userName, setUserName } = useContext(UserContext);
-
-  // useEffect(() => {
-  //   if (userInput !== "") {
-  //     const getUser = async () => {
-  //       try {
-  //         const response = await fetch(
-  //           `https://pea-pod-api.herokuapp.com/user/${userInput}`
-  //         );
-  //         const json = await response.json();
-  //         setUserCheck(json._id);
-  //       } catch (error) {
-  //         console.error(error);
-  //       }
-  //     };
-  //     getUser();
-  //   }
-  // }, [userInput]);
 
   return (
     <View style={styles.screenContainer}>
@@ -58,12 +40,26 @@ export default function Login({ navigation }) {
               );
             }
             if (validatePassword(values.Password) !== null) {
-              setUserName(values.Username);
-              // `post request
-              // if successful, navigate to Tabs
-              // else setUserMessage ("incorrect username or password")
-              // `;
-              navigation.navigate("Tabs");
+              setPassMessage("");
+              setUserMessage("");
+              fetch(
+                `https://pea-pod-api.herokuapp.com/user/${values.Username}`,
+                {
+                  method: "POST",
+                  headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    password: values.Password,
+                  }),
+                }
+              ).then((res) => {
+                setUserName(values.Username);
+                res.status == 200
+                  ? navigation.navigate("Tabs")
+                  : setUserMessage("Username or Password is incorrect\n");
+              });
             }
           }}
         >
