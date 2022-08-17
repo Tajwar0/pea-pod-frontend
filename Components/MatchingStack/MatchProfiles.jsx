@@ -32,7 +32,7 @@ export default function MatchProfiles({ item, navigation }) {
         <Text style={{}}>{name}</Text>
         <Text> {name}</Text>
         <Text style={styles.container}>{user.location}</Text>
-        {user.interests.map((interest) => {
+        {user.interests.length > 0 && user.interests.map((interest) => {
           return <Text style={styles.container} key={uuid.v4()}>{interest}</Text>;
         })}
       </View>
