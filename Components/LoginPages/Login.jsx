@@ -52,19 +52,17 @@ export default function Login({ navigation }) {
             // if (userCheck !== values.Username) {
             //   setUserMessage("Username does not exist\n");
             // }
-            if (validateUsername(values.Username) === null) {
-              setUserMessage("Please enter a valid Username\n\n");
-            }
             if (validatePassword(values.Password) === null) {
               setPassMessage(
                 "Password must have minimum of 8 characters with at least 1 letter and 1 number"
               );
             }
-            if (
-              validateUsername(values.Username) !== null &&
-              validatePassword(values.Password) !== null
-            ) {
+            if (validatePassword(values.Password) !== null) {
               setUserName(values.Username);
+              // `post request
+              // if successful, navigate to Tabs
+              // else setUserMessage ("incorrect username or password")
+              // `;
               navigation.navigate("Tabs");
             }
           }}
