@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
 export default function EditProfile({ route, navigation }) {
   //const { user } = route.params;
   //const [proPic, setProPic] = useState(user.img);
+  
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const userInterests = [
     "Football",
@@ -51,9 +52,11 @@ export default function EditProfile({ route, navigation }) {
     "Make Up",
   ];
   const [combinedInterests, setCombinedInterests] = useState([]);
-  const strInterest = JSON.stringify(combinedInterests);
   const [responseBack, setResponseBack] = useState("");
+  const [userNameResponse, setUserNameResponse] = useState("");
+
   const [isPressed, setIsPressed] = useState(false);
+  const strInterest = JSON.stringify(combinedInterests)
   const [user, setUser] = useState(JSON.stringify(responseBack));
   const [userId, changeUserId] = useState()
 
@@ -64,7 +67,8 @@ export default function EditProfile({ route, navigation }) {
   //     setHasGalleryPermission(galleryStatus.status === "Granted");
   //   };
   // }, []);
-
+  console.log(combinedInterests);
+  console.log(strInterest);
   const updateInterests = async () => {
     try{
       const response = await fetch('https://pea-pod-api.herokuapp.com/user/Martin/details', {
@@ -73,7 +77,7 @@ export default function EditProfile({ route, navigation }) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          interests: `${strInterest}`
+          interests: `${combinedInterests}`
         })
       })
       const json = await response.json();
@@ -96,32 +100,22 @@ export default function EditProfile({ route, navigation }) {
     };
   }, []);
 
-  // const getUser = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       "https://pea-pod-api.herokuapp.com/user/Martin/details", {
-  //         method: 'PATCH',
-  //         headers: {
-  //           Accept: 'application/json',
-  //           'Content-Type': 'application/json'
-  //         },
-  //         body: JSON.stringify({
-  //           interests: `${  const strInterest = JSON.stringify(combinedInterests);
-  //           }`
-  //         })
-  //       }
-  //     );
-  //     const json = await response.json();
-  //     setResponseBack(json);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  //   setIsPressed(false);
-  // };
+  const getUser = async () => {
+    try {
+      const response = await fetch(
+        "https://pea-pod-api.herokuapp.com/user/Martin"
+      );
+      const json = await response.json();
+      setUserNameResponse(json);
+    } catch (error) {
+      console.error(error);
+    }
+    setIsPressed(false);
+  };
 
-  // useEffect(() => {
-  //   getUser();
-  // }, []);
+  useEffect(() => {
+    getUser();
+  }, []);
 
   const chooseFromLibrary = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -142,20 +136,22 @@ export default function EditProfile({ route, navigation }) {
 
   return (
     <ScrollView style={styles.container}>
-      {/* <TextInput style={styles.name} placeholder={user.name} />
-      <TextInput style={styles.userName} placeholder={user.userName} />
+      <TextInput style={styles.name} 
+      placeholder={userNameResponse._id} />
+       <TextInput style={styles.userName} placeholder={user.userName} />
       <View style={{ marginTop: 24, alignItems: "center" }}>
-        <View>
-          <Avatar.Image
-            style={styles.proPicContainer}
-            source={{ uri: proPic }}
-            size={300}
-          />
-        </View>
-        <Button mode="elevated" onPress={() => chooseFromLibrary()}>
-          Upload Photo
-        </Button>
-      </View> */}
+       <View>
+       <Avatar.Image 
+      style={styles.proPicContainer}
+      source={{ uri: proPic }}
+      size={300}
+      />
+      </View>
+      <Button mode="elevated" onPress={() => chooseFromLibrary()}>
+      Upload Photo
+       </Button>
+       </View> 
+       
 
 <View>
         <Text>Updated Interests: {strInterest}</Text>
