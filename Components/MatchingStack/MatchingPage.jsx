@@ -8,6 +8,10 @@ export default function MatchingPage({ navigation }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
   const [userList, setUserList] = useState();
+  const viewableItemsChanged = useRef(({ viewableItems }) => {
+    setCurrentIndex(viewableItems[0].index);
+  }).current;
+  const viewConfig = useRef({ viewAreCoveragePercentThreshold: 50 }).current;
 
   useEffect(() => {
     const getUsers = async () => {
@@ -21,11 +25,6 @@ export default function MatchingPage({ navigation }) {
     };
     getUsers();
   }, []);
-
-  const viewableItemsChanged = useRef(({ viewableItems }) => {
-    setCurrentIndex(viewableItems[0].index);
-  }).current;
-  const viewConfig = useRef({ viewAreCoveragePercentThreshold: 50 }).current;
 
   return (
     <View style={{ flex: 1 }}>
