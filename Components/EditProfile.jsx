@@ -3,12 +3,9 @@ import { View, Text, StyleSheet, ScrollView, TextInput } from "react-native";
 import { Avatar, Button } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import * as ImagePicker from "expo-image-picker";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import ButtonMaker from "./ButtonMaker";
-
-import {useContext} from "react";
 import { UserContext } from "../Contexts/User";
-const userName = useContext(UserContext);
 
 const styles = StyleSheet.create({
   container: {
@@ -43,11 +40,11 @@ const styles = StyleSheet.create({
 });
 
 export default function EditProfile({ route, navigation }) {
-  //const { user } = route.params;
+  const userName = useContext(UserContext);
   const [proPic, setProPic] = useState();
   
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
-  const userInterests = [
+  const interestChoices = [
     "Football",
     "Cinema",
     "Dancing",
@@ -55,46 +52,47 @@ export default function EditProfile({ route, navigation }) {
     "Gaming",
     "Make Up",
   ];
-  const [combinedInterests, setCombinedInterests] = useState([]);
+  const [user, setUser] = useState();
+  const [selectedInterests, setSelectedInterests] = useState([]);
   const [responseBack, setResponseBack] = useState("");
-  const [userNameResponse, setUserNameResponse] = useState("");
+  const [isFirstRender, setIsFirstRender] = useState(true);
 
-  const [isPressed, setIsPressed] = useState(false);
-  const strInterest = JSON.stringify(combinedInterests)
-  const [user, setUser] = useState(JSON.stringify(responseBack));
-  const [userId, changeUserId] = useState()
+  useEffect(async () => {
+    try {
+      const response = await fetch(
+        "https://pea-pod-api.herokuapp.com/user/" + userName
+      );
+      const json = await response.json();
+      setUser(json);
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
 
-  // useEffect(() => {
-  //   async () => {
-  //     const galleryStatus =
-  //       await ImagePicker.requestMediaLibraryPermissionsAsync();
-  //     setHasGalleryPermission(galleryStatus.status === "Granted");
-  //   };
-  // }, []);
-  console.log(combinedInterests);
-  console.log(strInterest);
-  const updateInterests = async () => {
-    try{
-      const response = await fetch('https://pea-pod-api.herokuapp.com/user/Martin/details', {
+  useEffect(() => {
+    setSelectedInterests([...user.userName.interests])
+  }, [user])
+
+
+  useEffect(async () => {
+    if (isFirstRender) return setIsFirstRender(false);
+
+    try {
+      const response = await fetch('https://pea-pod-api.herokuapp.com/user/' + userName + '/details', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          interests: `${combinedInterests}`
+          interests: selectedInterests
         })
       })
       const json = await response.json();
       setResponseBack(json);
-    }catch(error){
+    } catch (error) {
       console.error(error);
     }
-    setIsPressed(false);
-  }
-
-  useEffect(()=>{
-    updateInterests();
-  }, [isPressed]);
+  }, [selectedInterests]);
 
   useEffect(() => {
     async () => {
@@ -104,22 +102,6 @@ export default function EditProfile({ route, navigation }) {
     };
   }, []);
 
-  const getUser = async () => {
-    try {
-      const response = await fetch(
-        "https://pea-pod-api.herokuapp.com/user/Martin"
-      );
-      const json = await response.json();
-      setUserNameResponse(json);
-    } catch (error) {
-      console.error(error);
-    }
-    setIsPressed(false);
-  };
-
-  useEffect(() => {
-    getUser();
-  }, []);
 
   const chooseFromLibrary = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -140,64 +122,55 @@ export default function EditProfile({ route, navigation }) {
 
   return (
     <ScrollView style={styles.container}>
-      <TextInput style={styles.name} 
-      placeholder={userNameResponse._id} />
-       <TextInput style={styles.userName} placeholder={user.userName} />
+      <TextInput style={styles.name} placeholder={user._id} />
+      <TextInput style={styles.userName} placeholder={user.userName} />
       <View style={{ marginTop: 24, alignItems: "center" }}>
-       <View>
-       <Avatar.Image 
-      style={styles.proPicContainer}
-      source={{ uri: proPic }}
-      size={300}
-      />
-      </View>
-      <Button mode="elevated" onPress={() => chooseFromLibrary()}>
-      Upload Photo
-       </Button>
-       </View> 
-       
+        <View>
+          <Avatar.Image 
+            style={styles.proPicContainer}
+            source={{ uri: proPic }}
+            size={300}
+          />
+        </View>
 
-<View>
+        <Button mode="elevated" onPress={() => chooseFromLibrary()}>
+          Upload Photo
+        </Button>
+      </View> 
+  
+      <View>
         <Text>Updated Interests: {strInterest}</Text>
       </View>
-
       
-        <View>
-          <Text>
-            <Icon name="pin" size={20} color="black" />
-            {user.location}
-          </Text>
-        </View>
-
-      
+      <View>
+        <Text>
+          <Icon name="pin" size={20} color="black" />
+          {user.location}
+        </Text>
+      </View>
         
-        <View>
-          <Text>
-            <Icon name="gender-transgender" size={20} color="black" />
-            {user.gender}
-          </Text>
-        </View>
+      <View>
+        <Text>
+          <Icon name="gender-transgender" size={20} color="black" />
+          {user.gender}
+        </Text>
+      </View>
       
 
       <View style={styles.buttonBlock}>
-        {userInterests.map((userInterest) => (
+        {interestChoices.map((interest) => (
           <ButtonMaker
-            key={userInterest}
-            userInterest={userInterest}
-            combinedInterests={combinedInterests}
-            setCombinedInterests={setCombinedInterests}
+            key={interest}
+            interest={interest}
+            selectedInterests={selectedInterests}
+            setSelectedInterests={setSelectedInterests}
           />
         ))}
       </View>
-      <Button mode="elevated" onPress={() => setIsPressed(true)}>
-        Save Changes
-      </Button>
 
       <View>
         <Text>User Details: {JSON.stringify(responseBack)}</Text>
-      </View>
-
-        
+      </View>  
     </ScrollView>
   );
 }
