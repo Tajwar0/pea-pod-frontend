@@ -23,46 +23,7 @@ export default function LikesItem({ item, navigation }) {
   //     "opening_message": "I like beans",
   //   },
   // ] <---- usermatches
-  return (
-    <View style={[{ flex: 0.7 }, { width }]}>
-      <View style={[{ flex: 0.3 }, styles.container]}>
-        <Text>
-          {item.name} wants to get to know you{"\n"}
-        </Text>
-        <Text>
-          What {item.name} liked your {item.liked_detail}
-        </Text>
-        <Text>
-          {item.name} said {item.opening_message}
-        </Text>
-        {/* <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("UserProfile", {
-              item,
-            })
-          }
-        >
-          <Image
-            source={item.image}
-            style={[styles.image, { width, resizeMode: "contain" }]}
-          />
-        // </TouchableOpacity>
-         <Text style={styles.container}>{item.description}</Text> */}
-      </View>
-      <View>
-        <Button
-          title="Peazz not them"
-          style={styles.crossButton}
-          // onPress removes the profile from interested profiles and refreshes the page
-        />
-        <Button
-          title="Message"
-          style={styles.messageButton}
-          //  onPress? Allows user to open message in new text box? with reply functionality?
-        />
-      </View>
-    </View>
-  );
+  return <View style={[{ flex: 0.7 }, { width }]}></View>;
 }
 
 const styles = StyleSheet.create({

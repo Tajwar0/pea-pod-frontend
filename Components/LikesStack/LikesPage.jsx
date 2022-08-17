@@ -1,7 +1,5 @@
-import { useState, useRef, useEffect, useContext, useCallback } from "react";
-// import { useFocusEffect, useIsFocused } from "@react-navigation/native";
+import { useState, useRef, useEffect, useContext } from "react";
 import { View, FlatList, StyleSheet, Animated } from "react-native";
-import slides from "../../assets/slides";
 import LikesItem from "./LikesItem";
 import { UserContext } from "../../Contexts/User";
 
@@ -10,7 +8,6 @@ export default function LikesPage({ navigation }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
   const [userMatches, setUserMatches] = useState();
-  // let isFocused = useIsFocused();
   useEffect(() => {
     console.log(userName);
     const getUserMatches = async () => {
@@ -29,21 +26,6 @@ export default function LikesPage({ navigation }) {
     getUserMatches();
   }, []);
 
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     if (isFocused) {
-  //       fetch(
-  //         `https://pea-pod-api.herokuapp.com/user/${userName}/incoming_likes`
-  //       )
-  //         .then((response) => response.json())
-  //         .then((data) => setUserMatches(data))
-  //         .catch((err) => {
-  //           console.log(err, "<<< err");
-  //         });
-  //     }
-  //   }, [])
-  // );
-
   const viewableItemsChanged = useRef(({ viewableItems }) => {
     setCurrentIndex(viewableItems[0].index);
   }).current;
@@ -57,7 +39,7 @@ export default function LikesPage({ navigation }) {
           <LikesItem item={item} navigation={navigation} />
         )}
         horizontal
-        // showsHorizontalScrollIndicator
+        showsHorizontalScrollIndicator
         pagingEnabled
         bounces={false}
         keyExtractor={(item) => item.name}

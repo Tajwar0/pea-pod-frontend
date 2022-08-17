@@ -19,9 +19,6 @@ export default function SignUp({ navigation }) {
   const [userMessage, setUserMessage] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
   const [passMessage, setPassMessage] = useState("");
-  // const [user, setUser] = useState();
-  // const [email, setEmail] = useState();
-  // const [pass, setPass] = useState();
   const { userName, setUserName } = useContext(UserContext);
 
   return (
@@ -60,9 +57,6 @@ export default function SignUp({ navigation }) {
               setUserName(values.Username);
               navigation.navigate("Tabs");
 
-              //   setEmail(values.Email);
-              //   setPass(values.Password);
-              //   setUser(values.Username);
               //   fetch(`https://pea-pod-api.herokuapp.com/user/${user}`, {
               //     method: "PUT",
               //     headers: {
