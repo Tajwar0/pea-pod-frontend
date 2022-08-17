@@ -2,6 +2,10 @@ import { Formik } from "formik";
 import { StyleSheet, Text, TextInput, View, Button } from "react-native";
 import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../Contexts/User";
+import {
+  validateUsername,
+  validatePassword,
+} from "../../validation/validation";
 
 export default function Login({ navigation }) {
   const [userMessage, setUserMessage] = useState("");
@@ -10,22 +14,22 @@ export default function Login({ navigation }) {
   const [userInput, setUserInput] = useState("");
   const { setUserName } = useContext(UserContext);
 
-  useEffect(() => {
-    if (userInput !== "") {
-      const getUser = async () => {
-        try {
-          const response = await fetch(
-            `https://pea-pod-api.herokuapp.com/user/${userInput}`
-          );
-          const json = await response.json();
-          setUserCheck(json._id);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      getUser();
-    }
-  }, [userInput]);
+  // useEffect(() => {
+  //   if (userInput !== "") {
+  //     const getUser = async () => {
+  //       try {
+  //         const response = await fetch(
+  //           `https://pea-pod-api.herokuapp.com/user/${userInput}`
+  //         );
+  //         const json = await response.json();
+  //         setUserCheck(json._id);
+  //       } catch (error) {
+  //         console.error(error);
+  //       }
+  //     };
+  //     getUser();
+  //   }
+  // }, [userInput]);
 
   return (
     <View>
@@ -41,8 +45,11 @@ export default function Login({ navigation }) {
           }}
           onSubmit={(values) => {
             setUserInput(values.Username);
-            if (userCheck !== values.Username) {
-              setUserMessage("Username does not exist\n");
+            // if (userCheck !== values.Username) {
+            //   setUserMessage("Username does not exist\n");
+            // }
+            if (validateUsername(values.Username) === null) {
+              setUserMessage("Please enter a valid Username\n\n");
             }
             if (validatePassword(values.Password) === null) {
               setPassMessage(
@@ -50,10 +57,11 @@ export default function Login({ navigation }) {
               );
             }
             if (
-              userCheck === values.Username &&
+              validateUsername(values.Username) !== null &&
               validatePassword(values.Password) !== null
             ) {
               setUserName(userInput);
+              navigation.navigate("Tabs");
             }
           }}
         >
