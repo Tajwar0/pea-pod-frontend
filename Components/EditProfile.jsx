@@ -49,6 +49,9 @@ export default function EditProfile({ route, navigation }) {
   const [responseBack, setResponseBack] = useState("");
   const [isFirstRender, setIsFirstRender] = useState(true);
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
+  const [location, setLocation] = useState('')
+  const [gender, setGender] = useState('')
+  const [bio, setBio] = useState('')
 
   const interestChoices = [
     "Football",
@@ -160,17 +163,42 @@ export default function EditProfile({ route, navigation }) {
       </View> 
       
       <View>
-        <Text>
-          <Icon name="pin" size={20} color="black" />
-          {user?.location}
-        </Text>
+        <Icon name="pin" size={20} color="black" />
+        <TextInput 
+          placeholder={user && user[userName].location + " (click to change...)"}
+          onChangeText={text => setLocation(text)}
+          onBlur={() => {
+            fetch("https://pea-pod-api.herokuapp.com/user/" + userName + "/details", {
+              method: 'PATCH',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                location: location
+              })
+            })
+          }}>
+        </TextInput>
       </View>
-        
+
+
       <View>
-        <Text>
-          <Icon name="gender-transgender" size={20} color="black" />
-          {user?.gender}
-        </Text>
+      <Icon name="gender-transgender" size={20} color="black" />
+        <TextInput 
+          placeholder={user && user[userName].gender + " (click to change...)"}
+          onChangeText={text => setGender(text)}
+          onBlur={() => {
+            fetch("https://pea-pod-api.herokuapp.com/user/" + userName + "/details", {
+              method: 'PATCH',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                gender: gender
+              })
+            })
+          }}>
+        </TextInput>
       </View>
       
 
@@ -186,9 +214,22 @@ export default function EditProfile({ route, navigation }) {
       </View>
 
       <View>
-        <Text>
-          {user?.bio}
-        </Text>
+        <Icon name="pin" size={20} color="black" />
+        <TextInput 
+          placeholder={user && user[userName].bio + " (click to change...)"}
+          onChangeText={text => setBio(text)}
+          onBlur={() => {
+            fetch("https://pea-pod-api.herokuapp.com/user/" + userName + "/details", {
+              method: 'PATCH',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                bio: bio
+              })
+            })
+          }}>
+        </TextInput>
       </View>
     </ScrollView>
   );

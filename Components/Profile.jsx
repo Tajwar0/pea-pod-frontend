@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
 
 export default function EditProfile({ route, navigation }) {
   const { userName } = useContext(UserContext);
-
   const [user, setUser] = useState();
 
 
@@ -107,6 +106,8 @@ export default function EditProfile({ route, navigation }) {
           {user && user[userName].bio}
         </Text>
       </View>
+
+      
     </ScrollView>
   );
 }
