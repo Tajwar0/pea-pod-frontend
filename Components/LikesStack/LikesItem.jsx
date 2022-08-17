@@ -15,11 +15,12 @@ export default function LikesItem({ item, navigation }) {
   return (
     <View style={[{ flex: 0.7 }, { width }]}>
       <View style={[{ flex: 0.3 }, styles.container]}>
-        <Text>
+        <Text style={styles.text}>
           {item.name} wants to get to know you{"\n"}
         </Text>
-        <Text>What {item.name} liked about you</Text>
+        <Text style={styles.text}>What {item.name} liked about you</Text>
         <TouchableOpacity
+          style={{backgroundColor: "green"}}
           onPress={() =>
             navigation.navigate("UserProfile", {
               item,
@@ -31,7 +32,7 @@ export default function LikesItem({ item, navigation }) {
             style={[styles.image, { width, resizeMode: "contain" }]}
           />
         </TouchableOpacity>
-        <Text style={styles.container}>{item.description}</Text>
+        <Text style={styles.text}>{item.description}</Text>
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
@@ -56,11 +57,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 30,
+    width: '100%',
+    backgroundColor: "orange"
+  },
+  text: {
+    width: '100%',
+    textAlign: 'center',
+    padding: 10,
+    backgroundColor: "red"
   },
   image: {
     flex: 0.7,
     justifyContent: "center",
+    margin: 15,
+    borderRadius: '50%',
+    backgroundColor: "blue"
   },
   buttonContainer: {
     flexDirection: 'row',
