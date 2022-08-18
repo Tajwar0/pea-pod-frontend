@@ -60,12 +60,12 @@ function ProfileStackScreen({ navigation}){
   <ProfileStack.Navigator
     screenOptions={{
       headerStyle: {
-        backgroundColor: "white",
-        shadowColor: "white",
+        backgroundColor: '#f7f7f7',
+        shadowColor: '#f7f7f7',
         elevation: 0,
       },
       headerShadowVisible: false,
-      headerTintColor: "white",
+      headerTintColor: '#f7f7f7',
       headerTitleStyle: {
         fontWeight: "bold",
       },
@@ -79,7 +79,7 @@ function ProfileStackScreen({ navigation}){
           <Icon.Button
             name="account-edit"
             size={40}
-            backgroundColor="white"
+            backgroundColor='#f7f7f7'
             color="black"
             onPress={() =>
               navigation.navigate("EditProfile")
@@ -96,7 +96,7 @@ function ProfileStackScreen({ navigation}){
           <Icon.Button
             name="account"
             size={40}
-            backgroundColor="white"
+            backgroundColor='#f7f7f7'
             color="black"
             onPress={() =>
              navigation.navigate("profile")
