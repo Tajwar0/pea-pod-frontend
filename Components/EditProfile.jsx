@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useCallback } from "react";
-import { View, Text, StyleSheet, ScrollView, TextInput } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TextInput, Image } from "react-native";
 import { Avatar, Button } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import * as ImagePicker from "expo-image-picker";
@@ -8,38 +8,6 @@ import { useState, useEffect, useContext } from "react";
 import ButtonMaker from "./ButtonMaker";
 import { UserContext } from "../Contexts/User";
 import { useFocusEffect } from "@react-navigation/native";
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: "100%",
-    backgroundColor: "white",
-  },
-  proPicContainer: {
-    shadowColor: "purple",
-    shadowRadius: 30,
-    shadowOpacity: 0.7,
-    marginBottom: 20,
-    alignContent: "center",
-  },
-  name: {
-    fontWeight: "bold",
-    fontSize: 30,
-    textAlign: "center",
-    justifyContent: "space-between",
-  },
-  userName: {
-    color: "grey",
-    fontWeight: "900",
-    textAlign: "center",
-    justifyContent: "space-between",
-  },
-  buttonBlock: {
-    backgroundColor: "white",
-    display: "flex",
-    marginRight: 10,
-  },
-});
 
 export default function EditProfile({ route, navigation }) {
   const { userName } = useContext(UserContext);
@@ -148,13 +116,12 @@ export default function EditProfile({ route, navigation }) {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.userName}>{userName}</Text>
+      <Text style={styles.headerText}>{userName}</Text>
       <View style={{ marginTop: 24, alignItems: "center" }}>
         <View>
-          <Avatar.Image
+          <Image 
             style={styles.proPicContainer}
-            source={{ uri: proPic }}
-            size={300}
+            source={{ uri: user && user[userName].avatar }}
           />
         </View>
 
@@ -162,12 +129,12 @@ export default function EditProfile({ route, navigation }) {
           Upload Photo
         </Button>
       </View>
-
+      <View style={styles.locationsContainer}>
       <View>
-        <Icon name="pin" size={20} color="black" />
-        <TextInput
+        <Text style={styles.locationText}>Your Location</Text>
+        <TextInput style={styles.locationText}
           placeholder={
-            user && user[userName]?.location + " (click to change...)"
+            user && user[userName]?.location +"\n"+"(click to change...)"
           }
           onChangeText={(text) => setLocation(text)}
           onBlur={() => {
@@ -188,9 +155,9 @@ export default function EditProfile({ route, navigation }) {
       </View>
 
       <View>
-        <Icon name="gender-transgender" size={20} color="black" />
-        <TextInput
-          placeholder={user && user[userName]?.gender + " (click to change...)"}
+        <Text style={styles.locationText}>Your Gender</Text>
+        <TextInput style={styles.locationText}
+          placeholder={user && user[userName]?.gender +"\n"+"(click to change...)"}
           onChangeText={(text) => setGender(text)}
           onBlur={() => {
             fetch(
@@ -208,8 +175,10 @@ export default function EditProfile({ route, navigation }) {
           }}
         ></TextInput>
       </View>
-
-      <View style={styles.buttonBlock}>
+      </View>
+      <View style={styles.hr}></View>
+      <Text style={styles.subheadingText}>Pick Your Interests</Text>
+      <View style={styles.interestsContainer}>
         {interestChoices.map((interest) => (
           <ButtonMaker
             key={interest}
@@ -219,10 +188,10 @@ export default function EditProfile({ route, navigation }) {
           />
         ))}
       </View>
-
-      <View>
-        <Icon name="pin" size={20} color="black" />
-        <TextInput
+      <View style={styles.hr}></View>
+        <Text style={styles.subheadingText}>Tell us a little bit about you...</Text>
+      <View style={styles.bioContainer}>
+        <TextInput style={styles.bioText}
           placeholder={user && user[userName]?.bio + " (click to change...)"}
           onChangeText={(text) => setBio(text)}
           onBlur={() => {
@@ -244,3 +213,83 @@ export default function EditProfile({ route, navigation }) {
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+    backgroundColor: '#f7f7f7',
+  },
+  proPicContainer: {
+    backgroundColor: '#f7f7f7',    
+    alignContent: "center",
+    alignSelf: 'center', 
+    height: 300,
+    width: 300,
+    borderRadius: 80,
+    margin: 10
+  },
+  text: {
+    color: "green"
+  },
+  headerText: {
+    fontSize: 28,
+    textAlign: 'center',
+    fontWeight: "bold",
+    paddingBottom: 10,
+    paddingTop: 30
+  },
+  subheadingText: {
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold'
+    },
+    hr: {
+    borderBottomColor: 'grey',
+    borderBottomWidth: 1,
+    width: '70%',
+    alignSelf: 'center',
+    marginBottom: 5
+    },
+  locationsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 5,
+    marginBottom: 15
+  },
+  locationText: {
+    fontSize: 20
+    },
+  interestsContainer: {
+    backgroundColor: '#f7f7f7',
+    alignSelf: 'center',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    alignContent: "center",
+    paddingTop: 10,
+    width: '85%',
+    marginBottom: 15
+  },
+  interestsText: {
+    backgroundColor: '#aadea2',
+    fontSize: 17,
+    paddingTop: 8,
+    paddingBottom: 8,
+    paddingLeft: 13,
+    paddingRight: 13,
+    margin: 10,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "green"
+},
+bioContainer: {
+  backgroundColor: '#f7f7f7',
+  alignItems: 'center',
+  minHeight: 50,
+  padding: 10
+  },
+bioText: {
+  alignSelf: 'center',
+  fontSize: 20
+  },
+});

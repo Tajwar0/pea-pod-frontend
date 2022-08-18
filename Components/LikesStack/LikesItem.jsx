@@ -123,7 +123,6 @@ const styles = StyleSheet.create({
     alignContent: "center",
     margin: 15,
     borderRadius: 80,
-    backgroundColor: "blue",
     height: 250,
   },
   buttonContainer: {
