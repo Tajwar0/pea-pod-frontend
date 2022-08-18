@@ -85,7 +85,7 @@ export default function Login({ navigation }) {
                 style={styles.button}
                 onPress={props.handleSubmit}
               >
-                <Text style={styles.buttonText}>LOGIN</Text>
+                <Text style={styles.buttonText}>Log In</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.link}
