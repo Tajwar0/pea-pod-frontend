@@ -67,7 +67,7 @@ export default function Login({ navigation }) {
             <View>
               <TextInput
                 name="username"
-                placeholder="Create a new username"
+                placeholder="Username"
                 onChangeText={props.handleChange("Username")}
                 value={props.values.Username}
                 style={styles.TextInput}
