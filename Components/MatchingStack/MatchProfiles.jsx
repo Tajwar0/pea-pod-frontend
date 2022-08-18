@@ -61,7 +61,6 @@ export default function MatchProfiles({ item, navigation }) {
               return (
                       <TouchableOpacity
                         key={uuid.v4()}
-                        // onPress={pressEvent} <--- send thing pressed to back end. Navigate to another page or stay where you are???
                         style={styles.interestsButton}
                         onPress={async () => {
                           try {
@@ -85,9 +84,7 @@ export default function MatchProfiles({ item, navigation }) {
                         }}
                       >
                           <Text style={styles.interestsText}>{interest}</Text>
-                      </TouchableOpacity>
-                      
-                    
+                      </TouchableOpacity> 
                      );
             })}
           </View>
@@ -118,9 +115,7 @@ export default function MatchProfiles({ item, navigation }) {
             <View style={styles.bioContainer}>
               {user.bio? <Text style={styles.bioText}>{user.bio}</Text>: <Text>{item._id} has nothing to say!</Text>}
             </View>
-          </TouchableOpacity>
-
-          
+          </TouchableOpacity>    
         </View>
       </ScrollView>
     </SafeAreaView>
