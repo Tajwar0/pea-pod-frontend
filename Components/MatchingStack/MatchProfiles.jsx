@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -8,13 +8,14 @@ import {
   useWindowDimensions,
   TouchableOpacity,
 } from "react-native";
-import * as ImagePicker from "expo-image-picker"
 import { ScrollView } from "react-native-gesture-handler";
 import uuid from 'react-native-uuid';
+import { UserContext } from "../../Contexts/User";
+
 export default function MatchProfiles({ item, navigation }) {
+  const {userName} = useContext(UserContext)
   const { width, height } = useWindowDimensions();
-  const [name, setName] = useState(item._id);
-  const [user, setUser] = useState(item[name]);
+  const [user, setUser] = useState(item[item._id]);
   return (
     <SafeAreaView style={[styles.container, { width, height }]}>
       <ScrollView>
@@ -22,14 +23,29 @@ export default function MatchProfiles({ item, navigation }) {
         <View style={[{ flex: 0.3 }]}>
         <TouchableOpacity
             style={{width}}
-            onPress={() =>
-              navigation.navigate("UserProfile", {
-                item,
-              })
-            }
+            onPress={async () => {
+              try {
+                const response = await fetch(
+                  "https://pea-pod-api.herokuapp.com/user/" + item._id + "/incoming_likes",
+                  {
+                    method: "PATCH",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      "incoming_like": userName,
+                      "liked_detail": "avatar",
+                      "opening_message": "test message"
+                    }),
+                  }
+                );
+              } catch (error) {
+                console.error(error);
+              }
+            }}
           >
             <Image
-              source={item.avatar ? 'uri: item.avatar' : require("../../assets/0.jpeg")}
+              source={{uri: user && user.avatar}}
               style={[styles.avatarImg, { width: '90%', resizeMode: "contain" }]}
             />
           </TouchableOpacity>
@@ -41,12 +57,32 @@ export default function MatchProfiles({ item, navigation }) {
           <View style={styles.hr}></View>
           <Text style={styles.subheadingText}>Interests</Text>
           <View style={styles.interestsContainer}>
-            {user.interests.length === 0 ? <Text>{name} has no interests</Text> : user.interests.map((interest) => {
+            {user.interests.length === 0 ? <Text>{item._id} has no interests</Text> : user.interests.map((interest) => {
               return (
                       <TouchableOpacity
                         key={uuid.v4()}
                         // onPress={pressEvent} <--- send thing pressed to back end. Navigate to another page or stay where you are???
                         style={styles.interestsButton}
+                        onPress={async () => {
+                          try {
+                            const response = await fetch(
+                              "https://pea-pod-api.herokuapp.com/user/" + item._id + "/incoming_likes",
+                              {
+                                method: "PATCH",
+                                headers: {
+                                  "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                  "incoming_like": userName,
+                                  "liked_detail": "interest in " + interest,
+                                  "opening_message": "test message"
+                                }),
+                              }
+                            );
+                          } catch (error) {
+                            console.error(error);
+                          }
+                        }}
                       >
                           <Text style={styles.interestsText}>{interest}</Text>
                       </TouchableOpacity>
@@ -57,11 +93,30 @@ export default function MatchProfiles({ item, navigation }) {
           </View>
           <View style={styles.hr}></View>
           <TouchableOpacity
-            // onPress={pressEvent} <--- send thing pressed to back end. Navigate to another page or stay where you are???
+            onPress={async () => {
+              try {
+                const response = await fetch(
+                  "https://pea-pod-api.herokuapp.com/user/" + item._id + "/incoming_likes",
+                  {
+                    method: "PATCH",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      "incoming_like": userName,
+                      "liked_detail": "bio",
+                      "opening_message": "test message"
+                    }),
+                  }
+                );
+              } catch (error) {
+                console.error(error);
+              }
+            }}
           >
-            <Text style={styles.subheadingText}>A little bit about {name}...</Text>
+            <Text style={styles.subheadingText}>A little bit about {item._id}...</Text>
             <View style={styles.bioContainer}>
-              {user.bio? <Text style={styles.bioText}>{user.bio}</Text>: <Text>{name} has nothing to say!</Text>}
+              {user.bio? <Text style={styles.bioText}>{user.bio}</Text>: <Text>{item._id} has nothing to say!</Text>}
             </View>
           </TouchableOpacity>
 
