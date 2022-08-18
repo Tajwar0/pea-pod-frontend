@@ -29,7 +29,7 @@ export default function MatchProfiles({ item, navigation }) {
             }
           >
             <Image
-              source={item.avatar ? 'uri: item.avatar' : require("../../assets/0.jpeg")}
+              source={{uri: user.avatar}}
               style={[styles.avatarImg, { width: '90%', resizeMode: "contain" }]}
             />
           </TouchableOpacity>
