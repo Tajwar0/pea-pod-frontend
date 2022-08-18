@@ -51,7 +51,6 @@ export default function EditProfile({ route, navigation }) {
   const { userName } = useContext(UserContext);
   const [user, setUser] = useState();
 
-
   useFocusEffect(() => {
     const getUser = async () => {
       try {
@@ -74,7 +73,7 @@ export default function EditProfile({ route, navigation }) {
         <View>
           <Avatar.Image
             style={styles.proPicContainer}
-            source={{ uri: user && user[userName].avatar }}
+            source={{ uri: user && user[userName]?.avatar }}
             size={300}
           />
         </View>
@@ -83,31 +82,27 @@ export default function EditProfile({ route, navigation }) {
       <View>
         <Text>
           <Icon name="pin" size={20} color="black" />
-          {user && user[userName].location}
+          {user && user[userName]?.location}
         </Text>
       </View>
 
       <View>
         <Text>
           <Icon name="gender-transgender" size={20} color="black" />
-          {user && user[userName].gender}
+          {user && user[userName]?.gender}
         </Text>
-      </View>
-
-      <View >
-
-        {user && user[userName].interests.map((interest) => (
-          <Text key={interest}>{interest}</Text>
-        ))}
       </View>
 
       <View>
-        <Text>
-          {user && user[userName].bio}
-        </Text>
+        {user &&
+          user[userName]?.interests.map((interest) => (
+            <Text key={interest}>{interest}</Text>
+          ))}
       </View>
 
-      
+      <View>
+        <Text>{user && user[userName]?.bio}</Text>
+      </View>
     </ScrollView>
   );
 }

@@ -6,7 +6,7 @@ import {
   View,
   Button,
   Request,
-  Image
+  Image,
 } from "react-native";
 import { useContext, useState, useEffect } from "react";
 import {
@@ -28,14 +28,12 @@ export default function SignUp({ navigation }) {
 
   return (
     <View style={styles.screenContainer}>
-            <View>
-        <Image 
+      <View>
+        <Image
           style={styles.headerImg}
-          source={require('../../assets/peapod.png')}
+          source={require("../../assets/peapod.png")}
         />
-        <Text style={styles.headerText}>
-          Sign Up
-        </Text>
+        <Text style={styles.headerText}>Sign Up</Text>
       </View>
       <View style={styles.SignUpContainer}>
         <Formik
@@ -68,21 +66,22 @@ export default function SignUp({ navigation }) {
               validatePassword(values.Password) !== null &&
               values.Password === values.Password2
             ) {
-              setEmail(values.Email);
-              setPass(values.Password);
-              setUser(values.Username);
-              fetch(`https://pea-pod-api.herokuapp.com/user/${user}`, {
-                method: "PUT",
-                // headers: {
-                //   Accept: 'application/json',
-                //   'Content-Type': 'application/json'
-                // },
-                body: JSON.stringify({
-                  password: `${pass}`,
-                  Email: `${email}`,
-                }),
-              }).then((res) => {
-                setUserName(user);
+              fetch(
+                `https://pea-pod-api.herokuapp.com/user/${values.Username}`,
+                {
+                  method: "PUT",
+                  headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    password: values.Password,
+                    email: values.Email,
+                  }),
+                }
+              ).then((res) => {
+                console.log(JSON.stringify(res));
+                setUserName(values.Username);
               });
               navigation.navigate("Tabs");
             }
@@ -129,7 +128,8 @@ export default function SignUp({ navigation }) {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.link}
-                onPress={() => navigation.navigate("Login")}>
+                onPress={() => navigation.navigate("Login")}
+              >
                 <Text style={styles.linkText}>Already a pea? Log in here!</Text>
               </TouchableOpacity>
             </View>
@@ -137,7 +137,7 @@ export default function SignUp({ navigation }) {
         </Formik>
       </View>
       <Text
-        style={{ justifyContent: "center", color: 'red' }}
+        style={{ justifyContent: "center", color: "red" }}
       >{`${userMessage} ${emailMessage} ${passMessage} `}</Text>
     </View>
   );
@@ -145,38 +145,38 @@ export default function SignUp({ navigation }) {
 
 const styles = StyleSheet.create({
   screenContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     paddingTop: 60,
-    height: '100%',
-    backgroundColor: '#f7f7f7',
+    height: "100%",
+    backgroundColor: "#f7f7f7",
   },
   SignUpContainer: {
     justifyContent: "center",
     alignItems: "stretch",
     padding: 10,
-    width: '100%',
-    backgroundColor: '#f7f7f7',
+    width: "100%",
+    backgroundColor: "#f7f7f7",
   },
   headerImg: {
     height: 100,
-    width: 200
+    width: 200,
   },
   headerText: {
-    marginBottom: 20, 
-    textAlign: "center", 
+    marginBottom: 20,
+    textAlign: "center",
     fontSize: 26,
     paddingTop: 20,
   },
   TextInput: {
     height: 40,
-    width: '80%',
+    width: "80%",
     marginBottom: 20,
     backgroundColor: "white",
     borderColor: "gray",
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 10,
     padding: 10,
-    alignSelf: 'center'
+    alignSelf: "center",
   },
   button: {
     alignItems: "center",
@@ -184,18 +184,18 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     backgroundColor: "green",
     borderRadius: 20,
-    width: '50%',
-    alignSelf: 'center'
+    width: "50%",
+    alignSelf: "center",
   },
   buttonText: {
     color: "white",
     fontWeight: "bold",
   },
   link: {
-    alignSelf: 'center',
-    paddingTop: 10
+    alignSelf: "center",
+    paddingTop: 10,
   },
   linkText: {
-    fontSize: 16
-  }
+    fontSize: 16,
+  },
 });

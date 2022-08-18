@@ -11,26 +11,8 @@ import {
 export default function Login({ navigation }) {
   const [userMessage, setUserMessage] = useState("");
   const [passMessage, setPassMessage] = useState("");
-  const [userCheck, setUserCheck] = useState();
   const [userInput, setUserInput] = useState("");
   const { userName, setUserName } = useContext(UserContext);
-
-  // useEffect(() => {
-  //   if (userInput !== "") {
-  //     const getUser = async () => {
-  //       try {
-  //         const response = await fetch(
-  //           `https://pea-pod-api.herokuapp.com/user/${userInput}`
-  //         );
-  //         const json = await response.json();
-  //         setUserCheck(json._id);
-  //       } catch (error) {
-  //         console.error(error);
-  //       }
-  //     };
-  //     getUser();
-  //   }
-  // }, [userInput]);
 
   return (
     <View style={styles.screenContainer}>
@@ -52,20 +34,32 @@ export default function Login({ navigation }) {
             // if (userCheck !== values.Username) {
             //   setUserMessage("Username does not exist\n");
             // }
-            if (validateUsername(values.Username) === null) {
-              setUserMessage("Please enter a valid Username\n\n");
-            }
             if (validatePassword(values.Password) === null) {
               setPassMessage(
                 "Password must have minimum of 8 characters with at least 1 letter and 1 number"
               );
             }
-            if (
-              validateUsername(values.Username) !== null &&
-              validatePassword(values.Password) !== null
-            ) {
-              setUserName(values.Username);
-              navigation.navigate("Tabs");
+            if (validatePassword(values.Password) !== null) {
+              setPassMessage("");
+              setUserMessage("");
+              fetch(
+                `https://pea-pod-api.herokuapp.com/user/${values.Username}`,
+                {
+                  method: "POST",
+                  headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    password: values.Password,
+                  }),
+                }
+              ).then((res) => {
+                setUserName(values.Username);
+                res.status == 200
+                  ? navigation.navigate("Tabs")
+                  : setUserMessage("Username or Password is incorrect\n");
+              });
             }
           }}
         >
