@@ -130,20 +130,21 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     paddingTop: 20,
-    width: '80%',
+    width: '85%',
     marginBottom: 15
   },
   interestsButton: {
     backgroundColor: '#aadea2',
-    marginBottom: 10,
-    marginRight: 10,
-    marginLeft: 10,
-    borderRadius: 5,
-    padding: 3
+    paddingTop: 8,
+    paddingBottom: 8,
+    paddingLeft: 12,
+    paddingRight: 12,
+    margin: 10,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "green"
    },
   interestsText: {
-    fontSize: 20,
-    padding: 5
-
+    fontSize: 17,
   },
 });
