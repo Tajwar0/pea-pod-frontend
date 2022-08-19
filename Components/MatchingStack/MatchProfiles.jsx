@@ -9,11 +9,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import uuid from 'react-native-uuid';
+import uuid from "react-native-uuid";
 import { UserContext } from "../../Contexts/User";
 
 export default function MatchProfiles({ item, navigation }) {
-  const {userName} = useContext(UserContext)
+  const { userName } = useContext(UserContext);
   const { width, height } = useWindowDimensions();
   const [user, setUser] = useState(item[item._id]);
   return (
@@ -21,21 +21,23 @@ export default function MatchProfiles({ item, navigation }) {
       <ScrollView>
         <Text style={styles.headerText}>{item._id}</Text>
         <View style={[{ flex: 0.3 }]}>
-        <TouchableOpacity
-            style={{width}}
+          <TouchableOpacity
+            style={{ width }}
             onPress={async () => {
               try {
                 const response = await fetch(
-                  "https://pea-pod-api.herokuapp.com/user/" + item._id + "/incoming_likes",
+                  "https://pea-pod-api.herokuapp.com/user/" +
+                    item._id +
+                    "/incoming_likes",
                   {
                     method: "PATCH",
                     headers: {
                       "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                      "incoming_like": userName,
-                      "liked_detail": "avatar",
-                      "opening_message": "test message"
+                      incoming_like: userName,
+                      liked_detail: "avatar",
+                      opening_message: "test message",
                     }),
                   }
                 );
@@ -45,64 +47,74 @@ export default function MatchProfiles({ item, navigation }) {
             }}
           >
             <Image
-              source={{uri: user && user.avatar}}
-              style={[styles.avatarImg, { width: '90%', resizeMode: "contain" }]}
+              source={{ uri: user && user.avatar }}
+              style={[
+                styles.avatarImg,
+                { width: "90%", resizeMode: "contain" },
+              ]}
             />
           </TouchableOpacity>
-          <View style={[styles.locationsContainer, {width}]}>
-            <Text style={styles.locationText}>
-              {user.location}</Text>
+          <View style={[styles.locationsContainer, { width }]}>
+            <Text style={styles.locationText}>{user.location}</Text>
             <Text style={styles.locationText}>{user.gender}</Text>
           </View>
           <View style={styles.hr}></View>
           <Text style={styles.subheadingText}>Interests</Text>
           <View style={styles.interestsContainer}>
-            {user.interests.length === 0 ? <Text>{item._id} has no interests</Text> : user.interests.map((interest) => {
-              return (
-                      <TouchableOpacity
-                        key={uuid.v4()}
-                        style={styles.interestsButton}
-                        onPress={async () => {
-                          try {
-                            const response = await fetch(
-                              "https://pea-pod-api.herokuapp.com/user/" + item._id + "/incoming_likes",
-                              {
-                                method: "PATCH",
-                                headers: {
-                                  "Content-Type": "application/json",
-                                },
-                                body: JSON.stringify({
-                                  "incoming_like": userName,
-                                  "liked_detail": "interest in " + interest,
-                                  "opening_message": "test message"
-                                }),
-                              }
-                            );
-                          } catch (error) {
-                            console.error(error);
+            {user.interests.length === 0 ? (
+              <Text>{item._id} has no interests</Text>
+            ) : (
+              user.interests.map((interest) => {
+                return (
+                  <TouchableOpacity
+                    key={uuid.v4()}
+                    style={styles.interestsButton}
+                    onPress={async () => {
+                      try {
+                        const response = await fetch(
+                          "https://pea-pod-api.herokuapp.com/user/" +
+                            item._id +
+                            "/incoming_likes",
+                          {
+                            method: "PATCH",
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                              incoming_like: userName,
+                              liked_detail: "interest in " + interest,
+                              opening_message: "test message",
+                            }),
                           }
-                        }}
-                      >
-                          <Text style={styles.interestsText}>{interest}</Text>
-                      </TouchableOpacity> 
-                     );
-            })}
+                        );
+                      } catch (error) {
+                        console.error(error);
+                      }
+                    }}
+                  >
+                    <Text style={styles.interestsText}>{interest}</Text>
+                  </TouchableOpacity>
+                );
+              })
+            )}
           </View>
           <View style={styles.hr}></View>
           <TouchableOpacity
             onPress={async () => {
               try {
                 const response = await fetch(
-                  "https://pea-pod-api.herokuapp.com/user/" + item._id + "/incoming_likes",
+                  "https://pea-pod-api.herokuapp.com/user/" +
+                    item._id +
+                    "/incoming_likes",
                   {
                     method: "PATCH",
                     headers: {
                       "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                      "incoming_like": userName,
-                      "liked_detail": "bio",
-                      "opening_message": "test message"
+                      incoming_like: userName,
+                      liked_detail: "bio",
+                      opening_message: "test message",
                     }),
                   }
                 );
@@ -111,11 +123,17 @@ export default function MatchProfiles({ item, navigation }) {
               }
             }}
           >
-            <Text style={styles.subheadingText}>A little bit about {item._id}...</Text>
+            <Text style={styles.subheadingText}>
+              A little bit about {item._id}...
+            </Text>
             <View style={styles.bioContainer}>
-              {user.bio? <Text style={styles.bioText}>{user.bio}</Text>: <Text>{item._id} has nothing to say!</Text>}
+              {user.bio ? (
+                <Text style={styles.bioText}>{user.bio}</Text>
+              ) : (
+                <Text>{item._id} has nothing to say!</Text>
+              )}
             </View>
-          </TouchableOpacity>    
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -124,67 +142,67 @@ export default function MatchProfiles({ item, navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f7f7f7',
+    backgroundColor: "#f7f7f7",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    textAlign: 'center',
-    paddingTop: 20
+    textAlign: "center",
+    paddingTop: 20,
   },
   headerText: {
     fontSize: 28,
-    textAlign: 'center',
+    textAlign: "center",
     fontWeight: "bold",
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   subheadingText: {
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 20,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
   hr: {
-    borderBottomColor: 'grey',
+    borderBottomColor: "grey",
     borderBottomWidth: 1,
-    width: '70%',
-    alignSelf: 'center',
-    marginBottom: 5
+    width: "70%",
+    alignSelf: "center",
+    marginBottom: 5,
   },
   avatarImg: {
     borderRadius: 80,
     height: 250,
-    margin: 18, 
+    margin: 18,
     borderWidth: 1,
-    borderColor: "lightgrey"
+    borderColor: "lightgrey",
   },
   locationsContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
     padding: 5,
-    marginBottom: 15
+    marginBottom: 15,
   },
   locationText: {
-    fontSize: 20
+    fontSize: 20,
   },
   bioContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 5,
   },
   bioText: {
-    alignSelf: 'center'
+    alignSelf: "center",
   },
   interestsContainer: {
-    backgroundColor: '#f7f7f7',
-    alignSelf: 'center',
+    backgroundColor: "#f7f7f7",
+    alignSelf: "center",
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
     alignContent: "center",
     paddingTop: 20,
-    width: '85%',
-    marginBottom: 15
+    width: "85%",
+    marginBottom: 15,
   },
   interestsButton: {
-    backgroundColor: '#aadea2',
+    backgroundColor: "#aadea2",
     paddingTop: 8,
     paddingBottom: 8,
     paddingLeft: 12,
@@ -192,8 +210,8 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: "green"
-   },
+    borderColor: "green",
+  },
   interestsText: {
     fontSize: 17,
   },

@@ -12,9 +12,6 @@ import {
 export default function LikesItem({ item, navigation }) {
   const { userName, setUserName } = useContext(UserContext);
   const { width } = useWindowDimensions();
-  // name	"Morpungo"
-  // liked_detail	"bio"
-  // opening_message	"I like beans"
 
   return (
     <View style={[{ flex: 0.7 }, { width }]}>
@@ -41,10 +38,7 @@ export default function LikesItem({ item, navigation }) {
         <Text style={styles.text}>Message: {item.opening_message}</Text>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          // onPress removes the profile from interested profiles and refreshes the page
-        >
+        <TouchableOpacity style={styles.button}>
           <Text
             style={styles.buttonText}
             onPress={() =>

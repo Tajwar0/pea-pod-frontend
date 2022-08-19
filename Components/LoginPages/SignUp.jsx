@@ -1,13 +1,5 @@
 import { Formik } from "formik";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  Button,
-  Request,
-  Image,
-} from "react-native";
+import { StyleSheet, Text, TextInput, View, Image } from "react-native";
 import { useContext, useState, useEffect } from "react";
 import {
   validateEmail,

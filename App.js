@@ -19,15 +19,7 @@ const Stack = createStackNavigator();
 import { UserContext } from "./Contexts/User";
 
 export default function App() {
-  const [isLogged, setLogged] = useState(false);
   const [userName, setUserName] = useState("");
-
-  // useEffect(() => {
-  //   console.log(userName);
-  //   if (userName.length > 0) {
-  //     setLogged(true);
-  //   } else setLogged(false);
-  // }, [userName]);
 
   return (
     <UserContext.Provider value={{ userName, setUserName }}>
@@ -39,65 +31,59 @@ export default function App() {
               component={Login}
               options={{ headerShown: false }}
             />
+            <Stack.Screen
+              name="SignUp"
+              component={SignUp}
+              options={{ headerShown: false }}
+            />
+          </Stack.Group>
           <Stack.Screen
-            name="SignUp"
-            component={SignUp}
+            name="Tabs"
+            component={Tabs}
             options={{ headerShown: false }}
           />
-        </Stack.Group>
-        <Stack.Screen
-          name="Tabs"
-          component={Tabs}
-          options={{ headerShown: false }}
-        />
-        <Stack.Group>
-          <Stack.Screen
-            name="LikesPage"
-            component={LikesPage}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="UserProfile"
-            component={UserProfile}
-            options={{ headerShown: true }}
-          />
-        </Stack.Group>
-       <Stack.Group>
-          <Stack.Screen
-            name="MatchingPage"
-            component={MatchingPage}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="MatchProfiles"
-            component={MatchProfiles}
-            options={{ headerShown: true }}
-          />
-        </Stack.Group> 
-        <Stack.Group>
-          <Stack.Screen
-            name="Profile"
-            component={Profile}
-          />
-          <Stack.Screen
-            name="EditProfile"
-            component={EditProfile}
-          />
-        </Stack.Group> 
-        <Stack.Group>
-          <Stack.Screen 
-            name="Pod"
-            component={Pod}
-            options={{ title: 'The Pod' }}
-          />
-          <Stack.Screen 
-            name="Chat"
-            component={Chat}
-            options={{title: "Pea Pod Chat"}}
-          />
-        </Stack.Group>
-      </Stack.Navigator>
-    </NavigationContainer>
+          <Stack.Group>
+            <Stack.Screen
+              name="LikesPage"
+              component={LikesPage}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="UserProfile"
+              component={UserProfile}
+              options={{ headerShown: true }}
+            />
+          </Stack.Group>
+          <Stack.Group>
+            <Stack.Screen
+              name="MatchingPage"
+              component={MatchingPage}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="MatchProfiles"
+              component={MatchProfiles}
+              options={{ headerShown: true }}
+            />
+          </Stack.Group>
+          <Stack.Group>
+            <Stack.Screen name="Profile" component={Profile} />
+            <Stack.Screen name="EditProfile" component={EditProfile} />
+          </Stack.Group>
+          <Stack.Group>
+            <Stack.Screen
+              name="Pod"
+              component={Pod}
+              options={{ title: "The Pod" }}
+            />
+            <Stack.Screen
+              name="Chat"
+              component={Chat}
+              options={{ title: "Pea Pod Chat" }}
+            />
+          </Stack.Group>
+        </Stack.Navigator>
+      </NavigationContainer>
     </UserContext.Provider>
   );
 }
