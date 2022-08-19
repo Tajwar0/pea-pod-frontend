@@ -67,7 +67,7 @@ export default function Login({ navigation }) {
             <View>
               <TextInput
                 name="username"
-                placeholder="Create a new username"
+                placeholder="Username"
                 onChangeText={props.handleChange("Username")}
                 value={props.values.Username}
                 style={styles.TextInput}
@@ -85,7 +85,7 @@ export default function Login({ navigation }) {
                 style={styles.button}
                 onPress={props.handleSubmit}
               >
-                <Text style={styles.buttonText}>LOGIN</Text>
+                <Text style={styles.buttonText}>Log In</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.link}

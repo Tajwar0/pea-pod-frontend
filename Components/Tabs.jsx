@@ -44,7 +44,7 @@ export default function Tabs() {
         },
       })}
     >
-      <Tab.Screen name={matchingPageName} component={MatchingPage}></Tab.Screen>
+      <Tab.Screen name={matchingPageName} component={MatchingPage} options={{title: 'Pea-ple'}}></Tab.Screen>
       <Tab.Screen name={LikesName} component={LikesPage} options={{title: 'Likes'}}></Tab.Screen>
       <Tab.Screen name={podName} component={Pod} options={{title: 'The Pod'}}></Tab.Screen>
       <Tab.Screen
@@ -60,12 +60,12 @@ function ProfileStackScreen({ navigation}){
   <ProfileStack.Navigator
     screenOptions={{
       headerStyle: {
-        backgroundColor: "white",
-        shadowColor: "white",
+        backgroundColor: '#f7f7f7',
+        shadowColor:'#f7f7f7',
         elevation: 0,
       },
       headerShadowVisible: false,
-      headerTintColor: "white",
+      headerTintColor: '#f7f7f7',
       headerTitleStyle: {
         fontWeight: "bold",
       },
@@ -79,7 +79,7 @@ function ProfileStackScreen({ navigation}){
           <Icon.Button
             name="account-edit"
             size={40}
-            backgroundColor="white"
+            backgroundColor='#f7f7f7'
             color="black"
             onPress={() =>
               navigation.navigate("EditProfile")

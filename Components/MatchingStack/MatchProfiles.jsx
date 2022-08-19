@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
+  SafeAreaView,
   View,
   Text,
   StyleSheet,
@@ -7,50 +8,193 @@ import {
   useWindowDimensions,
   TouchableOpacity,
 } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import uuid from 'react-native-uuid';
+import { UserContext } from "../../Contexts/User";
+
 export default function MatchProfiles({ item, navigation }) {
-  const { width } = useWindowDimensions();
-  const [name, setName] = useState(item._id);
-  const [user, setUser] = useState(item[name]);
+  const {userName} = useContext(UserContext)
+  const { width, height } = useWindowDimensions();
+  const [user, setUser] = useState(item[item._id]);
   return (
-    <View>
-      <View style={[{ flex: 0.7 }, { width }]}>
+    <SafeAreaView style={[styles.container, { width, height }]}>
+      <ScrollView>
+        <Text style={styles.headerText}>{item._id}</Text>
+        <View style={[{ flex: 0.3 }]}>
         <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("UserProfile", {
-              item,
-            })
-          }
-        >
-          <Image
-            source={require("../../assets/favicon.png")}
-            style={{ width, resizeMode: "contain" }}
-          />
-        </TouchableOpacity>
-      </View>
-      <View style={[styles.container, { flex: 0.3 }]}>
-        <Text style={{}}>{name}</Text>
-        <Text> {name}</Text>
-        <Text style={styles.container}>{user.location}</Text>
-        {user.interests.length > 0 && user.interests.map((interest) => {
-          return <Text style={styles.container} key={uuid.v4()}>{interest}</Text>;
-        })}
-      </View>
-    </View>
+            style={{width}}
+            onPress={async () => {
+              try {
+                const response = await fetch(
+                  "https://pea-pod-api.herokuapp.com/user/" + item._id + "/incoming_likes",
+                  {
+                    method: "PATCH",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      "incoming_like": userName,
+                      "liked_detail": "avatar",
+                      "opening_message": "test message"
+                    }),
+                  }
+                );
+              } catch (error) {
+                console.error(error);
+              }
+            }}
+          >
+            <Image
+              source={{uri: user && user.avatar}}
+              style={[styles.avatarImg, { width: '90%', resizeMode: "contain" }]}
+            />
+          </TouchableOpacity>
+          <View style={[styles.locationsContainer, {width}]}>
+            <Text style={styles.locationText}>
+              {user.location}</Text>
+            <Text style={styles.locationText}>{user.gender}</Text>
+          </View>
+          <View style={styles.hr}></View>
+          <Text style={styles.subheadingText}>Interests</Text>
+          <View style={styles.interestsContainer}>
+            {user.interests.length === 0 ? <Text>{item._id} has no interests</Text> : user.interests.map((interest) => {
+              return (
+                      <TouchableOpacity
+                        key={uuid.v4()}
+                        style={styles.interestsButton}
+                        onPress={async () => {
+                          try {
+                            const response = await fetch(
+                              "https://pea-pod-api.herokuapp.com/user/" + item._id + "/incoming_likes",
+                              {
+                                method: "PATCH",
+                                headers: {
+                                  "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                  "incoming_like": userName,
+                                  "liked_detail": "interest in " + interest,
+                                  "opening_message": "test message"
+                                }),
+                              }
+                            );
+                          } catch (error) {
+                            console.error(error);
+                          }
+                        }}
+                      >
+                          <Text style={styles.interestsText}>{interest}</Text>
+                      </TouchableOpacity> 
+                     );
+            })}
+          </View>
+          <View style={styles.hr}></View>
+          <TouchableOpacity
+            onPress={async () => {
+              try {
+                const response = await fetch(
+                  "https://pea-pod-api.herokuapp.com/user/" + item._id + "/incoming_likes",
+                  {
+                    method: "PATCH",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      "incoming_like": userName,
+                      "liked_detail": "bio",
+                      "opening_message": "test message"
+                    }),
+                  }
+                );
+              } catch (error) {
+                console.error(error);
+              }
+            }}
+          >
+            <Text style={styles.subheadingText}>A little bit about {item._id}...</Text>
+            <View style={styles.bioContainer}>
+              {user.bio? <Text style={styles.bioText}>{user.bio}</Text>: <Text>{item._id} has nothing to say!</Text>}
+            </View>
+          </TouchableOpacity>    
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#f7f7f7',
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 10,
+    textAlign: 'center',
+    paddingTop: 20
   },
-  crossButton: {},
-  messageButton: {
-    backgroundColor: "Green",
-    color: "white",
-    borderRadius: 10,
+  headerText: {
+    fontSize: 28,
+    textAlign: 'center',
+    fontWeight: "bold",
+    paddingBottom: 10
+  },
+  subheadingText: {
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
+  hr: {
+    borderBottomColor: 'grey',
+    borderBottomWidth: 1,
+    width: '70%',
+    alignSelf: 'center',
+    marginBottom: 5
+  },
+  avatarImg: {
+    borderRadius: 80,
+    height: 250,
+    margin: 18, 
+    borderWidth: 1,
+    borderColor: "lightgrey"
+  },
+  locationsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 5,
+    marginBottom: 15
+  },
+  locationText: {
+    fontSize: 20
+  },
+  bioContainer: {
+    alignItems: 'center',
+    marginTop: 5,
+  },
+  bioText: {
+    alignSelf: 'center'
+  },
+  interestsContainer: {
+    backgroundColor: '#f7f7f7',
+    alignSelf: 'center',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    alignContent: "center",
+    paddingTop: 20,
+    width: '85%',
+    marginBottom: 15
+  },
+  interestsButton: {
+    backgroundColor: '#aadea2',
+    paddingTop: 8,
+    paddingBottom: 8,
+    paddingLeft: 12,
+    paddingRight: 12,
+    margin: 10,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "green"
+   },
+  interestsText: {
+    fontSize: 17,
   },
 });
