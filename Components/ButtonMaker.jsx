@@ -10,9 +10,9 @@ export default function ButtonMaker({
   const [isPressed, setIsPressed] = useState("white");
 
   useEffect(() => {
-    if (selectedInterests.includes(interest)) setIsPressed("#E4FFE0")
-    else setIsPressed('white')
-  }, [selectedInterests])
+    if (selectedInterests.includes(interest)) setIsPressed("#E4FFE0");
+    else setIsPressed("white");
+  }, [selectedInterests]);
 
   const styles = StyleSheet.create({
     button: {
@@ -31,22 +31,21 @@ export default function ButtonMaker({
   });
 
   function handleClick() {
-    if (selectedInterests.includes(interest)) setSelectedInterests(() => {
-      interestsCopy = [...selectedInterests]
-      return interestsCopy.filter(item => item != interest)
-    })
-    else setSelectedInterests(() => {
-      interestsCopy = [...selectedInterests]
-      interestsCopy.push(interest)
-      return interestsCopy
-    })
+    if (selectedInterests.includes(interest))
+      setSelectedInterests(() => {
+        interestsCopy = [...selectedInterests];
+        return interestsCopy.filter((item) => item != interest);
+      });
+    else
+      setSelectedInterests(() => {
+        interestsCopy = [...selectedInterests];
+        interestsCopy.push(interest);
+        return interestsCopy;
+      });
   }
 
   return (
-    <Button
-      style={styles.button}
-      onPress={handleClick}
-    >
+    <Button style={styles.button} onPress={handleClick}>
       <Text style={styles.text}>{interest}</Text>
     </Button>
   );

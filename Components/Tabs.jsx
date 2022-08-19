@@ -1,12 +1,13 @@
 import * as React from "react";
-import { createStackNavigator } from "@react-navigation/stack";import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
 import Ionicons from "react-native-vector-icons/Ionicons";
+
 import EditProfile from "./EditProfile";
 import MatchingPage from "./MatchingStack/MatchingPage";
 import Profile from "./Profile";
-import Pod from "./ChatStack/Pod"
+import Pod from "./ChatStack/Pod";
 import LikesPage from "./LikesStack/LikesPage.jsx";
 
 const Tab = createBottomTabNavigator();
@@ -44,9 +45,21 @@ export default function Tabs() {
         },
       })}
     >
-      <Tab.Screen name={matchingPageName} component={MatchingPage} options={{title: 'Pea-ple'}}></Tab.Screen>
-      <Tab.Screen name={LikesName} component={LikesPage} options={{title: 'Likes'}}></Tab.Screen>
-      <Tab.Screen name={podName} component={Pod} options={{title: 'The Pod'}}></Tab.Screen>
+      <Tab.Screen
+        name={matchingPageName}
+        component={MatchingPage}
+        options={{ title: "Pea-ple" }}
+      ></Tab.Screen>
+      <Tab.Screen
+        name={LikesName}
+        component={LikesPage}
+        options={{ title: "Likes" }}
+      ></Tab.Screen>
+      <Tab.Screen
+        name={podName}
+        component={Pod}
+        options={{ title: "The Pod" }}
+      ></Tab.Screen>
       <Tab.Screen
         name={profileName}
         component={ProfileStackScreen}
@@ -55,57 +68,54 @@ export default function Tabs() {
   );
 }
 
-function ProfileStackScreen({ navigation}){
+function ProfileStackScreen({ navigation }) {
   return (
-  <ProfileStack.Navigator
-    screenOptions={{
-      headerStyle: {
-        backgroundColor: '#f7f7f7',
-        shadowColor:'#f7f7f7',
-        elevation: 0,
-      },
-      headerShadowVisible: false,
-      headerTintColor: '#f7f7f7',
-      headerTitleStyle: {
-        fontWeight: "bold",
-      },
-    }}
-  >
-    <ProfileStack.Screen
-      name="profile"
-      component={Profile}
-      options={{
-        headerRight: () => (
-          <Icon.Button
-            name="account-edit"
-            size={40}
-            backgroundColor='#f7f7f7'
-            color="black"
-            onPress={() =>
-              navigation.navigate("EditProfile")
-            }
-          />
-        ),
+    <ProfileStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#f7f7f7",
+          shadowColor: "#f7f7f7",
+          elevation: 0,
+        },
+        headerShadowVisible: false,
+        headerTintColor: "#f7f7f7",
+        headerTitleStyle: {
+          fontWeight: "bold",
+        },
       }}
-    />
-    <ProfileStack.Screen
-      name="EditProfile"
-      options={{
-        title: "Edit Profile",
-        headerLeft: () => (
-          <Icon.Button
-            name="account"
-            size={40}
-            backgroundColor="white"
-            color="black"
-            onPress={() =>
-             navigation.navigate("profile")
-            }title="Go back from Edit Profile"
-          />
-        )
-      }}
-      component={EditProfile}
-    />
-  </ProfileStack.Navigator>)
-  
-    }
+    >
+      <ProfileStack.Screen
+        name="profile"
+        component={Profile}
+        options={{
+          headerRight: () => (
+            <Icon.Button
+              name="account-edit"
+              size={40}
+              backgroundColor="#f7f7f7"
+              color="black"
+              onPress={() => navigation.navigate("EditProfile")}
+            />
+          ),
+        }}
+      />
+      <ProfileStack.Screen
+        name="EditProfile"
+        options={{
+          title: "Edit Profile",
+          headerLeft: () => (
+            <Icon.Button
+              name="account"
+              size={40}
+              backgroundColor="white"
+              color="black"
+              onPress={() => navigation.navigate("profile")}
+              title="Go back from Edit Profile"
+            />
+          ),
+        }}
+        component={EditProfile}
+      />
+    </ProfileStack.Navigator>
+  );
+}

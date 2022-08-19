@@ -1,17 +1,13 @@
 import { Formik } from "formik";
-import { StyleSheet, Text, TextInput, View, Button, Image } from "react-native";
+import { StyleSheet, Text, TextInput, View, Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { UserContext } from "../../Contexts/User";
-import {
-  validateUsername,
-  validatePassword,
-} from "../../validation/validation";
+import { validatePassword } from "../../validation/validation";
 
 export default function Login({ navigation }) {
   const [userMessage, setUserMessage] = useState("");
   const [passMessage, setPassMessage] = useState("");
-  const [userInput, setUserInput] = useState("");
   const { userName, setUserName } = useContext(UserContext);
 
   return (
@@ -30,10 +26,6 @@ export default function Login({ navigation }) {
             Password: "",
           }}
           onSubmit={(values) => {
-            setUserInput(values.Username);
-            // if (userCheck !== values.Username) {
-            //   setUserMessage("Username does not exist\n");
-            // }
             if (validatePassword(values.Password) === null) {
               setPassMessage(
                 "Password must have minimum of 8 characters with at least 1 letter and 1 number"

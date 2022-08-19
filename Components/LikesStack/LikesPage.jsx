@@ -21,7 +21,6 @@ export default function LikesPage({ navigation }) {
         );
         const json = await response.json();
         setUserMatches(json);
-        console.log(userName);
       } catch (error) {
         console.error(error);
       }

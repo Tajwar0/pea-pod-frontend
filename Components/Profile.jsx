@@ -6,21 +6,20 @@ import {
   ScrollView,
   TextInput,
   FlatList,
-  Image
+  Image,
 } from "react-native";
 import { Avatar, Button } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import * as ImagePicker from "expo-image-picker";
 import { useState, useEffect, useContext } from "react";
-import ButtonMaker from "./ButtonMaker";
-import { UserContext } from "../Contexts/User";
 import { useFocusEffect } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { UserContext } from "../Contexts/User";
+import ButtonMaker from "./ButtonMaker";
 
 export default function EditProfile({ route, navigation }) {
   const { userName } = useContext(UserContext);
   const [user, setUser] = useState();
-
 
   useFocusEffect(() => {
     const getUser = async () => {
@@ -38,88 +37,91 @@ export default function EditProfile({ route, navigation }) {
   });
 
   return (
-      <ScrollView style={styles.container}>
-        <Text style={styles.headerText}>{user?._id}</Text>
-        <Image 
-          style={styles.proPicContainer}
-          source={{ uri: user && user[userName].avatar }}
-        />
-        <View style={styles.locationsContainer}>
-          <Text style={styles.locationText}>{user && user[userName].location}</Text>
-          <Text style={styles.locationText}>{user && user[userName].gender}</Text>
-        </View>
-        <View style={styles.hr}></View>
-        <Text style={styles.subheadingText}>Interests</Text>
-        <View style={styles.interestsContainer}>
-          {user && user[userName].interests.map((interest) => (
-             <Text style={styles.interestsText} key={interest}>{interest}</Text>
+    <ScrollView style={styles.container}>
+      <Text style={styles.headerText}>{user?._id}</Text>
+      <Image
+        style={styles.proPicContainer}
+        source={{ uri: user && user[userName].avatar }}
+      />
+      <View style={styles.locationsContainer}>
+        <Text style={styles.locationText}>
+          {user && user[userName].location}
+        </Text>
+        <Text style={styles.locationText}>{user && user[userName].gender}</Text>
+      </View>
+      <View style={styles.hr}></View>
+      <Text style={styles.subheadingText}>Interests</Text>
+      <View style={styles.interestsContainer}>
+        {user &&
+          user[userName].interests.map((interest) => (
+            <Text style={styles.interestsText} key={interest}>
+              {interest}
+            </Text>
           ))}
-        </View>
-        <View style={styles.hr}></View>
-        <Text style={styles.subheadingText}>A little bit about me...</Text>
-        <View style={styles.bioContainer}>
-          <Text style={styles.bioText}>{user && user[userName].bio}</Text>
-        </View>
-
-      </ScrollView>
+      </View>
+      <View style={styles.hr}></View>
+      <Text style={styles.subheadingText}>A little bit about me...</Text>
+      <View style={styles.bioContainer}>
+        <Text style={styles.bioText}>{user && user[userName].bio}</Text>
+      </View>
+    </ScrollView>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    backgroundColor: '#f7f7f7',
+    backgroundColor: "#f7f7f7",
   },
   proPicContainer: {
-    backgroundColor: '#f7f7f7',    
+    backgroundColor: "#f7f7f7",
     alignContent: "center",
-    alignSelf: 'center', 
+    alignSelf: "center",
     height: 300,
     width: 300,
     borderRadius: 80,
-    margin: 10
+    margin: 10,
   },
   headerText: {
     fontSize: 28,
-    textAlign: 'center',
+    textAlign: "center",
     fontWeight: "bold",
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   subheadingText: {
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 20,
-    fontWeight: 'bold'
-    },
-    hr: {
-    borderBottomColor: 'grey',
+    fontWeight: "bold",
+  },
+  hr: {
+    borderBottomColor: "grey",
     borderBottomWidth: 1,
-    width: '70%',
-    alignSelf: 'center',
-    marginBottom: 5
-    },
+    width: "70%",
+    alignSelf: "center",
+    marginBottom: 5,
+  },
   locationsContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
     padding: 5,
-    marginBottom: 15
+    marginBottom: 15,
   },
   locationText: {
-    fontSize: 20
-    },
+    fontSize: 20,
+  },
   interestsContainer: {
-    backgroundColor: '#f7f7f7',
-    alignSelf: 'center',
+    backgroundColor: "#f7f7f7",
+    alignSelf: "center",
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
     alignContent: "center",
     paddingTop: 10,
-    width: '85%',
-    marginBottom: 15
+    width: "85%",
+    marginBottom: 15,
   },
   interestsText: {
-    backgroundColor: '#aadea2',
+    backgroundColor: "#aadea2",
     fontSize: 17,
     paddingTop: 8,
     paddingBottom: 8,
@@ -128,15 +130,15 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: "green"
-},
-bioContainer: {
-  backgroundColor: '#f7f7f7',
-  alignItems: 'center',
-  minHeight: 50,
-  padding: 10
+    borderColor: "green",
+  },
+  bioContainer: {
+    backgroundColor: "#f7f7f7",
+    alignItems: "center",
+    minHeight: 50,
+    padding: 10,
   },
   bioText: {
-  alignSelf: 'center'
+    alignSelf: "center",
   },
 });
